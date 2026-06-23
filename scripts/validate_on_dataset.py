@@ -3,17 +3,13 @@
 Two modes:
 
   # Offline self-test: synthesize a population whose cells have a *known* life-vs-curve
-  # relationship, and confirm the harness recovers the Severson-style negative correlation
+  # relationship, and confirm the harness recovers the expected negative correlation
   # between log(var Delta Q(V)) and log(cycle life). Needs no download.
   python scripts/validate_on_dataset.py --synthetic 12
 
   # Real dataset: a folder of per-cell cycler/BDS CSVs (one cell per file). Column names are
   # normalized by the BDS reader, so common cycler aliases are accepted.
   python scripts/validate_on_dataset.py --data-dir path/to/cells --nominal-capacity-ah 1.1
-
-Where to get public data with ground-truth cycle life:
-  - MATR / Severson et al. (LFP/graphite, 124 cells): https://data.matr.io/1/
-  - BEEP-processed cycler data: https://github.com/TRI-AMDD/beep
 Export each cell to a CSV with the canonical columns (see README) before running --data-dir.
 """
 
@@ -42,8 +38,8 @@ def generate_synthetic_population(
 
     Higher severity -> faster fade (shorter life) AND a deeper localized dip developing in the
     discharge V-Q curve by cycle 100 -> larger var(Delta Q(100-10)). The harness should therefore
-    recover a strong NEGATIVE correlation between log(var Delta Q) and log(life), as in Severson
-    et al. This is a self-test of the machinery, not a scientific result.
+    recover a strong NEGATIVE correlation between log(var Delta Q) and log(life). This is a
+    self-test of the machinery, not a scientific result.
     """
 
     rng = np.random.default_rng(seed)
@@ -143,9 +139,9 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     print(f"Cells total: {result['n_cells_total']} | uncensored (reached EOL): {result['n_cells_uncensored']}")
-    headline = result["severson_headline"]
+    headline = result["delta_q_headline"]
     if headline:
-        print("\nSeverson-style headline (var Delta Q(V) vs life):")
+        print("\nHeadline check (var Delta Q(V) vs life):")
         print(
             f"  log(var Delta Q) vs log10(life): n={headline['n_cells']}  "
             f"Pearson r={headline['pearson_r']:+.3f}  R^2={headline['r2']:.3f}  "

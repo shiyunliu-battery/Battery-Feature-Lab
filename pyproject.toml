@@ -3,13 +3,13 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "battery-feature-lab"
+name = "bfl"
 version = "0.1.0"
 description = "Feature extraction pipeline for battery cycling, BDS exports, and LLM-ready battery diagnostics."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
-authors = [{ name = "Battery Feature Lab" }]
+license = "MIT"
+authors = [{ name = "BFL contributors" }]
 dependencies = [
   "numpy>=1.23",
   "pandas>=1.5",
@@ -23,6 +23,7 @@ explain = ["shap>=0.43", "xgboost>=1.7", "lightgbm>=4.0"]
 dev = ["pytest>=7.0", "ruff>=0.4"]
 
 [project.scripts]
+bfl = "battery_feature_lab.cli:main"
 battery-features = "battery_feature_lab.cli:main"
 
 [tool.setuptools.packages.find]

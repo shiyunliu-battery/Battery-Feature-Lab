@@ -1,13 +1,9 @@
 """Empirical validation of early-life features against observed cycle life.
 
-The validation criterion follows Severson et al., Nature Energy 2019: features extracted from
-early cycles (notably the variance of Delta Q(V)) should correlate strongly with the eventual
-cycle life. Reproducing that correlation on a real dataset is direct evidence that the feature
-extraction is implemented correctly, rather than merely "looking reasonable".
-
-This module is dataset-agnostic: it operates on the normalized time-series frame produced by the
-BDS reader, so it works with the bundled synthetic populations, MATR/Severson exports converted to
-the canonical schema, or any folder of per-cell cycler CSVs.
+Early-cycle features, notably the variance of Delta Q(V), should correlate with eventual cycle
+life when the input data contains a measurable degradation signal. This module is dataset-agnostic:
+it operates on the normalized time-series frame produced by the BDS reader, so it works with the
+bundled synthetic populations or any folder of per-cell cycler CSVs.
 """
 
 from __future__ import annotations
@@ -47,7 +43,9 @@ def compute_cycle_life(
     """
 
     if cycle_features.empty or capacity_column not in cycle_features.columns:
-        return CycleLifeResult(pd.DataFrame(columns=["cell_id", "cycle_life", "censored", "initial_capacity_ah"]))
+        return CycleLifeResult(
+            pd.DataFrame(columns=["cell_id", "cycle_life", "censored", "initial_capacity_ah"])
+        )
 
     records: list[dict[str, object]] = []
     for cell_id, cell in cycle_features.groupby("cell_id", sort=True):
@@ -73,7 +71,12 @@ def compute_cycle_life(
             life = float(cycle[-1])
             censored = True
         records.append(
-            {"cell_id": cell_id, "cycle_life": life, "censored": censored, "initial_capacity_ah": ref_cap}
+            {
+                "cell_id": cell_id,
+                "cycle_life": life,
+                "censored": censored,
+                "initial_capacity_ah": ref_cap,
+            }
         )
     return CycleLifeResult(pd.DataFrame(records))
 
@@ -83,9 +86,9 @@ def correlation_report(
 ) -> pd.DataFrame:
     """Pearson r, Spearman rho and linear R^2 of each feature against the target.
 
-    Spearman is the primary statistic (monotonic, outlier-robust — appropriate for battery data);
-    Pearson and R^2 are reported on the (typically log-transformed) target for comparability with
-    Severson et al. Rows are sorted by descending |Spearman|.
+    Spearman is the primary statistic because it is monotonic and outlier-robust. Pearson and R^2
+    are reported on the typically log-transformed target. Rows are sorted by descending
+    |Spearman|.
     """
 
     rows: list[dict[str, object]] = []
@@ -126,7 +129,7 @@ def validate_early_life_features(
     """Run the early-life featurizers and correlate their outputs with observed cycle life.
 
     Returns a dict with the merged per-cell table, the correlation report, and the headline
-    Severson-style statistic for ``delta_q_log_variance`` vs ``log10(cycle life)``.
+    statistic for ``delta_q_log_variance`` vs ``log10(cycle life)``.
     """
 
     config = config or FeatureConfig()
@@ -170,5 +173,5 @@ def validate_early_life_features(
         "n_cells_uncensored": int(len(uncensored)),
         "merged_table": merged,
         "correlation_report": report,
-        "severson_headline": headline,
+        "delta_q_headline": headline,
     }

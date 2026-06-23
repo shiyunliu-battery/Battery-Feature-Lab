@@ -1,57 +1,80 @@
-# Battery Feature Lab
+# BFL: Battery Feature Lab
 
-Battery Feature Lab extracts physically meaningful and statistically useful features from
-BDS-style battery cycling exports. It is designed for downstream SOH/RUL modeling,
-feature selection, SHAP analysis, and LLM-ready domain summaries.
+BFL extracts battery cycling features from BDS-style exports and common cycler tables. It turns
+raw time-series data into feature tables for SOH/RUL modeling, feature screening, explainability,
+and compact diagnostic summaries.
 
-The implementation is inspired by public battery analysis projects such as BatteryML, BEEP,
-cellpy, DiffCapAnalyzer, and published early-life battery prediction work, but the code here
-is written as an independent pipeline.
+## Features
 
-## What It Extracts
+- Cycle summaries: capacity, energy, efficiency, C-rate, voltage, temperature, and rest time.
+- Early-life curve features: `Delta Q(V)` variance, norms, quantiles, and related statistics.
+- ICA/DVA features: `dQ/dV` and `dV/dQ` peaks, locations, widths, heights, and areas.
+- Relaxation features: voltage drop, slopes, interpolated voltages, and exponential fits.
+- Stress features: SOC, voltage, current, C-rate, temperature histograms, and high-SOC rest time.
+- EIS descriptors when impedance columns are available.
+- Rule-based degradation tags for LLI, LAM_PE, LAM_NE, resistance growth, and related evidence.
+- LLM-ready JSONL summaries for downstream review or diagnostic workflows.
 
-- Cycle summary features: capacity, energy, efficiency, C-rate, voltage, temperature, rest time.
-- Early-life curve features: `Delta Q(V)` statistics such as variance, minimum, norms, quantiles.
-- ICA/DVA features: `dQ/dV` and `dV/dQ` curves, peak locations, heights, widths, areas.
-- Relaxation features: voltage drop, slopes, moments, interpolated voltages, exponential fits.
-- Stress features: SOC, voltage, current, C-rate and temperature histograms, high-SOC rest fraction.
-- EIS/DRT feature placeholders: schema and interfaces for impedance-derived features.
-- Domain tags: rule-based degradation evidence for LLI, LAM_PE, LAM_NE and resistance growth.
+## Installation
 
-## Install
+From PyPI, after the package is published:
+
+```bash
+pip install bfl
+```
+
+From a local checkout:
 
 ```bash
 python -m pip install -e ".[dev]"
 ```
 
-## CLI
+## Quick Start
+
+```bash
+bfl extract input.csv --output-dir out --cell-id cell_001 --nominal-capacity-ah 1.1
+```
+
+The longer command name is also available:
 
 ```bash
 battery-features extract input.csv --output-dir out --cell-id cell_001 --nominal-capacity-ah 1.1
 ```
 
-Diagnostic thresholds are intentionally configurable. For example:
+Diagnostic thresholds are configurable:
 
 ```bash
-battery-features extract input.csv \
+bfl extract input.csv \
   --output-dir out \
   --nominal-capacity-ah 1.1 \
   --datasheet-max-discharge-c-rate 5 \
   --high-soc-rest-threshold 0.25
 ```
 
-By default, monotonic degradation tags use a Mann-Kendall trend test plus Sen's slope.
-Batch stress tags use configured thresholds when supplied, otherwise batch-relative
-percentiles or z-score thresholds where enough cells are available.
+## Input Data
 
-Expected input can use common cycler/BDS column names. The reader normalizes aliases to:
+BFL accepts CSV, TSV, JSON, JSONL, and Parquet files. Input data can use common cycler/BDS
+column names. The reader normalizes aliases to:
 
 ```text
 time_s, voltage_v, current_a, temperature_c, charge_capacity_ah,
 discharge_capacity_ah, cycle_index, step_index, step_type
 ```
 
+At minimum, the input should contain time, voltage, current, and enough cycle/step information
+to identify charge, discharge, and rest periods. If `cell_id`, `cycle_index`, or `step_type` is
+missing, BFL can infer or fill parts of the schema from the file name, current sign, and command
+line options.
+
+Optional EIS columns are:
+
+```text
+frequency_hz, z_real_ohm, z_imag_ohm
+```
+
 ## Outputs
+
+BFL writes non-empty tables to the selected output directory:
 
 ```text
 out/
@@ -68,18 +91,45 @@ out/
 
 ## Validation
 
-Empirically check that early-life features track cycle life (Severson et al. criterion):
+Run the offline self-test:
 
 ```bash
-# Offline self-test (no download): confirms the harness recovers log(var ΔQ(V)) vs log(life).
 python scripts/validate_on_dataset.py --synthetic 12
+```
 
-# Real data: a folder of per-cell CSVs (MATR/Severson, BEEP exports, or BDS exports).
+Run validation on a folder of per-cell CSV files:
+
+```bash
 python scripts/validate_on_dataset.py --data-dir path/to/cells --nominal-capacity-ah 1.1
 ```
 
-## Documentation
+## Python Usage
 
-See [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md) for the plan, completed work,
-and source inspirations, and [docs/FEATURE_RESEARCH.md](docs/FEATURE_RESEARCH.md) for the
-literature-grounded methodology, the no-hard-code design principles, and open robustness notes.
+```python
+from pathlib import Path
+
+from battery_feature_lab.pipeline import FeaturePipeline, PipelineConfig
+from battery_feature_lab.schemas import ExportConfig, FeatureConfig, ReaderConfig
+
+pipeline = FeaturePipeline(
+    PipelineConfig(
+        reader=ReaderConfig(cell_id="cell_001"),
+        features=FeatureConfig(nominal_capacity_ah=1.1),
+        export=ExportConfig(output_dir=Path("out")),
+    )
+)
+
+tables = pipeline.run("input.csv")
+```
+
+## Development
+
+```bash
+python -m pip install -e ".[dev]"
+python -m pytest
+python -m ruff check .
+```
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
