@@ -4,6 +4,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import bfl
 
 from battery_feature_lab.cli import main
 from battery_feature_lab.analysis.degradation_tags import build_degradation_tags, mann_kendall_sen_slope
@@ -123,6 +124,24 @@ def test_cli_writes_outputs(tmp_path: Path) -> None:
     assert exit_code == 0
     assert (tmp_path / "cli_out" / "cycle_features.parquet").exists()
     assert (tmp_path / "cli_out" / "run_metadata.json").exists()
+
+
+def test_short_bfl_api_extracts_features(tmp_path: Path) -> None:
+    path = tmp_path / "bds.csv"
+    make_synthetic_bds(cycles=15).to_csv(path, index=False)
+
+    result = bfl.extract(
+        path,
+        output_dir=tmp_path / "short_api_out",
+        nominal_capacity_ah=1.1,
+        reference_cycle=2,
+        target_cycle=10,
+    )
+
+    assert not result.tables["cycle_features"].empty
+    assert result.llm_context_path.exists()
+    assert result.metadata_path.exists()
+    assert any(path.name == "cycle_features.parquet" for path in result.files)
 
 
 def test_reader_handles_bds_total_time_dchg_and_generic_capacity(tmp_path: Path) -> None:

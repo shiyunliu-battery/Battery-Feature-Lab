@@ -31,6 +31,27 @@ python -m pip install -e ".[dev]"
 
 ## Quick Start
 
+Python:
+
+```python
+from pathlib import Path
+import bfl
+
+result = bfl.extract(
+    "/content/25-LFP-1.csv",
+    output_dir="/content/bfl_outputs",
+    nominal_capacity_ah=1.2,
+    reference_cycle=2,
+    target_cycle=5,
+)
+
+print(result.llm_context_path)
+for path in result.files:
+    print(path.name)
+```
+
+CLI:
+
 ```bash
 bfl extract input.csv --output-dir out --cell-id cell_001 --nominal-capacity-ah 1.1
 ```
