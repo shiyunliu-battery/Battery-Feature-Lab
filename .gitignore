@@ -16,3 +16,4 @@ dist/
 .venv/
 venv/
 out/
+docs/
