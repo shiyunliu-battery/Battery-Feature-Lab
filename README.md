@@ -13,7 +13,7 @@ and compact diagnostic summaries.
 - Stress features: SOC, voltage, current, C-rate, temperature histograms, and high-SOC rest time.
 - EIS descriptors when impedance columns are available.
 - Rule-based degradation tags for LLI, LAM_PE, LAM_NE, resistance growth, and related evidence.
-- LLM-ready JSONL summaries for downstream review or diagnostic workflows.
+- JSONL context summaries for reports and review.
 
 ## Installation
 
@@ -64,8 +64,8 @@ battery-features extract input.csv --output-dir out --cell-id cell_001 --nominal
 
 ## Example Notebook
 
-See [examples/BFL_example.ipynb](examples/BFL_example.ipynb) for a Colab-style example that
-installs BFL, runs feature extraction on a BDS CSV, and prints the exported files.
+See [examples/BFL_example.ipynb](examples/BFL_example.ipynb) for an example that installs BFL,
+runs feature extraction on a BDS CSV, and prints the exported files.
 
 Diagnostic thresholds are configurable:
 
@@ -100,7 +100,8 @@ frequency_hz, z_real_ohm, z_imag_ohm
 
 ## Outputs
 
-BFL writes non-empty tables to the selected output directory:
+BFL writes non-empty tables to the selected output directory. The Parquet files contain the
+feature tables; `llm_context.jsonl` is a compact context summary for reports and review.
 
 ```text
 out/
@@ -114,6 +115,29 @@ out/
   llm_context.jsonl
   run_metadata.json
 ```
+
+Output roles:
+
+- `llm_context.jsonl`: cell summary with dataset overview, data-quality warnings,
+  capacity/efficiency trends, selected Delta-Q/ICA-DVA/relaxation/stress highlights, diagnostic
+  evidence, cell context, analysis configuration, and reliability notes. When
+  `nominal_capacity_ah` is provided, this file also includes nameplate-relative SOH fields; when
+  it is not provided, the nominal-capacity fields remain `null` and BFL records an explicit
+  `nominal_capacity_missing` warning. Its `data_quality.quality_summary` block reports BFL's
+  automatic checks for cycle completeness, capacity reliability, reference/target cycle suitability,
+  and feature computability.
+- `run_metadata.json`: input path, output paths, reader settings, feature settings, and diagnostic
+  settings used for the run.
+- `degradation_tags.parquet`: rule-based diagnostic evidence signals and confidence labels.
+- `cycle_features.parquet`: per-cycle capacity, energy, efficiency, voltage/current, C-rate, and
+  duration summaries.
+- `delta_q_features.parquet`: voltage-window Delta-Q comparison features between reference and
+  target cycles.
+- `ica_dva_features.parquet`: ICA/DVA curve statistics and peak descriptors by cycle.
+- `relaxation_features.parquet`: rest-voltage recovery, slope, and exponential-fit features.
+- `stress_features.parquet`: whole-cell stress exposure, SOC/voltage/C-rate histograms, throughput,
+  and equivalent full cycles.
+- `normalized_timeseries.parquet`: standardized time-series data used to compute the features.
 
 ## Validation
 

@@ -49,9 +49,9 @@ class StressHistogramFeaturizer(BaseFeaturizer):
             "rest_fraction": _weighted_fraction(rest_mask, dt_h),
             "charge_fraction": _weighted_fraction(charge_mask, dt_h),
             "discharge_fraction": _weighted_fraction(discharge_mask, dt_h),
-            "max_instant_discharge_c_rate": float(np.nanmax(np.where(discharge_mask, c_rate, np.nan))),
+            "max_instant_discharge_c_rate": _nanmax_or_nan(np.where(discharge_mask, c_rate, np.nan)),
             "current_variance_a2": float(np.nanvar(current, ddof=1)) if len(current) > 1 else 0.0,
-            "c_rate_variance": float(np.nanvar(c_rate, ddof=1)) if len(c_rate) > 1 else float("nan"),
+            "c_rate_variance": _nanvar_or_nan(c_rate),
             "low_frequency_current_power": _low_frequency_power(cell["time_s"].to_numpy(dtype=float), current),
         }
         features.update(describe_array("soc", soc))
@@ -89,6 +89,22 @@ def _weighted_fraction(mask: np.ndarray, weights: np.ndarray) -> float:
     if total <= 0:
         return float("nan")
     return float(np.nansum(weights[np.asarray(mask, dtype=bool)]) / total)
+
+
+def _nanmax_or_nan(values: np.ndarray) -> float:
+    finite = np.asarray(values, dtype=float)
+    finite = finite[np.isfinite(finite)]
+    if len(finite) == 0:
+        return float("nan")
+    return float(np.max(finite))
+
+
+def _nanvar_or_nan(values: np.ndarray) -> float:
+    finite = np.asarray(values, dtype=float)
+    finite = finite[np.isfinite(finite)]
+    if len(finite) < 2:
+        return float("nan")
+    return float(np.var(finite, ddof=1))
 
 
 def _histogram_features(prefix: str, values: np.ndarray, bins: int | np.ndarray) -> dict[str, float]:

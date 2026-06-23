@@ -1,4 +1,4 @@
-"""Rule-based degradation evidence tagging for LLM context."""
+"""Rule-based degradation evidence tagging."""
 
 from __future__ import annotations
 
