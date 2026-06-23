@@ -62,6 +62,11 @@ The longer command name is also available:
 battery-features extract input.csv --output-dir out --cell-id cell_001 --nominal-capacity-ah 1.1
 ```
 
+## Example Notebook
+
+See [examples/BFL_example.ipynb](examples/BFL_example.ipynb) for a Colab-style example that
+installs BFL, runs feature extraction on a BDS CSV, and prints the exported files.
+
 Diagnostic thresholds are configurable:
 
 ```bash
