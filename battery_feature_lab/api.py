@@ -27,7 +27,7 @@ class ExtractionResult:
 
     @property
     def llm_context_path(self) -> Path:
-        """Path to the LLM-ready JSONL output."""
+        """Path to the JSONL context summary."""
 
         return self.output_dir / "llm_context.jsonl"
 

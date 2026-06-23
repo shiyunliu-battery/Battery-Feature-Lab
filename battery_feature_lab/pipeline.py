@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import asdict
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -76,10 +77,30 @@ class FeaturePipeline:
         llm_records = build_llm_context_records(
             {name: frame for name, frame in tables.items() if name != "degradation_tags"},
             tags,
+            metadata=self._llm_metadata(),
         )
         write_llm_jsonl(llm_records, self.config.export.output_dir / "llm_context.jsonl")
         self._write_metadata(input_path, written, llm_record_count=len(llm_records))
         return tables
+
+    def _llm_metadata(self) -> dict:
+        return {
+            "cell_context": {
+                "nominal_capacity_ah": self.config.features.nominal_capacity_ah,
+                "chemistry": None,
+            },
+            "analysis_config": {
+                "reader_config": {
+                    "positive_current_is_charge": self.config.reader.positive_current_is_charge,
+                    "current_rest_threshold_a": self.config.reader.current_rest_threshold_a,
+                    "time_unit": self.config.reader.time_unit,
+                    "capacity_unit": self.config.reader.capacity_unit,
+                    "soc_unit": self.config.reader.soc_unit,
+                },
+                "feature_config": asdict(self.config.features),
+                "diagnostic_config": asdict(self.config.diagnostics),
+            },
+        }
 
     def _write_metadata(
         self,

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import numpy as np
@@ -98,6 +99,71 @@ def test_pipeline_extracts_core_tables(tmp_path: Path) -> None:
     assert not tables["relaxation_features"].empty
     assert not tables["stress_features"].empty
     assert (tmp_path / "out" / "llm_context.jsonl").exists()
+    llm_record = json.loads((tmp_path / "out" / "llm_context.jsonl").read_text().splitlines()[0])
+    assert llm_record["summary"]
+    assert llm_record["cell_context"]["nominal_capacity_ah"] == 1.1
+    assert llm_record["cell_context"]["nominal_capacity_source"] == "user_provided"
+    assert llm_record["analysis_config"]["key_parameters"]["reference_cycle"] == 10
+    assert llm_record["dataset_overview"]["cycle_count"] == 110
+    assert llm_record["data_quality"]["quality_summary"]["cycle_completeness"]["usable_cycle_count"] == 110
+    assert llm_record["data_quality"]["quality_summary"]["reference_target_cycles"]["target_cycle_usable"]
+    assert llm_record["cycle_life_summary"]["capacity_change"]["retention_percent"] < 100
+    assert llm_record["cycle_life_summary"]["soh_vs_nominal"]["nominal_capacity_ah"] == 1.1
+    assert llm_record["summary"]["soh_vs_nominal"]["last_capacity_vs_nominal_percent"] < 100
+    assert "stress_summary" in llm_record["feature_highlights"]
+    assert llm_record["review_notes"]["review_targets"]
+
+
+def test_llm_context_marks_missing_nominal_capacity(tmp_path: Path) -> None:
+    path = tmp_path / "bds.csv"
+    make_synthetic_bds(cycles=15).to_csv(path, index=False)
+
+    pipeline = FeaturePipeline(
+        PipelineConfig(
+            reader=ReaderConfig(cell_id="synthetic_cell"),
+            features=FeatureConfig(),
+            export=ExportConfig(output_dir=tmp_path / "out"),
+        )
+    )
+    pipeline.run(path)
+
+    llm_record = json.loads((tmp_path / "out" / "llm_context.jsonl").read_text().splitlines()[0])
+    warning_issues = {warning["issue"] for warning in llm_record["data_quality"]["warnings"]}
+
+    assert llm_record["cell_context"]["nominal_capacity_ah"] is None
+    assert llm_record["cycle_life_summary"]["soh_vs_nominal"] is None
+    assert "nominal_capacity_missing" in warning_issues
+    assert "target_cycle_missing" in warning_issues
+    assert "delta_q_not_computed_for_configured_cycles" in warning_issues
+    assert not llm_record["data_quality"]["quality_summary"]["feature_computability"]["c_rate_computable"]
+
+
+def test_llm_context_flags_unusable_reference_cycle(tmp_path: Path) -> None:
+    path = tmp_path / "bds.csv"
+    raw = make_synthetic_bds(cycles=20)
+    raw.loc[raw["cycle"] == 1, "charge_capacity"] *= 0.05
+    raw.to_csv(path, index=False)
+
+    pipeline = FeaturePipeline(
+        PipelineConfig(
+            reader=ReaderConfig(cell_id="synthetic_cell"),
+            features=FeatureConfig(
+                nominal_capacity_ah=1.1,
+                early_reference_cycle=1,
+                early_target_cycle=10,
+            ),
+            export=ExportConfig(output_dir=tmp_path / "out"),
+        )
+    )
+    pipeline.run(path)
+
+    llm_record = json.loads((tmp_path / "out" / "llm_context.jsonl").read_text().splitlines()[0])
+    warning_issues = {warning["issue"] for warning in llm_record["data_quality"]["warnings"]}
+    ref_quality = llm_record["data_quality"]["quality_summary"]["reference_target_cycles"]
+
+    assert ref_quality["reference_cycle_present"]
+    assert not ref_quality["reference_cycle_usable"]
+    assert "reference_cycle_not_usable" in warning_issues
 
 
 def test_cli_writes_outputs(tmp_path: Path) -> None:
