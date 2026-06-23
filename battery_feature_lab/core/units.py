@@ -17,7 +17,7 @@ def normalize_units_and_sign(frame: pd.DataFrame, config: ReaderConfig) -> pd.Da
         normalized["time_s"] = normalized["time_s"] * 60.0
 
     if config.capacity_unit.lower() in {"mah", "milliamp_hour", "milliamp-hours"}:
-        for column in ("charge_capacity_ah", "discharge_capacity_ah"):
+        for column in ("charge_capacity_ah", "discharge_capacity_ah", "capacity_ah"):
             if column in normalized.columns:
                 normalized[column] = normalized[column] / 1000.0
 

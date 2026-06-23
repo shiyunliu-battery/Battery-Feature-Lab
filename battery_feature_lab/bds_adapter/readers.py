@@ -48,6 +48,8 @@ def read_bds_export(path: str | Path, config: ReaderConfig | None = None) -> pd.
     if "step_index" not in normalized.columns:
         normalized["step_index"] = _infer_step_index(normalized)
 
+    normalized = _split_generic_capacity(normalized)
+
     normalized = normalized.sort_values(["cell_id", "cycle_index", "time_s"]).reset_index(drop=True)
     validate_timeseries(normalized)
     return normalized
@@ -67,10 +69,12 @@ def normalize_columns(frame: pd.DataFrame, config: ReaderConfig) -> pd.DataFrame
                 break
 
     normalized = frame.rename(columns=rename).copy()
-    for column in ("time_s", "voltage_v", "current_a", "temperature_c"):
+    if "time_s" in normalized.columns:
+        normalized["time_s"] = _coerce_time_seconds(normalized["time_s"])
+    for column in ("voltage_v", "current_a", "temperature_c"):
         if column in normalized.columns:
             normalized[column] = pd.to_numeric(normalized[column], errors="coerce")
-    for column in ("charge_capacity_ah", "discharge_capacity_ah", "energy_wh", "soc"):
+    for column in ("charge_capacity_ah", "discharge_capacity_ah", "capacity_ah", "energy_wh", "soc"):
         if column in normalized.columns:
             normalized[column] = pd.to_numeric(normalized[column], errors="coerce")
     for column in ("cycle_index", "step_index"):
@@ -105,17 +109,37 @@ def _clean_name(name: object) -> str:
     return str(name).strip().lower().replace(" ", "_").replace("-", "_")
 
 
+def _coerce_time_seconds(series: pd.Series) -> pd.Series:
+    numeric = pd.to_numeric(series, errors="coerce")
+    timedeltas = pd.to_timedelta(series, errors="coerce").dt.total_seconds()
+    return numeric.fillna(timedeltas)
+
+
 def _normalize_step_type(value: object) -> str | None:
     if value is None or pd.isna(value):
         return None
     text = str(value).strip().lower()
-    if any(token in text for token in ("charge", "chg", "cccv")):
-        return "charge"
     if any(token in text for token in ("discharge", "dchg", "dischg")):
         return "discharge"
+    if any(token in text for token in ("charge", "chg", "cccv")):
+        return "charge"
     if any(token in text for token in ("rest", "pause", "ocv", "relax")):
         return "rest"
     return None
+
+
+def _split_generic_capacity(frame: pd.DataFrame) -> pd.DataFrame:
+    if "capacity_ah" not in frame.columns:
+        return frame
+    normalized = frame.copy()
+    capacity = pd.to_numeric(normalized["capacity_ah"], errors="coerce")
+    if "charge_capacity_ah" not in normalized.columns:
+        normalized["charge_capacity_ah"] = capacity.where(normalized["step_type"] == "charge", 0.0)
+    if "discharge_capacity_ah" not in normalized.columns:
+        normalized["discharge_capacity_ah"] = capacity.where(
+            normalized["step_type"] == "discharge", 0.0
+        )
+    return normalized
 
 
 def _infer_step_index(frame: pd.DataFrame) -> pd.Series:
