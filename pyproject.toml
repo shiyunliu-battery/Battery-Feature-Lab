@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "battery-feature-lab"
-version = "0.1.1"
+version = "0.1.2"
 description = "Feature extraction pipeline for battery cycling, BDS exports, and LLM-ready battery diagnostics."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -27,7 +27,7 @@ bfl = "battery_feature_lab.cli:main"
 battery-features = "battery_feature_lab.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["battery_feature_lab*"]
+include = ["battery_feature_lab*", "bfl*"]
 
 [tool.ruff]
 line-length = 100
