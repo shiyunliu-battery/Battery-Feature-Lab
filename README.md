@@ -20,7 +20,7 @@ and compact diagnostic summaries.
 From PyPI, after the package is published:
 
 ```bash
-pip install bfl
+pip install battery-feature-lab
 ```
 
 From a local checkout:
