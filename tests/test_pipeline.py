@@ -7,6 +7,7 @@ import pandas as pd
 
 from battery_feature_lab.cli import main
 from battery_feature_lab.analysis.degradation_tags import build_degradation_tags, mann_kendall_sen_slope
+from battery_feature_lab.bds_adapter.readers import read_bds_export
 from battery_feature_lab.pipeline import FeaturePipeline, PipelineConfig
 from battery_feature_lab.schemas import DiagnosticConfig, ExportConfig, FeatureConfig, ReaderConfig
 
@@ -122,6 +123,69 @@ def test_cli_writes_outputs(tmp_path: Path) -> None:
     assert exit_code == 0
     assert (tmp_path / "cli_out" / "cycle_features.parquet").exists()
     assert (tmp_path / "cli_out" / "run_metadata.json").exists()
+
+
+def test_reader_handles_bds_total_time_dchg_and_generic_capacity(tmp_path: Path) -> None:
+    path = tmp_path / "realistic_bds.csv"
+    raw = pd.DataFrame(
+        {
+            "DataPoint": range(1, 12),
+            "Step Type": [
+                "Rest",
+                "Rest",
+                "CC Chg",
+                "CC Chg",
+                "Rest",
+                "CC DChg",
+                "CC DChg",
+                "Rest",
+                "CC Chg",
+                "CC DChg",
+                "Rest",
+            ],
+            "Time": [
+                "00:00:00",
+                "00:00:01",
+                "00:00:00",
+                "00:00:01",
+                "00:00:00",
+                "00:00:00",
+                "00:00:01",
+                "00:00:00",
+                "00:00:00",
+                "00:00:00",
+                "00:00:00",
+            ],
+            "Total Time": [
+                "00:00:00",
+                "00:00:01",
+                "00:00:02",
+                "00:00:03",
+                "00:00:04",
+                "00:00:05",
+                "00:00:06",
+                "00:00:07",
+                "00:00:08",
+                "00:00:09",
+                "00:00:10",
+            ],
+            "Current(A)": [0.0, 0.0, 0.5, 0.5, 0.0, -0.5, -0.5, 0.0, 0.5, -0.5, 0.0],
+            "Voltage(V)": [3.2, 3.2, 3.3, 3.4, 3.4, 3.3, 3.1, 3.1, 3.4, 3.0, 3.0],
+            "Capacity(Ah)": [0.0, 0.0, 0.1, 0.2, 0.0, 0.1, 0.2, 0.0, 0.1, 0.1, 0.0],
+            "Energy(Wh)": [0.0] * 11,
+        }
+    )
+    raw.to_csv(path, index=False)
+
+    normalized = read_bds_export(path, ReaderConfig(cell_id="realistic_cell"))
+
+    assert normalized["time_s"].notna().all()
+    assert normalized["time_s"].iloc[-1] == 10
+    assert set(normalized["step_type"]) == {"charge", "discharge", "rest"}
+    assert normalized["cycle_index"].nunique() == 2
+    assert normalized["charge_capacity_ah"].max() == 0.2
+    assert normalized["discharge_capacity_ah"].max() == 0.2
+    assert normalized.loc[normalized["step_type"] == "discharge", "current_a"].lt(0).all()
 
 
 def test_mann_kendall_sen_slope_detects_monotonic_fade() -> None:
