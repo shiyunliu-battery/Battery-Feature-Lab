@@ -17,7 +17,7 @@ and compact diagnostic summaries.
 
 ## Installation
 
-From PyPI, after the package is published:
+From PyPI:
 
 ```bash
 pip install battery-feature-lab
