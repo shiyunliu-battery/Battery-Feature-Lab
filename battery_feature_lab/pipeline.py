@@ -11,6 +11,12 @@ import pandas as pd
 
 from battery_feature_lab.analysis.degradation_tags import build_degradation_tags
 from battery_feature_lab.bds_adapter.readers import read_bds_export
+from battery_feature_lab.evidence import (
+    build_evidence_candidates,
+    score_evidence_candidates,
+    select_evidence,
+)
+from battery_feature_lab.evidence.jsonl_writer import write_evidence_jsonl
 from battery_feature_lab.export.llm_json_writer import build_llm_context_records, write_llm_jsonl
 from battery_feature_lab.export.parquet_writer import write_feature_tables
 from battery_feature_lab.featurizers import (
@@ -21,7 +27,20 @@ from battery_feature_lab.featurizers import (
     RelaxationFeaturizer,
     StressHistogramFeaturizer,
 )
-from battery_feature_lab.schemas import DiagnosticConfig, ExportConfig, FeatureConfig, ReaderConfig
+from battery_feature_lab.protocol import (
+    annotate_normalized,
+    build_protocol_records,
+    detect_protocol_segments,
+    write_protocol_jsonl,
+)
+from battery_feature_lab.schemas import (
+    DiagnosticConfig,
+    EvidenceConfig,
+    ExportConfig,
+    FeatureConfig,
+    ProtocolConfig,
+    ReaderConfig,
+)
 
 
 @dataclass(frozen=True)
@@ -32,6 +51,8 @@ class PipelineConfig:
     features: FeatureConfig
     export: ExportConfig
     diagnostics: DiagnosticConfig = DiagnosticConfig()
+    evidence: EvidenceConfig = EvidenceConfig()
+    protocol: ProtocolConfig = ProtocolConfig()
 
 
 class FeaturePipeline:
@@ -53,6 +74,16 @@ class FeaturePipeline:
 
         normalized = read_bds_export(input_path, self.config.reader)
         tables: dict[str, pd.DataFrame] = {}
+
+        if self.config.protocol.enabled:
+            protocol_segments = detect_protocol_segments(
+                normalized,
+                self.config.protocol,
+                nominal_capacity_ah=self.config.features.nominal_capacity_ah,
+            )
+            normalized = annotate_normalized(normalized, protocol_segments)
+            tables["protocol_segments"] = protocol_segments
+
         if self.config.export.write_normalized_timeseries:
             tables["normalized_timeseries"] = normalized
 
@@ -69,13 +100,43 @@ class FeaturePipeline:
         )
         tables["degradation_tags"] = tags
 
+        if self.config.evidence.enabled:
+            candidates = build_evidence_candidates(tables, tags)
+            scored_candidates = score_evidence_candidates(candidates, self.config.evidence)
+            selected_evidence = select_evidence(scored_candidates, self.config.evidence)
+            tables["evidence_candidates"] = scored_candidates
+            tables["selected_evidence"] = selected_evidence
+
         written = write_feature_tables(
             tables,
             self.config.export.output_dir,
             compression=self.config.export.parquet_compression,
         )
+        if self.config.evidence.enabled:
+            write_evidence_jsonl(
+                tables.get("evidence_candidates"),
+                self.config.export.output_dir / "evidence_candidates.jsonl",
+            )
+            write_evidence_jsonl(
+                tables.get("selected_evidence"),
+                self.config.export.output_dir / "selected_evidence.jsonl",
+            )
+        if self.config.protocol.enabled:
+            write_protocol_jsonl(
+                build_protocol_records(tables.get("protocol_segments")),
+                self.config.export.output_dir / "protocol_segments.jsonl",
+            )
         llm_records = build_llm_context_records(
-            {name: frame for name, frame in tables.items() if name != "degradation_tags"},
+            {
+                name: frame
+                for name, frame in tables.items()
+                if name not in {
+                    "degradation_tags",
+                    "evidence_candidates",
+                    "selected_evidence",
+                    "protocol_segments",
+                }
+            },
             tags,
             metadata=self._llm_metadata(),
         )
@@ -99,6 +160,8 @@ class FeaturePipeline:
                 },
                 "feature_config": asdict(self.config.features),
                 "diagnostic_config": asdict(self.config.diagnostics),
+                "evidence_config": asdict(self.config.evidence),
+                "protocol_config": asdict(self.config.protocol),
             },
         }
 
@@ -116,6 +179,8 @@ class FeaturePipeline:
             "llm_record_count": llm_record_count,
             "feature_config": self.config.features.__dict__,
             "diagnostic_config": self.config.diagnostics.__dict__,
+            "evidence_config": self.config.evidence.__dict__,
+            "protocol_config": self.config.protocol.__dict__,
             "reader_config": {
                 "cell_id": self.config.reader.cell_id,
                 "positive_current_is_charge": self.config.reader.positive_current_is_charge,

@@ -98,7 +98,15 @@ def test_pipeline_extracts_core_tables(tmp_path: Path) -> None:
     assert not tables["ica_dva_features"].empty
     assert not tables["relaxation_features"].empty
     assert not tables["stress_features"].empty
+    assert not tables["evidence_candidates"].empty
+    assert not tables["selected_evidence"].empty
     assert (tmp_path / "out" / "llm_context.jsonl").exists()
+    assert (tmp_path / "out" / "evidence_candidates.parquet").exists()
+    assert (tmp_path / "out" / "selected_evidence.parquet").exists()
+    assert (tmp_path / "out" / "evidence_candidates.jsonl").exists()
+    assert (tmp_path / "out" / "selected_evidence.jsonl").exists()
+    assert tables["selected_evidence"]["selected"].all()
+    assert tables["selected_evidence"]["selection_rank"].notna().all()
     llm_record = json.loads((tmp_path / "out" / "llm_context.jsonl").read_text().splitlines()[0])
     assert llm_record["summary"]
     assert llm_record["cell_context"]["nominal_capacity_ah"] == 1.1
@@ -184,11 +192,22 @@ def test_cli_writes_outputs(tmp_path: Path) -> None:
             "2",
             "--target-cycle",
             "10",
+            "--evidence-question",
+            "Why did capacity fade?",
+            "--evidence-token-budget",
+            "240",
         ]
     )
 
     assert exit_code == 0
     assert (tmp_path / "cli_out" / "cycle_features.parquet").exists()
+    assert (tmp_path / "cli_out" / "selected_evidence.jsonl").exists()
+    selected_records = [
+        json.loads(line)
+        for line in (tmp_path / "cli_out" / "selected_evidence.jsonl").read_text().splitlines()
+    ]
+    assert selected_records
+    assert sum(record["token_cost"] for record in selected_records) <= 240
     assert (tmp_path / "cli_out" / "run_metadata.json").exists()
 
 
@@ -205,7 +224,9 @@ def test_short_bfl_api_extracts_features(tmp_path: Path) -> None:
     )
 
     assert not result.tables["cycle_features"].empty
+    assert not result.tables["selected_evidence"].empty
     assert result.llm_context_path.exists()
+    assert result.selected_evidence_path.exists()
     assert result.metadata_path.exists()
     assert any(path.name == "cycle_features.parquet" for path in result.files)
 

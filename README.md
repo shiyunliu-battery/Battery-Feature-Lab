@@ -13,7 +13,9 @@ and compact diagnostic summaries.
 - Stress features: SOC, voltage, current, C-rate, temperature histograms, and high-SOC rest time.
 - EIS descriptors when impedance columns are available.
 - Rule-based degradation tags for LLI, LAM_PE, LAM_NE, resistance growth, and related evidence.
+- Protocol-aware segmentation for CC/CV, pulse characterization, rest, and dynamic loads.
 - JSONL context summaries for reports and review.
+- Evidence candidates and selected evidence packs for question-aware LLM grounding.
 
 ## Installation
 
@@ -74,7 +76,9 @@ bfl extract input.csv \
   --output-dir out \
   --nominal-capacity-ah 1.1 \
   --datasheet-max-discharge-c-rate 5 \
-  --high-soc-rest-threshold 0.25
+  --high-soc-rest-threshold 0.25 \
+  --evidence-question "Why did capacity fade after cycle 80?" \
+  --evidence-token-budget 800
 ```
 
 ## Input Data
@@ -112,6 +116,12 @@ out/
   relaxation_features.parquet
   stress_features.parquet
   degradation_tags.parquet
+  protocol_segments.parquet
+  protocol_segments.jsonl
+  evidence_candidates.parquet
+  selected_evidence.parquet
+  evidence_candidates.jsonl
+  selected_evidence.jsonl
   llm_context.jsonl
   run_metadata.json
 ```
@@ -129,6 +139,15 @@ Output roles:
 - `run_metadata.json`: input path, output paths, reader settings, feature settings, and diagnostic
   settings used for the run.
 - `degradation_tags.parquet`: rule-based diagnostic evidence signals and confidence labels.
+- `protocol_segments.parquet` and `protocol_segments.jsonl`: primitive test steps, cycle-level
+  protocol classification, structural signatures, confidence, and matching rationale.
+- `evidence_candidates.parquet` and `evidence_candidates.jsonl`: structured evidence objects
+  derived from feature tables and diagnostic tags, with source metadata, reliability labels,
+  interpretation hints, approximate token costs, and question-aware scores.
+- `selected_evidence.parquet` and `selected_evidence.jsonl`: a compact greedy-selected evidence
+  pack under the configured token budget and redundancy limits. This is the first-stage
+  evidence layer; protocol labels remain conservative when the observed structure does not match
+  a named protocol.
 - `cycle_features.parquet`: per-cycle capacity, energy, efficiency, voltage/current, C-rate, and
   duration summaries.
 - `delta_q_features.parquet`: voltage-window Delta-Q comparison features between reference and

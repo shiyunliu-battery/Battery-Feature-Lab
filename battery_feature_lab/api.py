@@ -9,7 +9,13 @@ from typing import Any
 import pandas as pd
 
 from battery_feature_lab.pipeline import FeaturePipeline, PipelineConfig
-from battery_feature_lab.schemas import DiagnosticConfig, ExportConfig, FeatureConfig, ReaderConfig
+from battery_feature_lab.schemas import (
+    DiagnosticConfig,
+    EvidenceConfig,
+    ExportConfig,
+    FeatureConfig,
+    ReaderConfig,
+)
 
 
 @dataclass(frozen=True)
@@ -37,6 +43,18 @@ class ExtractionResult:
 
         return self.output_dir / "run_metadata.json"
 
+    @property
+    def evidence_candidates_path(self) -> Path:
+        """Path to the JSONL evidence candidate output."""
+
+        return self.output_dir / "evidence_candidates.jsonl"
+
+    @property
+    def selected_evidence_path(self) -> Path:
+        """Path to the JSONL selected evidence pack."""
+
+        return self.output_dir / "selected_evidence.jsonl"
+
 
 def extract(
     input_path: str | Path,
@@ -50,6 +68,10 @@ def extract(
     high_soc_rest_threshold: float | None = 0.5,
     datasheet_max_discharge_c_rate: float | None = None,
     write_normalized_timeseries: bool = True,
+    evidence_question: str | None = None,
+    evidence_token_budget: int = 800,
+    evidence_max_selected_items: int = 12,
+    write_evidence: bool = True,
     **feature_overrides: Any,
 ) -> ExtractionResult:
     """Extract battery features from a BDS/cycler export with minimal setup.
@@ -79,6 +101,12 @@ def extract(
         export=ExportConfig(
             output_dir=output_dir,
             write_normalized_timeseries=write_normalized_timeseries,
+        ),
+        evidence=EvidenceConfig(
+            enabled=write_evidence,
+            question=evidence_question,
+            token_budget=evidence_token_budget,
+            max_selected_items=evidence_max_selected_items,
         ),
     )
     tables = FeaturePipeline(config).run(input_path)
