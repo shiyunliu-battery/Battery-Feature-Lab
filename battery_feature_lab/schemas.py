@@ -125,6 +125,116 @@ class DiagnosticConfig:
 
 
 @dataclass(frozen=True)
+class EvidenceConfig:
+    """Configuration for evidence candidate generation and selection."""
+
+    enabled: bool = True
+    question: str | None = None
+    token_budget: int = 800
+    max_selected_items: int = 12
+    min_score: float = 0.0
+    token_penalty_cap: float = 0.25
+    redundancy_threshold: float = 0.88
+    selection_redundancy_weight: float = 0.20
+    max_items_per_source: int | None = None
+    arithmetic_score_weight: float = 0.65
+    geometric_score_weight: float = 0.35
+    scoring_weights: dict[str, float] = field(
+        default_factory=lambda: {
+            "question_relevance": 1.0,
+            "lexical_overlap": 1.0,
+            "reliability_score": 1.0,
+            "protocol_consistency": 1.0,
+            "informativeness": 1.0,
+            "source_confidence": 1.0,
+        }
+    )
+
+    def __post_init__(self) -> None:
+        if self.token_budget < 0 or self.max_selected_items < 0:
+            raise ValueError("Evidence budgets and item limits must be non-negative.")
+        if not 0.0 <= self.min_score <= 1.0:
+            raise ValueError("min_score must be between 0 and 1.")
+        for name in ("token_penalty_cap", "redundancy_threshold", "selection_redundancy_weight"):
+            value = float(getattr(self, name))
+            if not 0.0 <= value <= 1.0:
+                raise ValueError(f"{name} must be between 0 and 1.")
+        if self.max_items_per_source is not None and self.max_items_per_source <= 0:
+            raise ValueError("max_items_per_source must be positive when provided.")
+        if self.arithmetic_score_weight < 0 or self.geometric_score_weight < 0:
+            raise ValueError("Score blend weights must be non-negative.")
+        if self.arithmetic_score_weight + self.geometric_score_weight <= 0:
+            raise ValueError("At least one score blend weight must be positive.")
+        if any(weight < 0 for weight in self.scoring_weights.values()):
+            raise ValueError("Scoring component weights must be non-negative.")
+
+
+@dataclass(frozen=True)
+class ProtocolConfig:
+    """Configuration for protocol-aware segmentation and recognition.
+
+    Thresholds are deliberately conservative and interpretable. C-rate-relative
+    limits are used when ``nominal_capacity_ah`` is provided; otherwise the
+    absolute current thresholds apply.
+    """
+
+    enabled: bool = True
+    # A sample counts as "rest" when |current| is below this (Amps).
+    rest_threshold_a: float = 1e-4
+    # Within a non-zero-current run, the constant-current part is "constant" when
+    # std(|I|)/mean(|I|) stays under this ratio.
+    cc_current_cv_tol: float = 0.15
+    # The constant-voltage tail is the contiguous suffix where |I| has tapered below
+    # this fraction of the run's peak |I| (current decay is the primary CV signal).
+    cv_current_fraction: float = 0.8
+    # A CV tail must also hold voltage within both of these limits. Current taper
+    # alone is not sufficient evidence of constant-voltage operation.
+    cv_voltage_tolerance_v: float = 0.02
+    cv_voltage_slope_tolerance_v_per_s: float = 2e-4
+    # A charge/discharge run adjacent to a rest and no longer than this is a pulse
+    # (the GITT/HPPC characterization primitive), in seconds.
+    pulse_max_duration_s: float = 3600.0
+    # A pulse must be adjacent to a meaningful relaxation, rather than any short
+    # zero-current gap. The rest must also be at least this multiple of the pulse.
+    pulse_rest_min_duration_s: float = 60.0
+    pulse_rest_duration_ratio: float = 1.0
+    # Minimum samples for a sub-segment (CC or CV split) to be kept separate.
+    min_segment_points: int = 3
+    # A cycle is flagged "dynamic" (DST/drive-cycle) when this fraction of its
+    # non-rest samples fall in current runs that are neither constant nor a clean taper.
+    dynamic_sample_fraction: float = 0.35
+    # GITT needs at least this many same-sign pulse+rest repetitions.
+    gitt_min_pulses: int = 3
+    # HPPC requires repeated pulses in both directions, not merely one pulse of
+    # each sign somewhere in the cycle.
+    hppc_min_pulses_per_direction: int = 2
+
+    def __post_init__(self) -> None:
+        if self.rest_threshold_a < 0:
+            raise ValueError("rest_threshold_a must be non-negative.")
+        for name in ("cc_current_cv_tol", "cv_current_fraction", "dynamic_sample_fraction"):
+            value = float(getattr(self, name))
+            if not 0.0 <= value <= 1.0:
+                raise ValueError(f"{name} must be between 0 and 1.")
+        if self.pulse_max_duration_s <= 0:
+            raise ValueError("pulse_max_duration_s must be positive.")
+        if self.cv_voltage_tolerance_v < 0:
+            raise ValueError("cv_voltage_tolerance_v must be non-negative.")
+        if self.cv_voltage_slope_tolerance_v_per_s < 0:
+            raise ValueError("cv_voltage_slope_tolerance_v_per_s must be non-negative.")
+        if self.pulse_rest_min_duration_s < 0:
+            raise ValueError("pulse_rest_min_duration_s must be non-negative.")
+        if self.pulse_rest_duration_ratio < 0:
+            raise ValueError("pulse_rest_duration_ratio must be non-negative.")
+        if self.min_segment_points < 1:
+            raise ValueError("min_segment_points must be at least 1.")
+        if self.gitt_min_pulses < 1:
+            raise ValueError("gitt_min_pulses must be at least 1.")
+        if self.hppc_min_pulses_per_direction < 1:
+            raise ValueError("hppc_min_pulses_per_direction must be at least 1.")
+
+
+@dataclass(frozen=True)
 class ExportConfig:
     """Feature export configuration."""
 

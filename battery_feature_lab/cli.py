@@ -6,7 +6,13 @@ import argparse
 from pathlib import Path
 
 from battery_feature_lab.pipeline import FeaturePipeline, PipelineConfig
-from battery_feature_lab.schemas import DiagnosticConfig, ExportConfig, FeatureConfig, ReaderConfig
+from battery_feature_lab.schemas import (
+    DiagnosticConfig,
+    EvidenceConfig,
+    ExportConfig,
+    FeatureConfig,
+    ReaderConfig,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -34,6 +40,10 @@ def build_parser() -> argparse.ArgumentParser:
     extract.add_argument("--datasheet-max-discharge-c-rate", type=float, default=None)
     extract.add_argument("--peak-prominence-noise-multiplier", type=float, default=6.0)
     extract.add_argument("--skip-normalized-timeseries", action="store_true")
+    extract.add_argument("--evidence-question", type=str, default=None)
+    extract.add_argument("--evidence-token-budget", type=int, default=800)
+    extract.add_argument("--evidence-max-selected-items", type=int, default=12)
+    extract.add_argument("--skip-evidence", action="store_true")
     return parser
 
 
@@ -74,6 +84,12 @@ def main(argv: list[str] | None = None) -> int:
                 write_normalized_timeseries=not args.skip_normalized_timeseries,
             ),
             diagnostics=DiagnosticConfig(**diagnostic_kwargs),
+            evidence=EvidenceConfig(
+                enabled=not args.skip_evidence,
+                question=args.evidence_question,
+                token_budget=args.evidence_token_budget,
+                max_selected_items=args.evidence_max_selected_items,
+            ),
         )
         tables = FeaturePipeline(config).run(args.input_path)
         non_empty = {name: len(frame) for name, frame in tables.items() if frame is not None and not frame.empty}
