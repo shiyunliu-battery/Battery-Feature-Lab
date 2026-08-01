@@ -1,8 +1,14 @@
 # BFL: Battery Feature Lab
 
-BFL extracts battery cycling features from BDS-style exports and common cycler tables. It turns
-raw time-series data into feature tables for SOH/RUL modeling, feature screening, explainability,
-and compact diagnostic summaries.
+BFL extracts battery cycling features from cycler exports. It turns raw time-series data into
+feature tables for SOH/RUL modeling, feature screening, explainability, and compact diagnostic
+summaries.
+
+File reading, cycler detection, column mapping, unit conversion, time-axis repair and
+current-sign resolution are delegated to [`battery-data-standard`](https://github.com/shiyunliu-battery/battery-data-standard)
+(BDS), which is installed as a dependency. BFL does not reimplement ingest. Whatever BDS
+supports, BFL supports, and every run records the BDS conversion report in `run_metadata.json`
+so the provenance of a feature table stays auditable back to the source file.
 
 ## Features
 
@@ -19,7 +25,7 @@ and compact diagnostic summaries.
 
 ## Installation
 
-From PyPI:
+From PyPI. This pulls in `battery-data-standard`, which BFL uses for all file reading:
 
 ```bash
 pip install battery-feature-lab
@@ -83,18 +89,23 @@ bfl extract input.csv \
 
 ## Input Data
 
-BFL accepts CSV, TSV, JSON, JSONL, and Parquet files. Input data can use common cycler/BDS
-column names. The reader normalizes aliases to:
+Ingest is handled by BDS, so BFL reads any format the installed BDS version supports. That
+currently includes NEWARE, Arbin, Maccor, BioLogic, Repower, PEC, Novonix, BaSyTec and LANDT
+exports, plus generic delimited text, Excel, MATLAB and Parquet tables. JSON and JSONL are
+staged to CSV and then handed to BDS. Run `bds formats` to see what the installed version
+covers, and `bds doctor <file>` when a file will not read.
+
+BDS returns its canonical schema. BFL renames it to the working names used by the featurizers:
 
 ```text
 time_s, voltage_v, current_a, temperature_c, charge_capacity_ah,
 discharge_capacity_ah, cycle_index, step_index, step_type
 ```
 
-At minimum, the input should contain time, voltage, current, and enough cycle/step information
-to identify charge, discharge, and rest periods. If `cell_id`, `cycle_index`, or `step_type` is
-missing, BFL can infer or fill parts of the schema from the file name, current sign, and command
-line options.
+`cell_id` and `step_type` are not part of the BDS schema. BFL adds them, inferring `step_type`
+from current sign and `cell_id` from the file name when the source does not carry them.
+Columns BDS does not model, including `soc` and the EIS triple below, are recovered from the
+BDS pass-through fields.
 
 Optional EIS columns are:
 

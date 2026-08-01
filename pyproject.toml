@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "battery-feature-lab"
-version = "0.2.0"
-description = "Feature extraction pipeline for battery cycling data, BDS exports, and diagnostic summaries."
+version = "0.3.0"
+description = "Feature extraction pipeline for battery cycling data. Ingest is delegated to battery-data-standard (BDS)."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -16,6 +16,7 @@ dependencies = [
   "scipy>=1.9",
   "scikit-learn>=1.2",
   "pyarrow>=10.0",
+  "battery-data-standard>=0.3.1",
 ]
 
 [project.optional-dependencies]

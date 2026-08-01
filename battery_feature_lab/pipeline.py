@@ -3,14 +3,13 @@
 from __future__ import annotations
 
 import json
-from dataclasses import asdict
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from pathlib import Path
 
 import pandas as pd
 
 from battery_feature_lab.analysis.degradation_tags import build_degradation_tags
-from battery_feature_lab.bds_adapter.readers import read_bds_export
+from battery_feature_lab.bds_adapter.readers import read_bds_export_with_report
 from battery_feature_lab.evidence import (
     build_evidence_candidates,
     score_evidence_candidates,
@@ -60,6 +59,7 @@ class FeaturePipeline:
 
     def __init__(self, config: PipelineConfig) -> None:
         self.config = config
+        self._bds_report: dict = {}
         self.featurizers = [
             CycleSummaryFeaturizer(config.features),
             DeltaQFeaturizer(config.features),
@@ -72,7 +72,8 @@ class FeaturePipeline:
     def run(self, input_path: str | Path) -> dict[str, pd.DataFrame]:
         """Run the full pipeline and write outputs."""
 
-        normalized = read_bds_export(input_path, self.config.reader)
+        normalized, bds_report = read_bds_export_with_report(input_path, self.config.reader)
+        self._bds_report = bds_report
         tables: dict[str, pd.DataFrame] = {}
 
         if self.config.protocol.enabled:
@@ -152,10 +153,8 @@ class FeaturePipeline:
             },
             "analysis_config": {
                 "reader_config": {
-                    "positive_current_is_charge": self.config.reader.positive_current_is_charge,
+                    "ingest": "battery-data-standard",
                     "current_rest_threshold_a": self.config.reader.current_rest_threshold_a,
-                    "time_unit": self.config.reader.time_unit,
-                    "capacity_unit": self.config.reader.capacity_unit,
                     "soc_unit": self.config.reader.soc_unit,
                 },
                 "feature_config": asdict(self.config.features),
@@ -177,16 +176,15 @@ class FeaturePipeline:
             "output_dir": str(self.config.export.output_dir),
             "written_tables": {name: str(path) for name, path in written.items()},
             "llm_record_count": llm_record_count,
+            "bds_conversion_report": self._bds_report,
             "feature_config": self.config.features.__dict__,
             "diagnostic_config": self.config.diagnostics.__dict__,
             "evidence_config": self.config.evidence.__dict__,
             "protocol_config": self.config.protocol.__dict__,
             "reader_config": {
                 "cell_id": self.config.reader.cell_id,
-                "positive_current_is_charge": self.config.reader.positive_current_is_charge,
+                "ingest": "battery-data-standard",
                 "current_rest_threshold_a": self.config.reader.current_rest_threshold_a,
-                "time_unit": self.config.reader.time_unit,
-                "capacity_unit": self.config.reader.capacity_unit,
                 "soc_unit": self.config.reader.soc_unit,
             },
         }
