@@ -14,7 +14,7 @@ from battery_feature_lab.evidence import build_evidence_candidates, score_eviden
 from battery_feature_lab.evidence.jsonl_writer import write_evidence_jsonl
 from battery_feature_lab.export.evidence_context_writer import build_llm_context_records, write_llm_jsonl
 from battery_feature_lab.export.parquet_writer import write_feature_tables
-from battery_feature_lab.feature_contracts import write_feature_contracts_json
+from battery_feature_lab.feature_contract_catalog import write_complete_feature_contracts_json
 from battery_feature_lab.featurizers import CycleSummaryFeaturizer, DeltaQFeaturizer, EISDRTFeaturizer, ICADVAFeaturizer, RelaxationFeaturizer, StressHistogramFeaturizer
 from battery_feature_lab.protocol import annotate_normalized, build_protocol_records, detect_protocol_segments, write_protocol_jsonl
 from battery_feature_lab.schemas import DiagnosticConfig, EvidenceConfig, ExportConfig, FeatureConfig, ProtocolConfig, ReaderConfig
@@ -68,7 +68,7 @@ class FeaturePipeline:
             write_evidence_jsonl(tables.get("selected_evidence"), self.config.export.output_dir / "selected_evidence.jsonl")
         if self.config.protocol.enabled:
             write_protocol_jsonl(build_protocol_records(tables.get("protocol_segments")), self.config.export.output_dir / "protocol_segments.jsonl")
-        contracts_path = write_feature_contracts_json(self.config.export.output_dir / "feature_contracts.json")
+        contracts_path = write_complete_feature_contracts_json(self.config.export.output_dir / "feature_contracts.json", tables=tables)
         llm_records = build_llm_context_records(context_evidence, metadata=self._llm_metadata())
         write_llm_jsonl(llm_records, self.config.export.output_dir / "llm_context.jsonl")
         self._write_metadata(input_path, written, contracts_path=contracts_path, llm_record_count=len(llm_records), llm_evidence_source=("selected_evidence" if self.config.evidence.enabled and tables.get("selected_evidence") is not None and not tables["selected_evidence"].empty else "contracted_evidence_candidates"))
