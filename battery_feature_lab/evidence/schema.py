@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import pandas as pd
 
+
 EVIDENCE_COLUMNS = [
     "cell_id",
     "evidence_id",
@@ -13,9 +14,24 @@ EVIDENCE_COLUMNS = [
     "cycle_index",
     "cycle_start",
     "cycle_end",
+    "step_index",
+    "source_time_start_s",
+    "source_time_end_s",
     "feature_name",
     "value",
     "unit",
+    "contract_id",
+    "definition",
+    "inputs",
+    "method",
+    "method_version",
+    "method_parameters",
+    "applicability",
+    "applicability_status",
+    "quality",
+    "quality_status",
+    "source_interval",
+    "interpretation_level",
     "protocol",
     "protocol_family",
     "protocol_confidence",
