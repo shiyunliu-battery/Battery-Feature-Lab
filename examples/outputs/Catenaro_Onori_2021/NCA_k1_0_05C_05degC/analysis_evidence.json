@@ -1,0 +1,4065 @@
+{
+  "cell_id": "NCA_k1_0_05C_05degC",
+  "configuration": {
+    "analysis_policy": {
+      "current_step_baseline_rest_fraction_min": 0.95,
+      "current_step_baseline_window_s": 30.0,
+      "current_step_delta_current_noise_multiplier": 10.0,
+      "current_step_high_confidence_cv_max": 0.02,
+      "current_step_min_delta_current_a": 0.01,
+      "current_step_min_samples": 3.0,
+      "current_step_plateau_cv_max": 0.05,
+      "current_step_plateau_match_relative_tolerance": 0.05,
+      "current_step_pulse_max_s": 60.0,
+      "current_step_rest_min_s": 60.0,
+      "current_step_summary_min_count": 3.0,
+      "cycle_efficiency_warning_max": 1.05,
+      "cycle_integration_coverage_min": 0.99,
+      "diagnostic_finite_coverage_min": 0.99,
+      "diagnostic_max_c_rate": 0.2,
+      "diagnostic_min_samples": 50.0,
+      "diagnostic_min_voltage_span_v": 0.5,
+      "diagnostic_monotone_fraction_min": 0.99,
+      "diagnostic_peak_minimum_distance_points": 3.0,
+      "diagnostic_peak_prominence_fraction": 0.05,
+      "directional_balance_min": 0.95,
+      "metadata_finite_coverage_warning_min": 0.99,
+      "metadata_nonvoltage_quantization_increment_min": 0.01,
+      "metadata_quantization_min_samples": 100.0,
+      "metadata_quantization_relative_increment_epsilon": 1e-09,
+      "metadata_quantization_unique_fraction_max": 0.01,
+      "metadata_voltage_quantization_increment_min_v": 0.001,
+      "mode_adjacent_rest_min_s": 60.0,
+      "mode_cc_current_cv_max": 0.15,
+      "mode_cv_nonincreasing_fraction_min": 0.8,
+      "mode_cv_taper_ratio_max": 0.8,
+      "mode_cv_voltage_range_max_v": 0.02,
+      "mode_cv_voltage_slope_max_v_per_s": 0.0002,
+      "mode_dominant_classified_fraction_min": 0.5,
+      "mode_min_samples": 3.0,
+      "mode_pulse_max_duration_s": 60.0,
+      "mode_taper_absolute_noise_a": 1e-05,
+      "mode_taper_relative_noise_fraction": 0.001,
+      "profile_bracketing_rest_min_s": 60.0,
+      "profile_capacity_balance_min": 0.95,
+      "profile_current_match_fraction_min": 0.8,
+      "profile_current_ratio_max": 1.25,
+      "profile_current_ratio_min": 0.8,
+      "profile_direction_consistency_min": 0.99,
+      "profile_endpoint_tolerance_v": 0.15,
+      "profile_finite_coverage_min": 0.99,
+      "profile_grid_points": 101.0,
+      "profile_min_duration_s": 600.0,
+      "profile_min_samples": 50.0,
+      "profile_temperature_difference_max_deg_c": 2.0,
+      "profile_voltage_span_overlap_min": 0.9,
+      "profile_voltage_wrong_way_fraction_max": 0.05,
+      "relaxation_summary_min_count": 3.0,
+      "reported_capacity_finite_coverage_min": 0.99
+    },
+    "analysis_policy_version": "bfl.analysis-policy/0.1",
+    "cell_id": null,
+    "declared_protocol_name": null,
+    "formation_cycles_to_exclude": 1,
+    "input_adapter": "bds",
+    "nominal_capacity_ah": null,
+    "output_dir": ".",
+    "pulse_resistance_times_s": [
+      10.0
+    ],
+    "reference_window_size": 4,
+    "relaxation_checkpoints_s": [
+      10.0,
+      30.0,
+      60.0,
+      300.0,
+      600.0,
+      1800.0
+    ],
+    "representative_cycle": null,
+    "representative_cycle_selection": "no_complete_cycle_after_configured_early_cycle_exclusion",
+    "rest_current_threshold_a": 0.0001,
+    "sampling_interval_outlier_factor": 5.0,
+    "selected_representative_cycle": null,
+    "temperature_column": "raw:Surface_Temp(degC)",
+    "voltage_column": null
+  },
+  "records": [
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "next_phase": "charge",
+        "phase": "rest",
+        "phase_label_basis": "current_threshold",
+        "previous_phase": null,
+        "pyprobe_phase_filter_role": "independent_window_level_QA_only",
+        "pyprobe_window_phase_filter_rows": 10803,
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 1
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Phase labels describe electrical direction, not a named test protocol."
+      ],
+      "method": {
+        "name": "source_step_and_current_phase_segmentation_v1",
+        "parameters": {
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "BFL",
+        "provider_version": "BFL 0.4.0",
+        "references": [
+          "https://github.com/shiyunliu-battery/battery-data-standard/blob/main/docs/step-cycle-semantics.md",
+          "https://github.com/battery-data-alliance/battery-data-format",
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3600.0477840000003
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 3601
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.phase_segment:None:0",
+      "record_type": "operation.phase_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 3600,
+          "end_row": 3600,
+          "end_sample_time_s": 3600.0022,
+          "end_time_s": 3601.0486840000003,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 0,
+          "start_row": 0,
+          "start_time_s": 1.0009
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "next_phase": "charge",
+        "phase": "charge",
+        "phase_label_basis": "current_threshold",
+        "previous_phase": "rest",
+        "pyprobe_phase_filter_role": "independent_window_level_QA_only",
+        "pyprobe_window_phase_filter_rows": 16349,
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 2
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Phase labels describe electrical direction, not a named test protocol."
+      ],
+      "method": {
+        "name": "source_step_and_current_phase_segmentation_v1",
+        "parameters": {
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "BFL",
+        "provider_version": "BFL 0.4.0",
+        "references": [
+          "https://github.com/shiyunliu-battery/battery-data-standard/blob/main/docs/step-cycle-semantics.md",
+          "https://github.com/battery-data-alliance/battery-data-format",
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 10378.425287999999
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 10379
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.phase_segment:None:1",
+      "record_type": "operation.phase_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 13979,
+          "end_row": 13979,
+          "end_sample_time_s": 13978.368784,
+          "end_time_s": 13979.473972,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 3601,
+          "start_row": 3601,
+          "start_time_s": 3601.0486840000003
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "next_phase": "rest",
+        "phase": "charge",
+        "phase_label_basis": "current_threshold",
+        "previous_phase": "charge",
+        "pyprobe_phase_filter_role": "independent_window_level_QA_only",
+        "pyprobe_window_phase_filter_rows": 16349,
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 3
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Phase labels describe electrical direction, not a named test protocol."
+      ],
+      "method": {
+        "name": "source_step_and_current_phase_segmentation_v1",
+        "parameters": {
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "BFL",
+        "provider_version": "BFL 0.4.0",
+        "references": [
+          "https://github.com/shiyunliu-battery/battery-data-standard/blob/main/docs/step-cycle-semantics.md",
+          "https://github.com/battery-data-alliance/battery-data-format",
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 5969.733855999999
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 5970
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.phase_segment:None:2",
+      "record_type": "operation.phase_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 19949,
+          "end_row": 19949,
+          "end_sample_time_s": 19948.166772,
+          "end_time_s": 19949.207828,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 13980,
+          "start_row": 13980,
+          "start_time_s": 13979.473972
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "next_phase": "discharge",
+        "phase": "rest",
+        "phase_label_basis": "current_threshold",
+        "previous_phase": "charge",
+        "pyprobe_phase_filter_role": "independent_window_level_QA_only",
+        "pyprobe_window_phase_filter_rows": 10803,
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 4
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Phase labels describe electrical direction, not a named test protocol."
+      ],
+      "method": {
+        "name": "source_step_and_current_phase_segmentation_v1",
+        "parameters": {
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "BFL",
+        "provider_version": "BFL 0.4.0",
+        "references": [
+          "https://github.com/shiyunliu-battery/battery-data-standard/blob/main/docs/step-cycle-semantics.md",
+          "https://github.com/battery-data-alliance/battery-data-format",
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3600.0483280000008
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 3601
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.phase_segment:None:3",
+      "record_type": "operation.phase_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 23550,
+          "end_row": 23550,
+          "end_sample_time_s": 23548.209428,
+          "end_time_s": 23549.256156,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 19950,
+          "start_row": 19950,
+          "start_time_s": 19949.207828
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "next_phase": "rest",
+        "phase": "discharge",
+        "phase_label_basis": "current_threshold",
+        "previous_phase": "rest",
+        "pyprobe_phase_filter_role": "independent_window_level_QA_only",
+        "pyprobe_window_phase_filter_rows": 66153,
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 5
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Phase labels describe electrical direction, not a named test protocol."
+      ],
+      "method": {
+        "name": "source_step_and_current_phase_segmentation_v1",
+        "parameters": {
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "BFL",
+        "provider_version": "BFL 0.4.0",
+        "references": [
+          "https://github.com/shiyunliu-battery/battery-data-standard/blob/main/docs/step-cycle-semantics.md",
+          "https://github.com/battery-data-alliance/battery-data-format",
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 66152.390556
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 66153
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.phase_segment:None:4",
+      "record_type": "operation.phase_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 89703,
+          "end_row": 89703,
+          "end_sample_time_s": 89700.508056,
+          "end_time_s": 89701.646712,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 23551,
+          "start_row": 23551,
+          "start_time_s": 23549.256156
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "next_phase": null,
+        "phase": "rest",
+        "phase_label_basis": "current_threshold",
+        "previous_phase": "discharge",
+        "pyprobe_phase_filter_role": "independent_window_level_QA_only",
+        "pyprobe_window_phase_filter_rows": 10803,
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 6
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Phase labels describe electrical direction, not a named test protocol."
+      ],
+      "method": {
+        "name": "source_step_and_current_phase_segmentation_v1",
+        "parameters": {
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "BFL",
+        "provider_version": "BFL 0.4.0",
+        "references": [
+          "https://github.com/shiyunliu-battery/battery-data-standard/blob/main/docs/step-cycle-semantics.md",
+          "https://github.com/battery-data-alliance/battery-data-format",
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3599.0015999999887
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 3601
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.phase_segment:None:5",
+      "record_type": "operation.phase_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 93304,
+          "end_row": 93304,
+          "end_sample_time_s": 93300.64831199999,
+          "end_time_s": 93300.64831199999,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 89704,
+          "start_row": 89704,
+          "start_time_s": 89701.646712
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "unmatched"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "mode": "unmatched",
+        "phase": "rest",
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 1
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "The closed vocabulary describes waveform shape only.",
+        "A named protocol is emitted only when supplied as declared metadata."
+      ],
+      "method": {
+        "name": "pyprobe_candidates_with_conservative_mode_gate",
+        "parameters": {
+          "adjacent_rest_min_s": 60.0,
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "cc_current_cv_limit": 0.15,
+          "cv_nonincreasing_fraction_min": 0.8,
+          "cv_taper_noise_absolute_floor_a": 1e-05,
+          "cv_taper_noise_relative_factor": 0.001,
+          "cv_taper_noise_tolerance": "max(cv_taper_noise_absolute_floor_a, cv_taper_noise_relative_factor * segment max |I|)",
+          "cv_taper_ratio_limit": 0.8,
+          "cv_voltage_range_limit_v": 0.02,
+          "cv_voltage_slope_limit_v_per_s": 0.0002,
+          "dominant_classified_fraction_min": 0.5,
+          "minimum_sample_count": 3,
+          "pulse_max_duration_s": 60.0,
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "PyProBE+BFL",
+        "provider_version": "PyProBE 2.6.0; BFL 0.4.0",
+        "references": [
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3600.0477840000003
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 3601
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.mode_segment:None:0",
+      "record_type": "operation.mode_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 3600,
+          "end_row": 3600,
+          "end_sample_time_s": 3600.0022,
+          "end_time_s": 3601.0486840000003,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 0,
+          "start_row": 0,
+          "start_time_s": 1.0009
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "matched"
+      },
+      "attributes": {
+        "current_coefficient_of_variation": 1.74942865634056e-05,
+        "current_taper_ratio": 0.9999929580027018,
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "mode": "constant_current_like",
+        "mode_provider_branch": "pyprobe_candidates_with_bfl_gates",
+        "nonincreasing_current_fraction": 1,
+        "phase": "charge",
+        "pyprobe_candidate_rows": {
+          "constant_current": 10379,
+          "constant_voltage": 282
+        },
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 2,
+        "taper_noise_tolerance_a": 0.0008125982284545899,
+        "voltage_range_v": 0.6256978511810303,
+        "voltage_slope_v_per_s": 6.029474326237949e-05
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "The closed vocabulary describes waveform shape only.",
+        "A named protocol is emitted only when supplied as declared metadata."
+      ],
+      "method": {
+        "name": "pyprobe_candidates_with_conservative_mode_gate",
+        "parameters": {
+          "adjacent_rest_min_s": 60.0,
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "cc_current_cv_limit": 0.15,
+          "cv_nonincreasing_fraction_min": 0.8,
+          "cv_taper_noise_absolute_floor_a": 1e-05,
+          "cv_taper_noise_relative_factor": 0.001,
+          "cv_taper_noise_tolerance": "max(cv_taper_noise_absolute_floor_a, cv_taper_noise_relative_factor * segment max |I|)",
+          "cv_taper_ratio_limit": 0.8,
+          "cv_voltage_range_limit_v": 0.02,
+          "cv_voltage_slope_limit_v_per_s": 0.0002,
+          "dominant_classified_fraction_min": 0.5,
+          "minimum_sample_count": 3,
+          "pulse_max_duration_s": 60.0,
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "PyProBE+BFL",
+        "provider_version": "PyProBE 2.6.0; BFL 0.4.0",
+        "references": [
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 10378.425287999999
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 10379
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.mode_segment:None:1",
+      "record_type": "operation.mode_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 13979,
+          "end_row": 13979,
+          "end_sample_time_s": 13978.368784,
+          "end_time_s": 13979.473972,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 3601,
+          "start_row": 3601,
+          "start_time_s": 3601.0486840000003
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "matched"
+      },
+      "attributes": {
+        "current_coefficient_of_variation": 0.6847675652766189,
+        "current_taper_ratio": 0.07980265369165795,
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "mode": "constant_voltage_like",
+        "mode_provider_branch": "pyprobe_candidates_with_bfl_gates",
+        "nonincreasing_current_fraction": 0.9998324677500419,
+        "phase": "charge",
+        "pyprobe_candidate_rows": {
+          "constant_current": 8,
+          "constant_voltage": 5970
+        },
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 3,
+        "taper_noise_tolerance_a": 0.0008144997954368592,
+        "voltage_range_v": 0.0006213188171386719,
+        "voltage_slope_v_per_s": 2.1809891805698748e-08
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "The closed vocabulary describes waveform shape only.",
+        "A named protocol is emitted only when supplied as declared metadata."
+      ],
+      "method": {
+        "name": "pyprobe_candidates_with_conservative_mode_gate",
+        "parameters": {
+          "adjacent_rest_min_s": 60.0,
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "cc_current_cv_limit": 0.15,
+          "cv_nonincreasing_fraction_min": 0.8,
+          "cv_taper_noise_absolute_floor_a": 1e-05,
+          "cv_taper_noise_relative_factor": 0.001,
+          "cv_taper_noise_tolerance": "max(cv_taper_noise_absolute_floor_a, cv_taper_noise_relative_factor * segment max |I|)",
+          "cv_taper_ratio_limit": 0.8,
+          "cv_voltage_range_limit_v": 0.02,
+          "cv_voltage_slope_limit_v_per_s": 0.0002,
+          "dominant_classified_fraction_min": 0.5,
+          "minimum_sample_count": 3,
+          "pulse_max_duration_s": 60.0,
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "PyProBE+BFL",
+        "provider_version": "PyProBE 2.6.0; BFL 0.4.0",
+        "references": [
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 5969.733855999999
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 5970
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.mode_segment:None:2",
+      "record_type": "operation.mode_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 19949,
+          "end_row": 19949,
+          "end_sample_time_s": 19948.166772,
+          "end_time_s": 19949.207828,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 13980,
+          "start_row": 13980,
+          "start_time_s": 13979.473972
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "unmatched"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "mode": "unmatched",
+        "phase": "rest",
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 4
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "The closed vocabulary describes waveform shape only.",
+        "A named protocol is emitted only when supplied as declared metadata."
+      ],
+      "method": {
+        "name": "pyprobe_candidates_with_conservative_mode_gate",
+        "parameters": {
+          "adjacent_rest_min_s": 60.0,
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "cc_current_cv_limit": 0.15,
+          "cv_nonincreasing_fraction_min": 0.8,
+          "cv_taper_noise_absolute_floor_a": 1e-05,
+          "cv_taper_noise_relative_factor": 0.001,
+          "cv_taper_noise_tolerance": "max(cv_taper_noise_absolute_floor_a, cv_taper_noise_relative_factor * segment max |I|)",
+          "cv_taper_ratio_limit": 0.8,
+          "cv_voltage_range_limit_v": 0.02,
+          "cv_voltage_slope_limit_v_per_s": 0.0002,
+          "dominant_classified_fraction_min": 0.5,
+          "minimum_sample_count": 3,
+          "pulse_max_duration_s": 60.0,
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "PyProBE+BFL",
+        "provider_version": "PyProBE 2.6.0; BFL 0.4.0",
+        "references": [
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3600.0483280000008
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 3601
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.mode_segment:None:3",
+      "record_type": "operation.mode_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 23550,
+          "end_row": 23550,
+          "end_sample_time_s": 23548.209428,
+          "end_time_s": 23549.256156,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 19950,
+          "start_row": 19950,
+          "start_time_s": 19949.207828
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "matched"
+      },
+      "attributes": {
+        "current_coefficient_of_variation": 9.894241630573142e-06,
+        "current_taper_ratio": 1.0000071159765416,
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "mode": "constant_current_like",
+        "mode_provider_branch": "pyprobe_candidates_with_bfl_gates",
+        "nonincreasing_current_fraction": 1,
+        "phase": "discharge",
+        "pyprobe_candidate_rows": {
+          "constant_current": 66153,
+          "constant_voltage": 913
+        },
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 5,
+        "taper_noise_tolerance_a": 0.00016753357648849486,
+        "voltage_range_v": 1.639723300933838,
+        "voltage_slope_v_per_s": 2.478748706695055e-05
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "The closed vocabulary describes waveform shape only.",
+        "A named protocol is emitted only when supplied as declared metadata."
+      ],
+      "method": {
+        "name": "pyprobe_candidates_with_conservative_mode_gate",
+        "parameters": {
+          "adjacent_rest_min_s": 60.0,
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "cc_current_cv_limit": 0.15,
+          "cv_nonincreasing_fraction_min": 0.8,
+          "cv_taper_noise_absolute_floor_a": 1e-05,
+          "cv_taper_noise_relative_factor": 0.001,
+          "cv_taper_noise_tolerance": "max(cv_taper_noise_absolute_floor_a, cv_taper_noise_relative_factor * segment max |I|)",
+          "cv_taper_ratio_limit": 0.8,
+          "cv_voltage_range_limit_v": 0.02,
+          "cv_voltage_slope_limit_v_per_s": 0.0002,
+          "dominant_classified_fraction_min": 0.5,
+          "minimum_sample_count": 3,
+          "pulse_max_duration_s": 60.0,
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "PyProBE+BFL",
+        "provider_version": "PyProBE 2.6.0; BFL 0.4.0",
+        "references": [
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 66152.390556
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 66153
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.mode_segment:None:4",
+      "record_type": "operation.mode_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 89703,
+          "end_row": 89703,
+          "end_sample_time_s": 89700.508056,
+          "end_time_s": 89701.646712,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 23551,
+          "start_row": 23551,
+          "start_time_s": 23549.256156
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "unmatched"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "mode": "unmatched",
+        "phase": "rest",
+        "segmentation_basis": "source_step_or_phase_change",
+        "source_step_index": 6
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "The closed vocabulary describes waveform shape only.",
+        "A named protocol is emitted only when supplied as declared metadata."
+      ],
+      "method": {
+        "name": "pyprobe_candidates_with_conservative_mode_gate",
+        "parameters": {
+          "adjacent_rest_min_s": 60.0,
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "cc_current_cv_limit": 0.15,
+          "cv_nonincreasing_fraction_min": 0.8,
+          "cv_taper_noise_absolute_floor_a": 1e-05,
+          "cv_taper_noise_relative_factor": 0.001,
+          "cv_taper_noise_tolerance": "max(cv_taper_noise_absolute_floor_a, cv_taper_noise_relative_factor * segment max |I|)",
+          "cv_taper_ratio_limit": 0.8,
+          "cv_voltage_range_limit_v": 0.02,
+          "cv_voltage_slope_limit_v_per_s": 0.0002,
+          "dominant_classified_fraction_min": 0.5,
+          "minimum_sample_count": 3,
+          "pulse_max_duration_s": 60.0,
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "PyProBE+BFL",
+        "provider_version": "PyProBE 2.6.0; BFL 0.4.0",
+        "references": [
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3599.0015999999887
+        },
+        "sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 3601
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.mode_segment:None:5",
+      "record_type": "operation.mode_segment",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 93304,
+          "end_row": 93304,
+          "end_sample_time_s": 93300.64831199999,
+          "end_time_s": 93300.64831199999,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 89704,
+          "start_row": 89704,
+          "start_time_s": 89701.646712
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "active_mode_durations_s": {
+          "constant_current_like": 76530.815844,
+          "constant_voltage_like": 5969.733855999999,
+          "dynamic_current": 0.0,
+          "pulse_like": 0.0,
+          "unmatched": 0.0
+        },
+        "confidence": {
+          "basis": [
+            "source_grounded_phase_segments",
+            "duration_weighting"
+          ],
+          "level": "high",
+          "not_a_probability": true
+        },
+        "dominant_active_mode": "constant_current_like",
+        "dominant_active_mode_candidate": "constant_current_like",
+        "dominant_mode_minimum_classified_active_fraction": 0.5,
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "mode_durations_s": {
+          "constant_current_like": 76530.815844,
+          "constant_voltage_like": 5969.733855999999,
+          "dynamic_current": 0.0,
+          "pulse_like": 0.0,
+          "unmatched": 10799.09771199999
+        },
+        "mode_segment_counts": {
+          "constant_current_like": 2,
+          "constant_voltage_like": 1,
+          "dynamic_current": 0,
+          "pulse_like": 0,
+          "unmatched": 3
+        },
+        "operation_sequence": [
+          {
+            "duration_s": 3600.0477840000003,
+            "mode": "unmatched",
+            "mode_record_id": "operation.mode_segment:None:0",
+            "phase": "rest",
+            "phase_record_id": "operation.phase_segment:None:0",
+            "segment_index": 0,
+            "source_step_index": 1
+          },
+          {
+            "duration_s": 10378.425287999999,
+            "mode": "constant_current_like",
+            "mode_record_id": "operation.mode_segment:None:1",
+            "phase": "charge",
+            "phase_record_id": "operation.phase_segment:None:1",
+            "segment_index": 1,
+            "source_step_index": 2
+          },
+          {
+            "duration_s": 5969.733855999999,
+            "mode": "constant_voltage_like",
+            "mode_record_id": "operation.mode_segment:None:2",
+            "phase": "charge",
+            "phase_record_id": "operation.phase_segment:None:2",
+            "segment_index": 2,
+            "source_step_index": 3
+          },
+          {
+            "duration_s": 3600.0483280000008,
+            "mode": "unmatched",
+            "mode_record_id": "operation.mode_segment:None:3",
+            "phase": "rest",
+            "phase_record_id": "operation.phase_segment:None:3",
+            "segment_index": 3,
+            "source_step_index": 4
+          },
+          {
+            "duration_s": 66152.390556,
+            "mode": "constant_current_like",
+            "mode_record_id": "operation.mode_segment:None:4",
+            "phase": "discharge",
+            "phase_record_id": "operation.phase_segment:None:4",
+            "segment_index": 4,
+            "source_step_index": 5
+          },
+          {
+            "duration_s": 3599.0015999999887,
+            "mode": "unmatched",
+            "mode_record_id": "operation.mode_segment:None:5",
+            "phase": "rest",
+            "phase_record_id": "operation.phase_segment:None:5",
+            "segment_index": 5,
+            "source_step_index": 6
+          }
+        ],
+        "operation_sequence_status": "included",
+        "operation_sequence_summary_limit": 32,
+        "phase_durations_s": {
+          "charge": 16348.159143999997,
+          "discharge": 66152.390556,
+          "rest": 10799.09771199999,
+          "unknown": 0.0
+        },
+        "phase_segment_counts": {
+          "charge": 2,
+          "discharge": 1,
+          "rest": 3,
+          "unknown": 0
+        },
+        "reference_frame": {
+          "capacity_reference_ah": null,
+          "current_sign": "charge-positive",
+          "scope": "complete_observation_window",
+          "temperature_column": "analysis_temperature_deg_c"
+        }
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "The profile is a waveform fingerprint, not an inferred named protocol.",
+        "Duration fractions describe the selected source scope and do not imply aging severity."
+      ],
+      "method": {
+        "name": "source_grounded_operating_window_v1",
+        "parameters": {
+          "dominant_mode_minimum_classified_active_fraction": 0.5,
+          "duration_weighting": true,
+          "interval_semantics": "x[i] holds on [t[i], t[i+1])",
+          "mode_policy": {
+            "adjacent_rest_min_s": 60.0,
+            "analysis_policy_version": "bfl.analysis-policy/0.1",
+            "cc_current_cv_limit": 0.15,
+            "cv_nonincreasing_fraction_min": 0.8,
+            "cv_taper_noise_absolute_floor_a": 1e-05,
+            "cv_taper_noise_relative_factor": 0.001,
+            "cv_taper_noise_tolerance": "max(cv_taper_noise_absolute_floor_a, cv_taper_noise_relative_factor * segment max |I|)",
+            "cv_taper_ratio_limit": 0.8,
+            "cv_voltage_range_limit_v": 0.02,
+            "cv_voltage_slope_limit_v_per_s": 0.0002,
+            "dominant_classified_fraction_min": 0.5,
+            "minimum_sample_count": 3,
+            "pulse_max_duration_s": 60.0,
+            "rest_current_threshold_a": 0.0001
+          },
+          "rest_current_threshold_a": 0.0001
+        },
+        "provider": "PyProBE+BFL",
+        "provider_version": "PyProBE 2.6.0; BFL 0.4.0",
+        "references": [
+          "https://doi.org/10.21105/joss.07474",
+          "https://doi.org/10.1038/s41597-024-03831-x",
+          "https://rovi-org.github.io/battery-data-toolkit/user-guide/post-processing/index.html"
+        ]
+      },
+      "metrics": {
+        "absolute_current_q50": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.1675260066986084
+        },
+        "absolute_current_q95": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.8125419616699219
+        },
+        "absolute_power_q95": {
+          "reason": null,
+          "status": "ok",
+          "unit": "W",
+          "value": 3.148563085304886
+        },
+        "active_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 82500.5497
+        },
+        "active_segment_duration_q50": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 10378.425287999999
+        },
+        "active_segment_duration_q95": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 60574.994029199996
+        },
+        "capacity_throughput": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Ah",
+          "value": 5.8789801391173295
+        },
+        "charge_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.17522208923050372
+        },
+        "charge_throughput": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Ah",
+          "value": 2.8005778886114685
+        },
+        "classified_active_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 1.0
+        },
+        "constant_current_like_active_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.9276400717606369
+        },
+        "constant_voltage_like_active_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.07235992823936298
+        },
+        "current_squared_exposure": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A^2 h",
+          "value": 2.6049565517809357
+        },
+        "discharge_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.7090315171704671
+        },
+        "discharge_throughput": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Ah",
+          "value": 3.0784022505058606
+        },
+        "dominant_mode_active_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.9276400717606369
+        },
+        "dynamic_current_active_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.0
+        },
+        "energy_throughput": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Wh",
+          "value": 22.20508748554062
+        },
+        "phase_transition_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 5
+        },
+        "phase_transitions_per_hour": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1/h",
+          "value": 0.19292677410145154
+        },
+        "pulse_like_active_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.0
+        },
+        "rest_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.11574639359902912
+        },
+        "temperature_duration_coverage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 1.0
+        },
+        "temperature_max": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 7.4570841789245605
+        },
+        "temperature_min": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 4.841599941253662
+        },
+        "temperature_q50": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 5.057596683502197
+        },
+        "temperature_q95": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 6.077064037322998
+        },
+        "total_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 93299.64741199999
+        },
+        "unknown_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.0
+        },
+        "unmatched_active_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.0
+        },
+        "voltage_max": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 4.200309753417969
+        },
+        "voltage_min": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 2.499995231628418
+        },
+        "voltage_q05": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.1861400604248047
+        },
+        "voltage_q50": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.702927589416504
+        },
+        "voltage_q95": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 4.1999359130859375
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.window_summary:None",
+      "record_type": "operation.window_summary",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 93304,
+          "end_row": 93304,
+          "end_time_s": 93300.64831199999,
+          "start_record": 0,
+          "start_row": 0,
+          "start_time_s": 1.0009
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "isolated_single_point_maximum": false,
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        }
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Exposure statistics describe only the selected source scope."
+      ],
+      "method": {
+        "name": "duration_weighted_previous_zoh_v1",
+        "parameters": {
+          "interval_semantics": "x[i] holds on [t[i], t[i+1])",
+          "sampling_interval_outlier_detection": "isolated_interval_vs_nearest_positive_neighbors_v1",
+          "sampling_interval_outlier_factor": 5.0,
+          "sampling_interval_outliers_included_in_integrals": true
+        },
+        "provider": "BFL",
+        "provider_version": "0.4.0",
+        "references": [
+          "https://numpy.org/doc/stable/reference/generated/numpy.histogram.html"
+        ]
+      },
+      "metrics": {
+        "absolute_current_max": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.8144997954368591
+        },
+        "absolute_current_mean": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.2268425346492818
+        },
+        "absolute_current_min": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.0
+        },
+        "absolute_current_q05": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.0
+        },
+        "absolute_current_q50": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.1675260066986084
+        },
+        "absolute_current_q95": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.8125419616699219
+        },
+        "absolute_current_q99": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.8125591278076172
+        },
+        "absolute_current_rms": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.31703812521825725
+        },
+        "capacity_throughput": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Ah",
+          "value": 5.878980139117329
+        },
+        "charge_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 16348.159143999997
+        },
+        "charge_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.17522208923050372
+        },
+        "discharge_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 66152.390556
+        },
+        "discharge_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.7090315171704671
+        },
+        "excluded_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "included_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 93299.64741199999
+        },
+        "max": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.8144997954368591
+        },
+        "maximum_sampling_interval_outlier": {
+          "reason": "value_unavailable",
+          "status": "not_computable",
+          "unit": "s",
+          "value": null
+        },
+        "mean": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": -0.010719951581415855
+        },
+        "min": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": -0.16753357648849487
+        },
+        "q05": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": -0.16752851009368896
+        },
+        "q50": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": -0.16752511262893677
+        },
+        "q95": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.8125419616699219
+        },
+        "q99": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.8125591278076172
+        },
+        "rest_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 10799.097711999988
+        },
+        "rest_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.11574639359902911
+        },
+        "rms": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.31703812521825725
+        },
+        "sampling_interval_outlier_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        },
+        "sampling_interval_outlier_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "operation.exposure_summary:None",
+      "record_type": "operation.exposure_summary",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 93304,
+          "end_row": 93304,
+          "end_time_s": 93300.64831199999,
+          "start_record": 0,
+          "start_row": 0,
+          "start_time_s": 1.0009
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [
+          "BDS output has no cycle_index"
+        ],
+        "status": "not_computable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        }
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "No same-name local fallback was used."
+      ],
+      "method": {
+        "name": "cycle_index",
+        "parameters": {},
+        "provider": "BDS",
+        "provider_version": "0.3.1",
+        "references": []
+      },
+      "metrics": {},
+      "quality": {
+        "flags": [
+          "input_not_eligible"
+        ],
+        "status": "warning"
+      },
+      "record_id": "response.cycle_summary:unavailable",
+      "record_type": "response.cycle_summary",
+      "series": {},
+      "source_intervals": []
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "next_phase": "charge",
+        "preceding_mode": null,
+        "preceding_segment_id": null,
+        "previous_phase": null,
+        "pyprobe_rest_filter_confirmed": true,
+        "temperature_column": "analysis_temperature_deg_c"
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Voltage change is a terminal response, not equilibrium voltage.",
+        "Temperature co-occurrence does not establish causality."
+      ],
+      "method": {
+        "name": "rest_filter_with_interval_descriptors_v1",
+        "parameters": {
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "checkpoint_method": "linear_interpolation_within_observed_rest",
+          "checkpoints_s": [
+            10.0,
+            30.0,
+            60.0,
+            300.0,
+            600.0,
+            1800.0
+          ],
+          "duration_semantics": "previous_zoh_support_to_next_phase_boundary",
+          "observed_sample_span_semantics": "last_finite_sample_time_minus_first_finite_sample_time",
+          "sampling_interval_outlier_factor": 5.0,
+          "shape_method": "monotone_fraction_and_voltage_vs_log10_time_slope"
+        },
+        "provider": "PyProBE+BFL",
+        "provider_version": "PyProBE 2.6.0; BFL 0.4.0",
+        "references": [
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "absolute_change_60s_fraction_of_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.9448098091715383
+        },
+        "checkpoint_bracket_width_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "checkpoint_bracket_width_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 1.0001999999999498
+        },
+        "checkpoint_bracket_width_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.9995999999999867
+        },
+        "checkpoint_bracket_width_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 1.0000999999999998
+        },
+        "checkpoint_bracket_width_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 1.0
+        },
+        "checkpoint_bracket_width_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "checkpoint_nearest_sample_offset_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "checkpoint_nearest_sample_offset_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0007000000000516593
+        },
+        "checkpoint_nearest_sample_offset_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0004000000000132786
+        },
+        "checkpoint_nearest_sample_offset_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0004000000000026205
+        },
+        "checkpoint_nearest_sample_offset_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0001999999999497959
+        },
+        "checkpoint_nearest_sample_offset_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 9.999999999621423e-05
+        },
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3600.0477840000003
+        },
+        "end_voltage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.406062364578247
+        },
+        "finite_voltage_sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 3601
+        },
+        "observed_sample_span": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3599.0013
+        },
+        "preceding_load_duration": {
+          "reason": "value_unavailable",
+          "status": "not_computable",
+          "unit": "s",
+          "value": null
+        },
+        "preceding_load_end_current": {
+          "reason": "value_unavailable",
+          "status": "not_computable",
+          "unit": "A",
+          "value": null
+        },
+        "preceding_load_median_current": {
+          "reason": "value_unavailable",
+          "status": "not_computable",
+          "unit": "A",
+          "value": null
+        },
+        "start_voltage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.4062089920043945
+        },
+        "temperature_baseline": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 5.341075897216797
+        },
+        "temperature_max": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 5.523129463195801
+        },
+        "temperature_rise": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 0.1820535659790039
+        },
+        "time_to_temperature_max": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 2612.9998
+        },
+        "voltage_at_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.4059998989105225
+        },
+        "voltage_at_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.405959169880387
+        },
+        "voltage_at_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.4061264824800466
+        },
+        "voltage_at_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.405986786556177
+        },
+        "voltage_at_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.406002515935898
+        },
+        "voltage_at_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.405972957611084
+        },
+        "voltage_change": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.00014662742614746094
+        },
+        "voltage_change_at_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.0002090930938720703
+        },
+        "voltage_change_at_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.00024982212400770365
+        },
+        "voltage_change_at_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -8.250952434796233e-05
+        },
+        "voltage_change_at_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.000222205448217494
+        },
+        "voltage_change_at_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.00020647606849655276
+        },
+        "voltage_change_at_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.00023603439331054688
+        },
+        "voltage_relaxation_monotone_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.5077777777777778
+        },
+        "voltage_sample_coverage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 1.0
+        },
+        "voltage_vs_log10_time_slope": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V/decade",
+          "value": 1.3573054444970356e-05
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "response.rest_and_thermal:None:0",
+      "record_type": "response.rest_and_thermal",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 3600,
+          "end_row": 3600,
+          "end_sample_time_s": 3600.0022,
+          "end_time_s": 3601.0486840000003,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 0,
+          "start_row": 0,
+          "start_time_s": 1.0009
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "next_phase": "discharge",
+        "preceding_mode": "constant_voltage_like",
+        "preceding_segment_id": "operation.phase_segment:None:2",
+        "previous_phase": "charge",
+        "pyprobe_rest_filter_confirmed": true,
+        "temperature_column": "analysis_temperature_deg_c"
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Voltage change is a terminal response, not equilibrium voltage.",
+        "Temperature co-occurrence does not establish causality."
+      ],
+      "method": {
+        "name": "rest_filter_with_interval_descriptors_v1",
+        "parameters": {
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "checkpoint_method": "linear_interpolation_within_observed_rest",
+          "checkpoints_s": [
+            10.0,
+            30.0,
+            60.0,
+            300.0,
+            600.0,
+            1800.0
+          ],
+          "duration_semantics": "previous_zoh_support_to_next_phase_boundary",
+          "observed_sample_span_semantics": "last_finite_sample_time_minus_first_finite_sample_time",
+          "sampling_interval_outlier_factor": 5.0,
+          "shape_method": "monotone_fraction_and_voltage_vs_log10_time_slope"
+        },
+        "provider": "PyProBE+BFL",
+        "provider_version": "PyProBE 2.6.0; BFL 0.4.0",
+        "references": [
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "absolute_change_60s_fraction_of_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.20506672484444297
+        },
+        "checkpoint_bracket_width_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 1.0002000000022235
+        },
+        "checkpoint_bracket_width_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "checkpoint_bracket_width_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "checkpoint_bracket_width_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 1.0007000000005064
+        },
+        "checkpoint_bracket_width_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "checkpoint_bracket_width_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 1.0007999999979802
+        },
+        "checkpoint_nearest_sample_offset_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0004000000008090865
+        },
+        "checkpoint_nearest_sample_offset_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.00019999999858555384
+        },
+        "checkpoint_nearest_sample_offset_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0007999999979801942
+        },
+        "checkpoint_nearest_sample_offset_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0005999999993946403
+        },
+        "checkpoint_nearest_sample_offset_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0007000000005064066
+        },
+        "checkpoint_nearest_sample_offset_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0007999999979801942
+        },
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3600.0483280000008
+        },
+        "end_voltage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 4.16597318649292
+        },
+        "finite_voltage_sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 3601
+        },
+        "observed_sample_span": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3599.0015999999996
+        },
+        "preceding_load_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 5969.733855999999
+        },
+        "preceding_load_end_current": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.06499924510717392
+        },
+        "preceding_load_median_current": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": 0.21769622713327408
+        },
+        "start_voltage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 4.190051078796387
+        },
+        "temperature_baseline": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 5.409136680068647
+        },
+        "temperature_max": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 5.4841485023498535
+        },
+        "temperature_rise": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 0.07501182228120662
+        },
+        "time_to_temperature_max": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 89.00079999999798
+        },
+        "voltage_at_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 4.188384162500081
+        },
+        "voltage_at_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 4.170474529266357
+        },
+        "voltage_at_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 4.1806960105896
+        },
+        "voltage_at_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 4.187392694485275
+        },
+        "voltage_at_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 4.177217483520508
+        },
+        "voltage_at_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 4.186036579900509
+        },
+        "voltage_change": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.024077892303466797
+        },
+        "voltage_change_at_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.001666916296305665
+        },
+        "voltage_change_at_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.019576549530029297
+        },
+        "voltage_change_at_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.00935506820678711
+        },
+        "voltage_change_at_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.002658384311112094
+        },
+        "voltage_change_at_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.012833595275878906
+        },
+        "voltage_change_at_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": -0.004014498895878127
+        },
+        "voltage_relaxation_monotone_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.6272222222222222
+        },
+        "voltage_sample_coverage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 1.0
+        },
+        "voltage_vs_log10_time_slope": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V/decade",
+          "value": -0.011785949212078319
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "response.rest_and_thermal:None:3",
+      "record_type": "response.rest_and_thermal",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 23550,
+          "end_row": 23550,
+          "end_sample_time_s": 23548.209428,
+          "end_time_s": 23549.256156,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 19950,
+          "start_row": 19950,
+          "start_time_s": 19949.207828
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "next_phase": null,
+        "preceding_mode": "constant_current_like",
+        "preceding_segment_id": "operation.phase_segment:None:4",
+        "previous_phase": "discharge",
+        "pyprobe_rest_filter_confirmed": true,
+        "temperature_column": "analysis_temperature_deg_c"
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Voltage change is a terminal response, not equilibrium voltage.",
+        "Temperature co-occurrence does not establish causality."
+      ],
+      "method": {
+        "name": "rest_filter_with_interval_descriptors_v1",
+        "parameters": {
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "checkpoint_method": "linear_interpolation_within_observed_rest",
+          "checkpoints_s": [
+            10.0,
+            30.0,
+            60.0,
+            300.0,
+            600.0,
+            1800.0
+          ],
+          "duration_semantics": "previous_zoh_support_to_next_phase_boundary",
+          "observed_sample_span_semantics": "last_finite_sample_time_minus_first_finite_sample_time",
+          "sampling_interval_outlier_factor": 5.0,
+          "shape_method": "monotone_fraction_and_voltage_vs_log10_time_slope"
+        },
+        "provider": "PyProBE+BFL",
+        "provider_version": "PyProBE 2.6.0; BFL 0.4.0",
+        "references": [
+          "https://doi.org/10.21105/joss.07474"
+        ]
+      },
+      "metrics": {
+        "absolute_change_60s_fraction_of_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.5227582332366311
+        },
+        "checkpoint_bracket_width_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.9995000000053551
+        },
+        "checkpoint_bracket_width_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "checkpoint_bracket_width_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "checkpoint_bracket_width_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 1.0001999999949476
+        },
+        "checkpoint_bracket_width_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "checkpoint_bracket_width_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 1.0009999999892898
+        },
+        "checkpoint_nearest_sample_offset_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0008999999990919605
+        },
+        "checkpoint_nearest_sample_offset_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0004999999946448952
+        },
+        "checkpoint_nearest_sample_offset_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0004999999946448952
+        },
+        "checkpoint_nearest_sample_offset_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.00039999998989515007
+        },
+        "checkpoint_nearest_sample_offset_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "checkpoint_nearest_sample_offset_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0015999999886844307
+        },
+        "duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3599.0015999999887
+        },
+        "end_voltage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.3000547885894775
+        },
+        "finite_voltage_sample_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 3601
+        },
+        "observed_sample_span": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 3599.0015999999887
+        },
+        "preceding_load_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 66152.390556
+        },
+        "preceding_load_end_current": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": -0.16752463579177856
+        },
+        "preceding_load_median_current": {
+          "reason": null,
+          "status": "ok",
+          "unit": "A",
+          "value": -0.1675260066986084
+        },
+        "start_voltage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 2.5441946983337402
+        },
+        "temperature_baseline": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 5.637066841125488
+        },
+        "temperature_max": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 5.637066841125488
+        },
+        "temperature_rise": {
+          "reason": null,
+          "status": "ok",
+          "unit": "degC",
+          "value": 0.0
+        },
+        "time_to_temperature_max": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "voltage_at_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 2.6684843961449576
+        },
+        "voltage_at_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.291661500930786
+        },
+        "voltage_at_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.230492115020752
+        },
+        "voltage_at_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 2.807999780811716
+        },
+        "voltage_at_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.2684638500213623
+        },
+        "voltage_at_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 2.9349391234624056
+        },
+        "voltage_change": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 0.7558600902557373
+        },
+        "voltage_change_at_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 0.12428969781121735
+        },
+        "voltage_change_at_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 0.7474668025970459
+        },
+        "voltage_change_at_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 0.6862974166870117
+        },
+        "voltage_change_at_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 0.2638050824779756
+        },
+        "voltage_change_at_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 0.7242691516876221
+        },
+        "voltage_change_at_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 0.39074442512866536
+        },
+        "voltage_relaxation_monotone_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 1.0
+        },
+        "voltage_sample_coverage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 1.0
+        },
+        "voltage_vs_log10_time_slope": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V/decade",
+          "value": 0.1526608116407444
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "response.rest_and_thermal:None:5",
+      "record_type": "response.rest_and_thermal",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 93304,
+          "end_row": 93304,
+          "end_sample_time_s": 93300.64831199999,
+          "end_time_s": 93300.64831199999,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 89704,
+          "start_row": 89704,
+          "start_time_s": 89701.646712
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [
+          "insufficient_phase_conditioned_rests_at_all_checkpoints"
+        ],
+        "status": "partial"
+      },
+      "attributes": {
+        "confidence": {
+          "basis": [
+            "observed_rest",
+            "fixed_time_checkpoints",
+            "insufficient_rests_reaching_10s",
+            "insufficient_rests_reaching_30s",
+            "insufficient_rests_reaching_60s",
+            "insufficient_rests_reaching_300s",
+            "insufficient_rests_reaching_600s",
+            "insufficient_rests_reaching_1800s"
+          ],
+          "level": "medium",
+          "not_a_probability": true
+        },
+        "contributing_counts_by_preceding_mode": {
+          "constant_current_like": 1,
+          "constant_voltage_like": 1
+        },
+        "contributing_counts_by_previous_phase": {
+          "10s": {
+            "after_charge": 1,
+            "after_discharge": 1,
+            "other": 0
+          },
+          "1800s": {
+            "after_charge": 1,
+            "after_discharge": 1,
+            "other": 0
+          },
+          "300s": {
+            "after_charge": 1,
+            "after_discharge": 1,
+            "other": 0
+          },
+          "30s": {
+            "after_charge": 1,
+            "after_discharge": 1,
+            "other": 0
+          },
+          "600s": {
+            "after_charge": 1,
+            "after_discharge": 1,
+            "other": 0
+          },
+          "60s": {
+            "after_charge": 1,
+            "after_discharge": 1,
+            "other": 0
+          }
+        },
+        "member_record_ids": [
+          "response.rest_and_thermal:None:3",
+          "response.rest_and_thermal:None:5"
+        ],
+        "member_summaries": [
+          {
+            "preceding_load_duration": {
+              "reason": null,
+              "status": "ok",
+              "unit": "s",
+              "value": 5969.733855999999
+            },
+            "preceding_load_median_current": {
+              "reason": null,
+              "status": "ok",
+              "unit": "A",
+              "value": 0.21769622713327408
+            },
+            "preceding_mode": "constant_voltage_like",
+            "preceding_segment_id": "operation.phase_segment:None:2",
+            "previous_phase": "charge",
+            "record_id": "response.rest_and_thermal:None:3",
+            "rest_duration": {
+              "reason": null,
+              "status": "ok",
+              "unit": "s",
+              "value": 3600.0483280000008
+            },
+            "temperature_baseline": {
+              "reason": null,
+              "status": "ok",
+              "unit": "degC",
+              "value": 5.409136680068647
+            },
+            "temperature_rise": {
+              "reason": null,
+              "status": "ok",
+              "unit": "degC",
+              "value": 0.07501182228120662
+            },
+            "voltage_changes": {
+              "10s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": -0.001666916296305665
+              },
+              "1800s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": -0.019576549530029297
+              },
+              "300s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": -0.00935506820678711
+              },
+              "30s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": -0.002658384311112094
+              },
+              "600s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": -0.012833595275878906
+              },
+              "60s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": -0.004014498895878127
+              }
+            }
+          },
+          {
+            "preceding_load_duration": {
+              "reason": null,
+              "status": "ok",
+              "unit": "s",
+              "value": 66152.390556
+            },
+            "preceding_load_median_current": {
+              "reason": null,
+              "status": "ok",
+              "unit": "A",
+              "value": -0.1675260066986084
+            },
+            "preceding_mode": "constant_current_like",
+            "preceding_segment_id": "operation.phase_segment:None:4",
+            "previous_phase": "discharge",
+            "record_id": "response.rest_and_thermal:None:5",
+            "rest_duration": {
+              "reason": null,
+              "status": "ok",
+              "unit": "s",
+              "value": 3599.0015999999887
+            },
+            "temperature_baseline": {
+              "reason": null,
+              "status": "ok",
+              "unit": "degC",
+              "value": 5.637066841125488
+            },
+            "temperature_rise": {
+              "reason": null,
+              "status": "ok",
+              "unit": "degC",
+              "value": 0.0
+            },
+            "voltage_changes": {
+              "10s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": 0.12428969781121735
+              },
+              "1800s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": 0.7474668025970459
+              },
+              "300s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": 0.6862974166870117
+              },
+              "30s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": 0.2638050824779756
+              },
+              "600s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": 0.7242691516876221
+              },
+              "60s": {
+                "reason": null,
+                "status": "ok",
+                "unit": "V",
+                "value": 0.39074442512866536
+              }
+            }
+          }
+        ],
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "recovery_sign_convention": "-delta_v after charge; +delta_v after discharge; positive means relaxation toward the pre-load direction",
+        "reference_frame": {
+          "equilibrium_assumed": false,
+          "population": "rests_immediately_following_observed_charge_or_discharge",
+          "preceding_phase_required": true,
+          "voltage_reference": "first_observed_rest_sample"
+        },
+        "rejection_counts_by_reason": {}
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Voltage recovery is a terminal response and is not an equilibrium-potential measurement.",
+        "Recovery magnitude mixes ohmic, kinetic, diffusion, thermal, and state-window effects.",
+        "Initial or otherwise unconditioned rests are excluded from response aggregates and remain available as individual rest evidence."
+      ],
+      "method": {
+        "name": "phase_conditioned_rest_voltage_recovery_v1",
+        "parameters": {
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "checkpoints_s": [
+            10.0,
+            30.0,
+            60.0,
+            300.0,
+            600.0,
+            1800.0
+          ],
+          "minimum_rest_count": 3
+        },
+        "provider": "PyProBE+BFL",
+        "provider_version": "PyProBE 2.6.0; BFL 0.4.0",
+        "references": [
+          "https://doi.org/10.21105/joss.07474",
+          "https://doi.org/10.1038/s41467-022-29837-w"
+        ]
+      },
+      "metrics": {
+        "absolute_preceding_load_current_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "A",
+          "value": null
+        },
+        "absolute_voltage_change_q50_10s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "absolute_voltage_change_q50_1800s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "absolute_voltage_change_q50_300s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "absolute_voltage_change_q50_30s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "absolute_voltage_change_q50_600s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "absolute_voltage_change_q50_60s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "absolute_voltage_change_q95_10s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "absolute_voltage_change_q95_1800s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "absolute_voltage_change_q95_300s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "absolute_voltage_change_q95_30s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "absolute_voltage_change_q95_600s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "absolute_voltage_change_q95_60s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "eligible_rest_count_10s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 2
+        },
+        "eligible_rest_count_1800s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 2
+        },
+        "eligible_rest_count_300s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 2
+        },
+        "eligible_rest_count_30s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 2
+        },
+        "eligible_rest_count_600s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 2
+        },
+        "eligible_rest_count_60s": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 2
+        },
+        "phase_conditioned_rest_segment_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 2
+        },
+        "polarization_recovery_q50_10s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "polarization_recovery_q50_1800s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "polarization_recovery_q50_300s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "polarization_recovery_q50_30s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "polarization_recovery_q50_600s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "polarization_recovery_q50_60s": {
+          "reason": "fewer_than_3_eligible_rests",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "positive_recovery_fraction_10s": {
+          "reason": "insufficient_phase_conditioned_rests_for_policy",
+          "status": "not_computable",
+          "unit": "1",
+          "value": null
+        },
+        "positive_recovery_fraction_1800s": {
+          "reason": "insufficient_phase_conditioned_rests_for_policy",
+          "status": "not_computable",
+          "unit": "1",
+          "value": null
+        },
+        "positive_recovery_fraction_300s": {
+          "reason": "insufficient_phase_conditioned_rests_for_policy",
+          "status": "not_computable",
+          "unit": "1",
+          "value": null
+        },
+        "positive_recovery_fraction_30s": {
+          "reason": "insufficient_phase_conditioned_rests_for_policy",
+          "status": "not_computable",
+          "unit": "1",
+          "value": null
+        },
+        "positive_recovery_fraction_600s": {
+          "reason": "insufficient_phase_conditioned_rests_for_policy",
+          "status": "not_computable",
+          "unit": "1",
+          "value": null
+        },
+        "positive_recovery_fraction_60s": {
+          "reason": "insufficient_phase_conditioned_rests_for_policy",
+          "status": "not_computable",
+          "unit": "1",
+          "value": null
+        },
+        "preceding_load_duration_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "s",
+          "value": null
+        },
+        "rejected_rest_segment_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        },
+        "rest_segment_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 3
+        },
+        "unconditioned_rest_segment_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 1
+        }
+      },
+      "quality": {
+        "flags": [
+          "insufficient_rests_reaching_10s",
+          "insufficient_rests_reaching_30s",
+          "insufficient_rests_reaching_60s",
+          "insufficient_rests_reaching_300s",
+          "insufficient_rests_reaching_600s",
+          "insufficient_rests_reaching_1800s"
+        ],
+        "status": "warning"
+      },
+      "record_id": "response.relaxation_signature:None",
+      "record_type": "response.relaxation_signature",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 23550,
+          "end_row": 23550,
+          "end_sample_time_s": 23548.209428,
+          "end_time_s": 23549.256156,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 19950,
+          "start_row": 19950,
+          "start_time_s": 19949.207828
+        },
+        {
+          "end_record": 93304,
+          "end_row": 93304,
+          "end_sample_time_s": 93300.64831199999,
+          "end_time_s": 93300.64831199999,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "start_record": 89704,
+          "start_row": 89704,
+          "start_time_s": 89701.646712
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [],
+        "status": "applicable"
+      },
+      "attributes": {
+        "balanced_window_threshold": 0.95,
+        "confidence": {
+          "basis": [
+            "finite_voltage_current_intervals",
+            "previous_value_zoh",
+            "directional_throughput_imbalance"
+          ],
+          "level": "medium",
+          "not_a_probability": true
+        },
+        "current_sign": "charge-positive",
+        "interval_semantics": "x[i] holds on [t[i], t[i+1])",
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "reference_frame": {
+          "current_sign": "charge-positive",
+          "scope": "complete_observation_window",
+          "state_axis": "observed_time"
+        }
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "Directional totals describe the selected observation window, not a complete cycle.",
+        "The directional mean-voltage gap combines polarization with any charge/discharge state-window mismatch.",
+        "The balanced-window energy return ratio is descriptive and is not reported as cycle efficiency."
+      ],
+      "method": {
+        "name": "directional_previous_zoh_energy_voltage_v1",
+        "parameters": {
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "balanced_window_minimum_throughput_ratio": 0.95,
+          "rest_current_threshold_a": 0.0001,
+          "sampling_interval_outlier_detection": "isolated_interval_vs_nearest_positive_neighbors_v1",
+          "sampling_interval_outlier_factor": 5.0,
+          "sampling_interval_outliers_included_in_integrals": true
+        },
+        "provider": "BFL",
+        "provider_version": "0.4.0",
+        "references": [
+          "https://doi.org/10.1038/s41597-024-03831-x",
+          "https://rovi-org.github.io/battery-data-toolkit/user-guide/post-processing/index.html"
+        ]
+      },
+      "metrics": {
+        "absolute_power_time_q95": {
+          "reason": null,
+          "status": "ok",
+          "unit": "W",
+          "value": 3.1761269520525275
+        },
+        "balanced_window_energy_return_ratio": {
+          "reason": "charge and discharge throughput are not both present and balanced within 5%",
+          "status": "not_computable",
+          "unit": "1",
+          "value": null
+        },
+        "charge_discharge_throughput_balance": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.9097504681694089
+        },
+        "charge_energy": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Wh",
+          "value": 10.980229832624197
+        },
+        "charge_mean_voltage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.9207014656779333
+        },
+        "charge_throughput": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Ah",
+          "value": 2.8005778886114685
+        },
+        "directional_mean_voltage_gap": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 0.2743756318555697
+        },
+        "discharge_energy": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Wh",
+          "value": 11.224857652916423
+        },
+        "discharge_mean_voltage": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.6463258338223636
+        },
+        "discharge_throughput": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Ah",
+          "value": 3.0784022505058606
+        },
+        "excluded_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "included_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 93299.64741199999
+        },
+        "maximum_sampling_interval_outlier": {
+          "reason": "value_unavailable",
+          "status": "not_computable",
+          "unit": "s",
+          "value": null
+        },
+        "net_capacity_change": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Ah",
+          "value": -0.2778243618943921
+        },
+        "sampling_interval_outlier_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        },
+        "sampling_interval_outlier_duration": {
+          "reason": null,
+          "status": "ok",
+          "unit": "s",
+          "value": 0.0
+        },
+        "voltage_time_q05": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.1861400604248047
+        },
+        "voltage_time_q50": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 3.702927589416504
+        },
+        "voltage_time_q95": {
+          "reason": null,
+          "status": "ok",
+          "unit": "V",
+          "value": 4.1999359130859375
+        }
+      },
+      "quality": {
+        "flags": [
+          "directional_throughput_imbalance"
+        ],
+        "status": "warning"
+      },
+      "record_id": "response.directional_energy_summary:None",
+      "record_type": "response.directional_energy_summary",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 93304,
+          "end_row": 93304,
+          "end_time_s": 93300.64831199999,
+          "start_record": 0,
+          "start_row": 0,
+          "start_time_s": 1.0009
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [
+          "capacity_weighted_current_match_fraction_below_0.80",
+          "charge_voltage_state_span_does_not_cover_discharge_span",
+          "low_voltage_endpoint_mismatch_above_0.15V",
+          "paired_capacity_balance_below_0.95"
+        ],
+        "status": "not_computable"
+      },
+      "attributes": {
+        "candidate_trajectories": [
+          {
+            "capacity_ah": 2.8005778886114894,
+            "duration_s": 16348.159143999997,
+            "eligibility_reasons": [],
+            "end_voltage_v": 4.1999125480651855,
+            "finite_interval_coverage": 1.0,
+            "median_temperature_deg_c": 6.031369686126709,
+            "phase": "charge",
+            "source_step_indices": [
+              2,
+              3
+            ],
+            "start_voltage_v": 3.574331045150757,
+            "voltage_monotone_fraction": 1.0
+          },
+          {
+            "capacity_ah": 3.0784022505058517,
+            "duration_s": 66152.390556,
+            "eligibility_reasons": [],
+            "end_voltage_v": 2.499995231628418,
+            "finite_interval_coverage": 1.0,
+            "median_temperature_deg_c": 5.012414932250977,
+            "phase": "discharge",
+            "source_step_indices": [
+              5
+            ],
+            "start_voltage_v": 4.139718532562256,
+            "voltage_monotone_fraction": 1.0
+          }
+        ],
+        "cycle_id_source": "absent",
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "pairing": {
+          "endpoint_tolerance_v": 0.15,
+          "minimum_capacity_balance": 0.95,
+          "minimum_current_match_fraction": 0.8,
+          "minimum_voltage_span_overlap_fraction": 0.9,
+          "status": "unmatched"
+        },
+        "reference_frame": {
+          "capacity_axis": "capacity_from_shared_upper_endpoint_ah",
+          "is_soc": false,
+          "state_window_matched": false
+        }
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "No voltage-gap or polarization curve is emitted when charge and discharge state windows are not demonstrably comparable.",
+        "Endpoint matching is a structural completeness gate, not proof of equilibrium or identical temperature history."
+      ],
+      "method": {
+        "name": "capacity_aligned_bidirectional_profile_v1",
+        "parameters": {
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "current_ratio_range": [
+            0.8,
+            1.25
+          ],
+          "endpoint_tolerance_v": 0.15,
+          "grid_points": 101,
+          "integration": "previous_zoh",
+          "maximum_median_temperature_difference_deg_c": 2.0,
+          "maximum_voltage_wrong_way_fraction": 0.05,
+          "minimum_bracketing_rest_duration_s": 60.0,
+          "minimum_capacity_balance": 0.95,
+          "minimum_current_direction_consistency_fraction": 0.99,
+          "minimum_current_match_fraction": 0.8,
+          "minimum_duration_s": 600.0,
+          "minimum_finite_interval_coverage": 0.99,
+          "minimum_samples": 50,
+          "minimum_voltage_span_overlap_fraction": 0.9
+        },
+        "provider": "BFL",
+        "provider_version": "0.4.0",
+        "references": [
+          "https://doi.org/10.1038/s42256-024-00972-x"
+        ]
+      },
+      "metrics": {
+        "candidate_capacity_balance": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.9097504681694183
+        },
+        "candidate_charge_capacity": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Ah",
+          "value": 2.8005778886114894
+        },
+        "candidate_current_match_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.019801980198019802
+        },
+        "candidate_discharge_capacity": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Ah",
+          "value": 3.0784022505058517
+        },
+        "candidate_unpaired_capacity": {
+          "reason": null,
+          "status": "ok",
+          "unit": "Ah",
+          "value": 0.2778243618943623
+        },
+        "candidate_voltage_span_overlap_fraction": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0.34480664334617034
+        },
+        "eligible_charge_trajectory_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 1
+        },
+        "eligible_discharge_trajectory_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 1
+        },
+        "eligible_pair_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "response.capacity_aligned_profile:None",
+      "record_type": "response.capacity_aligned_profile",
+      "series": {},
+      "source_intervals": [
+        {
+          "end_record": 3600,
+          "end_row": 3600,
+          "end_sample_time_s": 3600.0022,
+          "end_time_s": 3601.0486840000003,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "role": "leading_rest",
+          "start_record": 0,
+          "start_row": 0,
+          "start_time_s": 1.0009
+        },
+        {
+          "end_record": 13979,
+          "end_row": 13979,
+          "end_sample_time_s": 13978.368784,
+          "end_time_s": 13979.473972,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "role": "charge_member",
+          "start_record": 3601,
+          "start_row": 3601,
+          "start_time_s": 3601.0486840000003
+        },
+        {
+          "end_record": 19949,
+          "end_row": 19949,
+          "end_sample_time_s": 19948.166772,
+          "end_time_s": 19949.207828,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "role": "charge_member",
+          "start_record": 13980,
+          "start_row": 13980,
+          "start_time_s": 13979.473972
+        },
+        {
+          "end_record": 23550,
+          "end_row": 23550,
+          "end_sample_time_s": 23548.209428,
+          "end_time_s": 23549.256156,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "role": "trailing_rest",
+          "start_record": 19950,
+          "start_row": 19950,
+          "start_time_s": 19949.207828
+        },
+        {
+          "end_record": 23550,
+          "end_row": 23550,
+          "end_sample_time_s": 23548.209428,
+          "end_time_s": 23549.256156,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "role": "leading_rest",
+          "start_record": 19950,
+          "start_row": 19950,
+          "start_time_s": 19949.207828
+        },
+        {
+          "end_record": 89703,
+          "end_row": 89703,
+          "end_sample_time_s": 89700.508056,
+          "end_time_s": 89701.646712,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "role": "discharge_member",
+          "start_record": 23551,
+          "start_row": 23551,
+          "start_time_s": 23549.256156
+        },
+        {
+          "end_record": 93304,
+          "end_row": 93304,
+          "end_sample_time_s": 93300.64831199999,
+          "end_time_s": 93300.64831199999,
+          "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+          "role": "trailing_rest",
+          "start_record": 89704,
+          "start_row": 89704,
+          "start_time_s": 89701.646712
+        }
+      ]
+    },
+    {
+      "applicability": {
+        "reasons": [
+          "no_interval_passed_current_step_gate"
+        ],
+        "status": "not_computable"
+      },
+      "attributes": {
+        "candidate_detected": false,
+        "confidence": {
+          "basis": [
+            "no_interval_passed_current_step_gate"
+          ],
+          "level": "not_computable",
+          "not_a_probability": true
+        },
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "reference_frame": {
+          "current_sign": "charge-positive",
+          "soc_reference": null,
+          "state_axis": "pre_step_voltage"
+        }
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "No apparent resistance was emitted when the declared current-step gates failed."
+      ],
+      "method": {
+        "name": "current_step_delta_v_over_delta_i_v1",
+        "parameters": {},
+        "provider": "BFL",
+        "provider_version": "0.4.0",
+        "references": [
+          "https://doi.org/10.1038/s41598-017-18424-5"
+        ]
+      },
+      "metrics": {},
+      "quality": {
+        "flags": [
+          "input_not_eligible"
+        ],
+        "status": "warning"
+      },
+      "record_id": "response.current_step:None:unavailable",
+      "record_type": "response.current_step",
+      "series": {},
+      "source_intervals": []
+    },
+    {
+      "applicability": {
+        "reasons": [
+          "insufficient_computable_current_steps_for_policy"
+        ],
+        "status": "not_computable"
+      },
+      "attributes": {
+        "confidence": {
+          "basis": [
+            "fixed_response_times",
+            "rest_referenced_voltage",
+            "protocol_neutral_current_step_gate",
+            "no_current_step_candidates"
+          ],
+          "level": "not_computable",
+          "not_a_probability": true
+        },
+        "direction_counts": {
+          "charge": 0,
+          "discharge": 0
+        },
+        "member_record_ids": [],
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "reference_frame": {
+          "current_sign": "charge-positive",
+          "soc_reference": null,
+          "state_axis": "pre_step_voltage"
+        },
+        "rejection_counts_by_reason": {}
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "The summary describes apparent terminal delta-V/delta-I response in the selected window.",
+        "Comparisons require matched response time, current amplitude and direction, pre-step voltage, and temperature.",
+        "No SOC, intrinsic resistance, health state, or named pulse protocol is inferred."
+      ],
+      "method": {
+        "name": "current_step_distribution_v1",
+        "parameters": {
+          "analysis_policy_version": "bfl.analysis-policy/0.1",
+          "minimum_step_count": 3,
+          "response_times_s": [
+            2.0,
+            10.0
+          ],
+          "summary_quantiles": [
+            0.05,
+            0.5,
+            0.95
+          ]
+        },
+        "provider": "BFL",
+        "provider_version": "0.4.0",
+        "references": [
+          "https://doi.org/10.1038/s41598-017-18424-5",
+          "https://inldigitallibrary.inl.gov/content/uploads/50/2026/04/6308373.pdf"
+        ]
+      },
+      "metrics": {
+        "absolute_delta_current_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "A",
+          "value": null
+        },
+        "apparent_dc_resistance_10s_charge_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_10s_discharge_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_10s_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_10s_q95": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_10s_valid_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        },
+        "apparent_dc_resistance_2s_charge_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_2s_discharge_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_2s_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_2s_q95": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_2s_valid_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        },
+        "apparent_dc_resistance_first_valid_charge_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_first_valid_discharge_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_first_valid_q50": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_first_valid_q95": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "ohm",
+          "value": null
+        },
+        "apparent_dc_resistance_first_valid_valid_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        },
+        "candidate_step_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        },
+        "computed_step_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        },
+        "pre_step_temperature_q05": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "degC",
+          "value": null
+        },
+        "pre_step_temperature_q95": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "degC",
+          "value": null
+        },
+        "pre_step_voltage_q05": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "pre_step_voltage_q95": {
+          "reason": "fewer_than_3_eligible_values",
+          "status": "not_computable",
+          "unit": "V",
+          "value": null
+        },
+        "rejected_step_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        }
+      },
+      "quality": {
+        "flags": [
+          "no_current_step_candidates"
+        ],
+        "status": "warning"
+      },
+      "record_id": "response.current_step_summary:None",
+      "record_type": "response.current_step_summary",
+      "series": {},
+      "source_intervals": []
+    },
+    {
+      "applicability": {
+        "reasons": [
+          "no_interval_passed_pulse_rest_gate"
+        ],
+        "status": "not_computable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        }
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "No same-name local fallback was used."
+      ],
+      "method": {
+        "name": "pulsing.get_resistances",
+        "parameters": {},
+        "provider": "PyProBE",
+        "provider_version": "2.6.0",
+        "references": []
+      },
+      "metrics": {},
+      "quality": {
+        "flags": [
+          "input_not_eligible"
+        ],
+        "status": "warning"
+      },
+      "record_id": "response.pulse_resistance:None:unavailable",
+      "record_type": "response.pulse_resistance",
+      "series": {},
+      "source_intervals": []
+    },
+    {
+      "applicability": {
+        "reasons": [
+          "no_structurally_complete_representative_cycle"
+        ],
+        "status": "not_computable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        }
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "No same-name local fallback was used."
+      ],
+      "method": {
+        "name": "differentiation.differentiate_lean",
+        "parameters": {},
+        "provider": "PyProBE",
+        "provider_version": "2.6.0",
+        "references": []
+      },
+      "metrics": {},
+      "quality": {
+        "flags": [
+          "input_not_eligible"
+        ],
+        "status": "warning"
+      },
+      "record_id": "response.ica_curve:None:unavailable",
+      "record_type": "response.ica_curve",
+      "series": {},
+      "source_intervals": []
+    },
+    {
+      "applicability": {
+        "reasons": [
+          "no_structurally_complete_representative_cycle"
+        ],
+        "status": "not_computable"
+      },
+      "attributes": {
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        }
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": null,
+      "interpretation_limits": [
+        "No same-name local fallback was used."
+      ],
+      "method": {
+        "name": "differentiation.differentiate_lean",
+        "parameters": {},
+        "provider": "PyProBE",
+        "provider_version": "2.6.0",
+        "references": []
+      },
+      "metrics": {},
+      "quality": {
+        "flags": [
+          "input_not_eligible"
+        ],
+        "status": "warning"
+      },
+      "record_id": "response.dva_curve:None:unavailable",
+      "record_type": "response.dva_curve",
+      "series": {},
+      "source_intervals": []
+    },
+    {
+      "applicability": {
+        "reasons": [
+          "no_cycle_summaries"
+        ],
+        "status": "not_computable"
+      },
+      "attributes": {
+        "analysis_context": "insufficient_cycle_level_evidence",
+        "analysis_scope": "cycle_summaries_only",
+        "comparable_cycle_ids": [],
+        "configured_early_cycles_to_exclude": 1,
+        "cycle_id_source_requirement": [
+          "source",
+          "joined"
+        ],
+        "duplicate_cycle_ids": [],
+        "excluded_cycle_ids": [],
+        "metadata_context": {
+          "file": "analysis_metadata.json",
+          "run_id": "bfl-ce4f86db2cf5768e"
+        },
+        "operation_signature": null,
+        "phase_level_capacity_search_performed": false,
+        "reference_cycle_ids": [],
+        "retention_definition": "last comparable discharge capacity divided by the median discharge capacity of the configured reference window"
+      },
+      "cell_id": "NCA_k1_0_05C_05degC",
+      "cycle_scope": [],
+      "interpretation_limits": [
+        "This record uses cycle summaries only and does not search the raw time series for complete charge/discharge phases.",
+        "Comparable-capacity spread describes repeat measurement at the cycle-summary level and is not an ageing, capacity-fade, or state-of-health claim.",
+        "Capacity retention is a relative reference-window comparison and is not, by itself, evidence of ageing or state of health.",
+        "Configured early-cycle exclusion is an analysis setting and does not establish that an excluded cycle is a formation cycle.",
+        "Operation-signature matching is the comparability rule used by this method; it does not prove that all unrepresented operating conditions are identical.",
+        "The Theil-Sen and Kendall statistics are descriptive. No statistical-significance or causal claim is made.",
+        "Trend calculations use source or joined cycle_id values as the ordering axis; this function does not independently verify the physical meaning of that source identifier."
+      ],
+      "method": {
+        "name": "conservative_cycle_level_capacity_evolution_v2",
+        "parameters": {
+          "kendall_variant": "b",
+          "minimum_reference_cycles": 3,
+          "minimum_repeat_observations": 2,
+          "minimum_trend_cycles": 8,
+          "reference_window_size": 4,
+          "trend_axis": "source_or_joined_cycle_id"
+        },
+        "provider": "SciPy+BFL",
+        "provider_version": "SciPy 1.18.0; BFL 0.4.0",
+        "references": [
+          "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.theilslopes.html",
+          "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kendalltau.html"
+        ]
+      },
+      "metrics": {
+        "capacity_retention": {
+          "reason": "fewer_than_three_reference_cycles",
+          "status": "not_computable",
+          "unit": "1",
+          "value": null
+        },
+        "comparable_capacity_median": {
+          "reason": "fewer_than_two_comparable_cycle_level_capacity_observations",
+          "status": "not_computable",
+          "unit": "Ah",
+          "value": null
+        },
+        "comparable_capacity_range": {
+          "reason": "fewer_than_two_comparable_cycle_level_capacity_observations",
+          "status": "not_computable",
+          "unit": "Ah",
+          "value": null
+        },
+        "comparable_capacity_relative_range": {
+          "reason": "fewer_than_two_comparable_cycle_level_capacity_observations",
+          "status": "not_computable",
+          "unit": "1",
+          "value": null
+        },
+        "comparable_cycle_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        },
+        "complete_cycle_capacity_observation_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        },
+        "kendall_tau_b": {
+          "reason": "fewer_than_eight_comparable_cycles",
+          "status": "not_computable",
+          "unit": "1",
+          "value": null
+        },
+        "last_discharge_capacity": {
+          "reason": "no_cycle_summaries",
+          "status": "not_computable",
+          "unit": "Ah",
+          "value": null
+        },
+        "reference_discharge_capacity": {
+          "reason": "fewer_than_three_reference_cycles",
+          "status": "not_computable",
+          "unit": "Ah",
+          "value": null
+        },
+        "reliable_cycle_capacity_observation_count": {
+          "reason": null,
+          "status": "ok",
+          "unit": "1",
+          "value": 0
+        },
+        "theil_sen_slope_per_100_cycles": {
+          "reason": "fewer_than_eight_comparable_cycles",
+          "status": "not_computable",
+          "unit": "Ah/100 cycles",
+          "value": null
+        }
+      },
+      "quality": {
+        "flags": [],
+        "status": "ok"
+      },
+      "record_id": "evolution.capacity",
+      "record_type": "evolution.capacity",
+      "series": {},
+      "source_intervals": []
+    }
+  ],
+  "run_id": "bfl-ce4f86db2cf5768e",
+  "schema_version": "bfl.analysis/0.1",
+  "source": {
+    "cycle_id_source": "absent",
+    "handoff_conformance_status": "bds_valid_legacy_bdf_style",
+    "input_adapter": "bds",
+    "input_path": "NCA_k1_0_05C_05degC.xlsx",
+    "input_provider": "battery-data-standard",
+    "input_report_file": "bds_conversion_report.json",
+    "input_sha256": "461e7295a0f550d41279fe67c881ba57df19f0975c5f3faaa47e46cfddf760fa",
+    "metadata_file": "analysis_metadata.json",
+    "normalized_data_file": "normalized_data.bdf.parquet"
+  }
+}

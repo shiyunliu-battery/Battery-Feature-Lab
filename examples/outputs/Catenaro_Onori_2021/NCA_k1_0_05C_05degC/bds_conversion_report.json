@@ -1,0 +1,297 @@
+{
+  "input_path": "NCA_k1_0_05C_05degC.xlsx",
+  "output_path": "normalized_data.bdf.parquet",
+  "cycler": "arbin",
+  "schema_version": "bds-2026-05",
+  "rows": 93305,
+  "columns": [
+    "Date Time ISO",
+    "Test Time / s",
+    "Voltage / V",
+    "Current / A",
+    "Unix Time / s",
+    "Step Count / 1",
+    "Step Time / s",
+    "Power / W",
+    "raw:Surface_Temp(degC)"
+  ],
+  "validation": {
+    "valid": true,
+    "schema_version": "bds-2026-05",
+    "rows": 93305,
+    "columns": [
+      "test_time_s",
+      "voltage_v",
+      "current_a",
+      "unix_time_s",
+      "date_time",
+      "step_index",
+      "step_time_s",
+      "power_w",
+      "raw:Surface_Temp(degC)"
+    ],
+    "issues": [
+      {
+        "level": "warning",
+        "code": "missing-optional-column",
+        "message": "Optional column cycle_index is absent.",
+        "column": "cycle_index"
+      },
+      {
+        "level": "warning",
+        "code": "missing-optional-column",
+        "message": "Optional column record_index is absent.",
+        "column": "record_index"
+      },
+      {
+        "level": "warning",
+        "code": "missing-optional-column",
+        "message": "Optional column ambient_temperature_deg_c is absent.",
+        "column": "ambient_temperature_deg_c"
+      },
+      {
+        "level": "warning",
+        "code": "missing-optional-column",
+        "message": "Optional column temperature_t1_deg_c is absent.",
+        "column": "temperature_t1_deg_c"
+      },
+      {
+        "level": "warning",
+        "code": "missing-optional-column",
+        "message": "Optional column charge_capacity_ah is absent.",
+        "column": "charge_capacity_ah"
+      },
+      {
+        "level": "warning",
+        "code": "missing-optional-column",
+        "message": "Optional column discharge_capacity_ah is absent.",
+        "column": "discharge_capacity_ah"
+      },
+      {
+        "level": "warning",
+        "code": "missing-optional-column",
+        "message": "Optional column charge_energy_wh is absent.",
+        "column": "charge_energy_wh"
+      },
+      {
+        "level": "warning",
+        "code": "missing-optional-column",
+        "message": "Optional column discharge_energy_wh is absent.",
+        "column": "discharge_energy_wh"
+      },
+      {
+        "level": "warning",
+        "code": "missing-optional-column",
+        "message": "Optional column internal_resistance_ohm is absent.",
+        "column": "internal_resistance_ohm"
+      }
+    ]
+  },
+  "warnings": [
+    "Would shift test_time_s to start at 0."
+  ],
+  "provenance": [
+    {
+      "column": "test_time_s",
+      "source": "Test_Time(s)",
+      "source_unit": "s",
+      "transform": "numeric"
+    },
+    {
+      "column": "voltage_v",
+      "source": "Voltage(V)",
+      "source_unit": "V",
+      "transform": "numeric"
+    },
+    {
+      "column": "current_a",
+      "source": "Current(A)",
+      "source_unit": "A",
+      "transform": "numeric"
+    },
+    {
+      "column": "unix_time_s",
+      "source": "Date_Time",
+      "source_unit": null,
+      "transform": "parsed UTC timestamp"
+    },
+    {
+      "column": "date_time",
+      "source": "Date_Time",
+      "source_unit": null,
+      "transform": "string"
+    },
+    {
+      "column": "step_index",
+      "source": "Step_Index",
+      "source_unit": null,
+      "transform": "integer"
+    },
+    {
+      "column": "step_time_s",
+      "source": "Step_Time(s)",
+      "source_unit": "s",
+      "transform": "numeric"
+    },
+    {
+      "column": "power_w",
+      "source": "voltage_v|current_a",
+      "source_unit": null,
+      "transform": "V * I"
+    }
+  ],
+  "metadata": {
+    "mapped_columns": [
+      "Current(A)",
+      "Date_Time",
+      "Step_Index",
+      "Step_Time(s)",
+      "Test_Time(s)",
+      "Voltage(V)"
+    ],
+    "unmapped_columns": [
+      "Surface_Temp(degC)"
+    ],
+    "source_format": "xlsx",
+    "backend": "pandas",
+    "sheet_names": [
+      "Sheet1"
+    ],
+    "selected_sheets": [
+      "Sheet1"
+    ],
+    "sheet_name": "Sheet1",
+    "excel_header_row": null,
+    "raw_rows": 93305,
+    "raw_columns": [
+      "Date_Time",
+      "Test_Time(s)",
+      "Step_Time(s)",
+      "Step_Index",
+      "Voltage(V)",
+      "Current(A)",
+      "Surface_Temp(degC)"
+    ],
+    "source_adapter": "arbin",
+    "repair_operations": [
+      "Would shift test_time_s to start at 0."
+    ],
+    "source_backend": "native",
+    "raw_current_sign": "charge-positive",
+    "repair_policy": "warn",
+    "adapter_version": "1",
+    "support_tier": "fixture-backed",
+    "evidence_tier": "public-fixture-backed",
+    "output_rows": 93305,
+    "time_sampling": {
+      "policy": "warn",
+      "interpolation_method": "linear",
+      "tolerance_fraction": 0.1,
+      "expected_interval_s": 1.0002,
+      "status": "no-gaps",
+      "original_rows": 93305,
+      "output_rows": 93305,
+      "interval_confidence": 0.9999142587670411,
+      "missing_points": 0,
+      "gaps": [],
+      "gaps_truncated": false
+    },
+    "current_sign_confidence": "disabled",
+    "current_sign_sanity": {
+      "status": "disabled",
+      "method": "none",
+      "confidence": "disabled",
+      "reason": "current sign sanity check was disabled",
+      "evidence": []
+    },
+    "semantic_sources": {
+      "test_time_s": {
+        "origin": "source",
+        "source": "Test_Time(s)",
+        "transform": "numeric"
+      },
+      "cycle_index": {
+        "origin": "absent",
+        "source": null,
+        "transform": null
+      },
+      "step_index": {
+        "origin": "source",
+        "source": "Step_Index",
+        "transform": "integer"
+      }
+    },
+    "step_cycle_semantics": {
+      "repeated_step_segments": 0,
+      "step_transition_discontinuities": 0,
+      "examples": [],
+      "inferred_fields": [],
+      "semantic_sources": {
+        "test_time_s": {
+          "origin": "source",
+          "source": "Test_Time(s)",
+          "transform": "numeric"
+        },
+        "cycle_index": {
+          "origin": "absent",
+          "source": null,
+          "transform": null
+        },
+        "step_index": {
+          "origin": "source",
+          "source": "Step_Index",
+          "transform": "integer"
+        }
+      },
+      "repeated_step_examples": [],
+      "step_transition_examples": []
+    },
+    "temperature_semantics_confidence": "absent",
+    "temperature_semantics": {
+      "status": "absent",
+      "confidence": "absent",
+      "reason": "no temperature column was mapped",
+      "examples": []
+    },
+    "export_format": "battery-data-standard-export-v1",
+    "export_target": "bdf",
+    "internal_columns": [
+      "test_time_s",
+      "voltage_v",
+      "current_a",
+      "unix_time_s",
+      "date_time",
+      "step_index",
+      "step_time_s",
+      "power_w",
+      "raw:Surface_Temp(degC)"
+    ],
+    "export_columns": [
+      "Date Time ISO",
+      "Test Time / s",
+      "Voltage / V",
+      "Current / A",
+      "Unix Time / s",
+      "Step Count / 1",
+      "Step Time / s",
+      "Power / W",
+      "raw:Surface_Temp(degC)"
+    ]
+  },
+  "current_sign": "charge-positive",
+  "adapter_version": "1",
+  "support_tier": "fixture-backed",
+  "evidence_tier": "public-fixture-backed",
+  "detection_confidence": 0.6000000000000001,
+  "encoding": null,
+  "delimiter": null,
+  "header_row": null,
+  "sheet_name": "Sheet1",
+  "raw_rows": 93305,
+  "repair_operations": [
+    "Would shift test_time_s to start at 0."
+  ],
+  "unmapped_columns": [
+    "Surface_Temp(degC)"
+  ]
+}

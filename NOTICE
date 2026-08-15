@@ -1,0 +1,10 @@
+Battery Feature Lab
+Copyright (c) 2026 Shiyun Liu
+
+The Battery Feature Lab source code and documentation are made available under the Mozilla Public
+License, version 2.0. The full license text is in LICENSE.
+
+Third-party datasets and generated artifacts derived from them retain their own terms. In particular,
+the Catenaro-Onori example dataset is published under CC BY 4.0; its citation, attribution, source,
+and checksum are recorded in examples/data/Catenaro_Onori_2021/README.md. The raw workbook is not
+distributed in this repository.

@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "battery-feature-lab"
+version = "0.4.0"
+description = "Auditable battery time-series analysis over BDS and formal BDF handoffs."
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = "MPL-2.0"
+authors = [{ name = "Shiyun Liu" }]
+keywords = ["battery", "time-series", "electrochemistry", "BDS", "BDF"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = [
+  "battery-data-standard>=0.3.1,<0.4",
+  "jsonschema>=4.26",
+  "numpy>=1.26.4",
+  "polars>=1.18",
+  "PyProBE-Data>=2.6,<2.7",
+  "scipy>=1.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.9"]
+bdf = ["batterydf==0.1.0"]
+ai = ["openai>=2,<3"]
+
+[project.urls]
+Homepage = "https://github.com/shiyunliu-battery/Battery-Feature-Lab"
+Documentation = "https://github.com/shiyunliu-battery/Battery-Feature-Lab/tree/main/docs"
+Repository = "https://github.com/shiyunliu-battery/Battery-Feature-Lab"
+Issues = "https://github.com/shiyunliu-battery/Battery-Feature-Lab/issues"
+
+[project.scripts]
+bfl = "battery_feature_lab.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["battery_feature_lab*", "bfl*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
