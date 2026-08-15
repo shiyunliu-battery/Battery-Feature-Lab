@@ -23,7 +23,6 @@ flowchart TB
     P[Provenance<br/>source intervals · method · parameters · quality]:::context
 
     subgraph BFL[Battery Feature Lab]
-        direction LR
         O[Operation<br/>What happened?]
         R[Response<br/>How did the cell respond?]
         E[Evolution<br/>How did comparable responses change?]
