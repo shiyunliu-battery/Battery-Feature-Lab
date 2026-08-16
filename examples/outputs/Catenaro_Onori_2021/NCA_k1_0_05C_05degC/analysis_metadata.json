@@ -1,0 +1,404 @@
+{
+  "cell": {
+    "cell_id": {
+      "source": "input_file_stem",
+      "status": "dataset_identifier",
+      "value": "NCA_k1_0_05C_05degC"
+    },
+    "chemistry": {
+      "source": "not_supplied",
+      "status": "unknown",
+      "value": null
+    },
+    "design": {
+      "source": "not_supplied",
+      "status": "unknown",
+      "value": null
+    },
+    "form_factor": {
+      "source": "not_supplied",
+      "status": "unknown",
+      "value": null
+    },
+    "manufacturer": {
+      "source": "not_supplied",
+      "status": "unknown",
+      "value": null
+    },
+    "nominal_capacity": {
+      "source": "not_supplied",
+      "status": "unknown",
+      "unit": "Ah",
+      "value": null
+    }
+  },
+  "channels": [
+    {
+      "analysis_column": "test_time_s",
+      "distinct_finite_values": 93305,
+      "finite_sample_fraction": 1.0,
+      "observed_increment_q10": 0.9992999999958556,
+      "observed_max": 93300.64831199999,
+      "observed_min": 1.0009,
+      "origin": "BDS_standardized",
+      "quality_flags": [],
+      "quantity": "time",
+      "source_column": "Test_Time(s)",
+      "status": "available",
+      "unit": "s"
+    },
+    {
+      "analysis_column": "voltage_v",
+      "distinct_finite_values": 81406,
+      "finite_sample_fraction": 1.0,
+      "observed_increment_q10": 1.6689300537109375e-06,
+      "observed_max": 4.200309753417969,
+      "observed_min": 2.499995231628418,
+      "origin": "standardized",
+      "quality_flags": [],
+      "quantity": "voltage",
+      "source_column": "Voltage(V)",
+      "status": "available",
+      "unit": "V"
+    },
+    {
+      "analysis_column": "current_a",
+      "distinct_finite_values": 6220,
+      "finite_sample_fraction": 1.0,
+      "observed_increment_q10": 5.5119395256042486e-06,
+      "observed_max": 0.8144997954368591,
+      "observed_min": -0.16753357648849487,
+      "origin": "BDS_standardized",
+      "quality_flags": [],
+      "quantity": "current",
+      "source_column": "Current(A)",
+      "status": "available",
+      "unit": "A"
+    },
+    {
+      "analysis_column": "analysis_temperature_deg_c",
+      "distinct_finite_values": 32175,
+      "finite_sample_fraction": 1.0,
+      "observed_increment_q10": 4.933347213409434e-07,
+      "observed_max": 7.4570841789245605,
+      "observed_min": 4.841599941253662,
+      "origin": "explicit",
+      "quality_flags": [],
+      "quantity": "temperature",
+      "source_column": "raw:Surface_Temp(degC)",
+      "status": "available",
+      "unit": "degC"
+    }
+  ],
+  "dataset": {
+    "adapter_metadata": {
+      "adapter_version": "1",
+      "backend": "pandas",
+      "current_sign_confidence": "disabled",
+      "current_sign_sanity": {
+        "confidence": "disabled",
+        "evidence": [],
+        "method": "none",
+        "reason": "current sign sanity check was disabled",
+        "status": "disabled"
+      },
+      "evidence_tier": "public-fixture-backed",
+      "excel_header_row": null,
+      "export_columns": [
+        "Date Time ISO",
+        "Test Time / s",
+        "Voltage / V",
+        "Current / A",
+        "Unix Time / s",
+        "Step Count / 1",
+        "Step Time / s",
+        "Power / W",
+        "raw:Surface_Temp(degC)"
+      ],
+      "export_format": "battery-data-standard-export-v1",
+      "export_target": "bdf",
+      "internal_columns": [
+        "test_time_s",
+        "voltage_v",
+        "current_a",
+        "unix_time_s",
+        "date_time",
+        "step_index",
+        "step_time_s",
+        "power_w",
+        "raw:Surface_Temp(degC)"
+      ],
+      "mapped_columns": [
+        "Current(A)",
+        "Date_Time",
+        "Step_Index",
+        "Step_Time(s)",
+        "Test_Time(s)",
+        "Voltage(V)"
+      ],
+      "output_rows": 93305,
+      "raw_columns": [
+        "Date_Time",
+        "Test_Time(s)",
+        "Step_Time(s)",
+        "Step_Index",
+        "Voltage(V)",
+        "Current(A)",
+        "Surface_Temp(degC)"
+      ],
+      "raw_current_sign": "charge-positive",
+      "raw_rows": 93305,
+      "repair_operations": [
+        "Would shift test_time_s to start at 0."
+      ],
+      "repair_policy": "warn",
+      "selected_sheets": [
+        "Sheet1"
+      ],
+      "semantic_sources": {
+        "cycle_index": {
+          "origin": "absent",
+          "source": null,
+          "transform": null
+        },
+        "step_index": {
+          "origin": "source",
+          "source": "Step_Index",
+          "transform": "integer"
+        },
+        "test_time_s": {
+          "origin": "source",
+          "source": "Test_Time(s)",
+          "transform": "numeric"
+        }
+      },
+      "sheet_name": "Sheet1",
+      "sheet_names": [
+        "Sheet1"
+      ],
+      "source_adapter": "arbin",
+      "source_backend": "native",
+      "source_format": "xlsx",
+      "step_cycle_semantics": {
+        "examples": [],
+        "inferred_fields": [],
+        "repeated_step_examples": [],
+        "repeated_step_segments": 0,
+        "semantic_sources": {
+          "cycle_index": {
+            "origin": "absent",
+            "source": null,
+            "transform": null
+          },
+          "step_index": {
+            "origin": "source",
+            "source": "Step_Index",
+            "transform": "integer"
+          },
+          "test_time_s": {
+            "origin": "source",
+            "source": "Test_Time(s)",
+            "transform": "numeric"
+          }
+        },
+        "step_transition_discontinuities": 0,
+        "step_transition_examples": []
+      },
+      "support_tier": "fixture-backed",
+      "temperature_semantics": {
+        "confidence": "absent",
+        "examples": [],
+        "reason": "no temperature column was mapped",
+        "status": "absent"
+      },
+      "temperature_semantics_confidence": "absent",
+      "time_sampling": {
+        "expected_interval_s": 1.0002,
+        "gaps": [],
+        "gaps_truncated": false,
+        "interpolation_method": "linear",
+        "interval_confidence": 0.9999142587670411,
+        "missing_points": 0,
+        "original_rows": 93305,
+        "output_rows": 93305,
+        "policy": "warn",
+        "status": "no-gaps",
+        "tolerance_fraction": 0.1
+      },
+      "unmapped_columns": [
+        "Surface_Temp(degC)"
+      ]
+    },
+    "bds_adapter_version": "1",
+    "bds_evidence_tier": "public-fixture-backed",
+    "bds_schema_version": "bds-2026-05",
+    "bds_support_tier": "fixture-backed",
+    "capabilities": {
+      "current": {
+        "column": "current_a",
+        "finite_sample_fraction": 1.0,
+        "present": true,
+        "usable": true
+      },
+      "cycle": {
+        "column": "cycle_index",
+        "finite_sample_fraction": null,
+        "present": false,
+        "usable": false
+      },
+      "step": {
+        "column": "step_index",
+        "finite_sample_fraction": null,
+        "present": true,
+        "usable": true
+      },
+      "temperature": {
+        "column": "analysis_temperature_deg_c",
+        "finite_sample_fraction": 1.0,
+        "present": true,
+        "usable": true
+      },
+      "time": {
+        "column": "test_time_s",
+        "finite_sample_fraction": 1.0,
+        "present": true,
+        "usable": true
+      },
+      "voltage": {
+        "column": "voltage_v",
+        "finite_sample_fraction": 1.0,
+        "present": true,
+        "usable": true
+      }
+    },
+    "conformance_status": "bds_valid_legacy_bdf_style",
+    "input_adapter": "bds",
+    "name": "NCA_k1_0_05C_05degC",
+    "provider": "battery-data-standard",
+    "provider_version": "0.3.1",
+    "report_file": "bds_conversion_report.json",
+    "row_count": 93305,
+    "source_artifacts": [],
+    "source_file": "C:\\work\\battery feature lab\\Battery-Feature-Lab\\examples\\data\\Catenaro_Onori_2021\\NCA_k1_0_05C_05degC.xlsx",
+    "source_format": "xlsx",
+    "source_sha256": "461e7295a0f550d41279fe67c881ba57df19f0975c5f3faaa47e46cfddf760fa"
+  },
+  "limitations": [
+    "Unknown metadata fields are not inferred from the filename or waveform.",
+    "Observed temperature range is not a declared chamber setpoint.",
+    "Observed channel increments describe exported values and are not an instrument calibration certificate."
+  ],
+  "run_id": "bfl-ce4f86db2cf5768e",
+  "schema_version": "bfl.metadata/0.1",
+  "semantics": {
+    "current_sign": "charge-positive",
+    "current_sign_sanity": {
+      "confidence": "disabled",
+      "evidence": [],
+      "method": "none",
+      "reason": "current sign sanity check was disabled",
+      "status": "disabled"
+    },
+    "cycle_id_source": "absent",
+    "ontology_context": "https://w3id.org/emmo/domain/battery/context",
+    "ontology_use": "vocabulary_reference_only; no unsupplied entity facts inferred",
+    "raw_current_sign": "charge-positive",
+    "step_cycle_semantics": {
+      "examples": [],
+      "inferred_fields": [],
+      "repeated_step_examples": [],
+      "repeated_step_segments": 0,
+      "semantic_sources": {
+        "cycle_index": {
+          "origin": "absent",
+          "source": null,
+          "transform": null
+        },
+        "step_index": {
+          "origin": "source",
+          "source": "Step_Index",
+          "transform": "integer"
+        },
+        "test_time_s": {
+          "origin": "source",
+          "source": "Test_Time(s)",
+          "transform": "numeric"
+        }
+      },
+      "step_transition_discontinuities": 0,
+      "step_transition_examples": []
+    }
+  },
+  "test": {
+    "cycler": {
+      "source": "BDS",
+      "status": "reported",
+      "value": "arbin"
+    },
+    "cycler_detection_confidence": {
+      "source": "BDS",
+      "status": "reported",
+      "unit": "1",
+      "value": 0.6000000000000001
+    },
+    "declared_protocol_name": {
+      "source": "not_supplied",
+      "status": "unknown",
+      "value": null
+    },
+    "end_datetime": {
+      "source": "BDS",
+      "status": "reported",
+      "value": "2019-10-22 13:46:43.037000"
+    },
+    "observed_duration": {
+      "source": "BDS time channel",
+      "status": "observed",
+      "unit": "s",
+      "value": 93299.64741199999
+    },
+    "set_temperature": {
+      "source": "not_supplied",
+      "status": "unknown",
+      "unit": "degC",
+      "value": null
+    },
+    "sheet_name": {
+      "source": "BDS",
+      "status": "reported",
+      "value": "Sheet1"
+    },
+    "start_datetime": {
+      "source": "BDS",
+      "status": "reported",
+      "value": "2019-10-21 11:51:43.391000"
+    }
+  },
+  "tool_sources": [
+    {
+      "provider": "Battery Feature Lab",
+      "role": "compile tool-grounded metadata and observed channel profiles without inferring missing cell facts"
+    },
+    {
+      "provider": "battery-data-standard",
+      "report_file": "bds_conversion_report.json",
+      "role": "conversion, units, source mapping, sampling and semantic provenance"
+    },
+    {
+      "metadata_status": "bridge object contains no independent source metadata",
+      "provider": "PyProBE-Data",
+      "role": "operation filters and eligible electrochemical analyses"
+    },
+    {
+      "provider": "BattINFO",
+      "reference": "https://big-map.github.io/BattINFO/",
+      "role": "semantic vocabulary reference"
+    },
+    {
+      "execution_status": "not_invoked; input is not a BatteryDataset and the package is not a runtime dependency",
+      "provider": "Battery Data Toolkit",
+      "reference": "https://rovi-org.github.io/battery-data-toolkit/user-guide/schemas/source-metadata.html",
+      "role": "metadata field-model reference"
+    }
+  ]
+}

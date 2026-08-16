@@ -1,0 +1,431 @@
+{
+  "artifacts": {
+    "analysis_evidence.json": {
+      "filename": "analysis_evidence.json",
+      "sha256": "f36d1ead82c18b840da9ca336fd35b7140f8e54435763dc2e2bbf30bf36b91f4",
+      "size_bytes": 124568
+    },
+    "analysis_metadata.json": {
+      "filename": "analysis_metadata.json",
+      "sha256": "fa8f8b3019b3980b4f3ff37dbf5cff78abfd97cbcab4527a46dfd28842c11c9e",
+      "size_bytes": 11452
+    },
+    "analysis_results.json": {
+      "filename": "analysis_results.json",
+      "sha256": "a9c65d7c0e45671d4c6c2544e5dea951f9a67445a334719c6c4ce97be836372d",
+      "size_bytes": 42885
+    },
+    "analysis_validation.json": {
+      "digest_type": "canonical-json-sha256",
+      "filename": "analysis_validation.json",
+      "sha256": "233b4b6fbe0b45d32d1b7984ad18dbfad498515829adfebe266953e864ed588c",
+      "sha256_scope": "canonical validation payload with this sha256 field set to null; all other artifact digests are included"
+    },
+    "bds_conversion_report.json": {
+      "filename": "bds_conversion_report.json",
+      "sha256": "77bf5f57becd8c681c6605cc12d26bcb805c8d2cd36088b2f3141e2822b4a657",
+      "size_bytes": 7949
+    },
+    "normalized_data.bdf.parquet": {
+      "filename": "normalized_data.bdf.parquet",
+      "sha256": "1b5a70ac0b55161de4810a559ec858081e3f3f7304f35c892a7cd3b2c8aaf498",
+      "size_bytes": 1769738
+    }
+  },
+  "channel_capabilities": {
+    "current": {
+      "column": "current_a",
+      "finite_sample_fraction": 1.0,
+      "present": true,
+      "usable": true
+    },
+    "cycle": {
+      "column": "cycle_index",
+      "finite_sample_fraction": null,
+      "present": false,
+      "usable": false
+    },
+    "step": {
+      "column": "step_index",
+      "finite_sample_fraction": null,
+      "present": true,
+      "usable": true
+    },
+    "temperature": {
+      "column": "analysis_temperature_deg_c",
+      "finite_sample_fraction": 1.0,
+      "present": true,
+      "usable": true
+    },
+    "time": {
+      "column": "test_time_s",
+      "finite_sample_fraction": 1.0,
+      "present": true,
+      "usable": true
+    },
+    "voltage": {
+      "column": "voltage_v",
+      "finite_sample_fraction": 1.0,
+      "present": true,
+      "usable": true
+    }
+  },
+  "missing_inputs": [],
+  "provider_calls": [
+    {
+      "handoff_conformance_status": "bds_valid_legacy_bdf_style",
+      "input_path": "C:\\work\\battery feature lab\\Battery-Feature-Lab\\examples\\data\\Catenaro_Onori_2021\\NCA_k1_0_05C_05degC.xlsx",
+      "method": "convert",
+      "output_file": "normalized_data.bdf.parquet",
+      "parameters": {
+        "current_sign": "charge-positive",
+        "format": "parquet",
+        "input_adapter": "bds",
+        "repair_policy": "warn",
+        "target": "legacy_bdf_style",
+        "time_sampling_policy": "warn"
+      },
+      "provider": "battery-data-standard",
+      "report_file": "bds_conversion_report.json",
+      "status": "ok"
+    },
+    {
+      "bdf_file_modified": false,
+      "method": "select_analysis_channels",
+      "provider": "battery-data-standard+BFL",
+      "status": "ok",
+      "temperature_column": "raw:Surface_Temp(degC)",
+      "temperature_column_source": "explicit",
+      "temperature_finite_sample_fraction": 1.0,
+      "voltage_column": "voltage_v",
+      "voltage_column_source": "standardized",
+      "voltage_finite_sample_fraction": 1.0
+    },
+    {
+      "analysis_row_count": 93305,
+      "capacity_flags": [],
+      "capacity_method": "zoh_previous_v1",
+      "excluded_rows_without_finite_time": 0,
+      "excluded_source_rows_without_finite_time": [],
+      "input_adapter": "bds",
+      "input_rows": 93305,
+      "method": "standardized_to_pyprobe_bridge",
+      "normalized_row_count": 93305,
+      "output_rows": 93305,
+      "provider": "BFL",
+      "reported_capacity_finite_coverage_min": 0.99,
+      "status": "ok"
+    },
+    {
+      "method": "charge",
+      "provider": "PyProBE",
+      "role": "window_level_phase_filter_QA",
+      "rows": 16349,
+      "source_interval": {
+        "end_record": 93304,
+        "end_row": 93304,
+        "end_time_s": 93300.64831199999,
+        "start_record": 0,
+        "start_row": 0,
+        "start_time_s": 1.0009
+      },
+      "status": "ok"
+    },
+    {
+      "method": "discharge",
+      "provider": "PyProBE",
+      "role": "window_level_phase_filter_QA",
+      "rows": 66153,
+      "source_interval": {
+        "end_record": 93304,
+        "end_row": 93304,
+        "end_time_s": 93300.64831199999,
+        "start_record": 0,
+        "start_row": 0,
+        "start_time_s": 1.0009
+      },
+      "status": "ok"
+    },
+    {
+      "method": "rest",
+      "provider": "PyProBE",
+      "role": "window_level_phase_filter_QA",
+      "rows": 10803,
+      "source_interval": {
+        "end_record": 93304,
+        "end_row": 93304,
+        "end_time_s": 93300.64831199999,
+        "start_record": 0,
+        "start_row": 0,
+        "start_time_s": 1.0009
+      },
+      "status": "ok"
+    },
+    {
+      "method": "constant_current",
+      "provider": "PyProBE",
+      "rows": 10379,
+      "source_interval": {
+        "end_record": 13979,
+        "end_row": 13979,
+        "end_sample_time_s": 13978.368784,
+        "end_time_s": 13979.473972,
+        "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+        "start_record": 3601,
+        "start_row": 3601,
+        "start_time_s": 3601.0486840000003
+      },
+      "status": "ok"
+    },
+    {
+      "method": "constant_voltage",
+      "provider": "PyProBE",
+      "rows": 282,
+      "source_interval": {
+        "end_record": 13979,
+        "end_row": 13979,
+        "end_sample_time_s": 13978.368784,
+        "end_time_s": 13979.473972,
+        "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+        "start_record": 3601,
+        "start_row": 3601,
+        "start_time_s": 3601.0486840000003
+      },
+      "status": "ok"
+    },
+    {
+      "method": "constant_current",
+      "provider": "PyProBE",
+      "rows": 8,
+      "source_interval": {
+        "end_record": 19949,
+        "end_row": 19949,
+        "end_sample_time_s": 19948.166772,
+        "end_time_s": 19949.207828,
+        "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+        "start_record": 13980,
+        "start_row": 13980,
+        "start_time_s": 13979.473972
+      },
+      "status": "ok"
+    },
+    {
+      "method": "constant_voltage",
+      "provider": "PyProBE",
+      "rows": 5970,
+      "source_interval": {
+        "end_record": 19949,
+        "end_row": 19949,
+        "end_sample_time_s": 19948.166772,
+        "end_time_s": 19949.207828,
+        "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+        "start_record": 13980,
+        "start_row": 13980,
+        "start_time_s": 13979.473972
+      },
+      "status": "ok"
+    },
+    {
+      "method": "constant_current",
+      "provider": "PyProBE",
+      "rows": 66153,
+      "source_interval": {
+        "end_record": 89703,
+        "end_row": 89703,
+        "end_sample_time_s": 89700.508056,
+        "end_time_s": 89701.646712,
+        "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+        "start_record": 23551,
+        "start_row": 23551,
+        "start_time_s": 23549.256156
+      },
+      "status": "ok"
+    },
+    {
+      "method": "constant_voltage",
+      "provider": "PyProBE",
+      "rows": 913,
+      "source_interval": {
+        "end_record": 89703,
+        "end_row": 89703,
+        "end_sample_time_s": 89700.508056,
+        "end_time_s": 89701.646712,
+        "end_time_semantics": "exclusive_previous_zoh_support_boundary",
+        "start_record": 23551,
+        "start_row": 23551,
+        "start_time_s": 23549.256156
+      },
+      "status": "ok"
+    },
+    {
+      "method": "rest",
+      "provider": "PyProBE",
+      "rows": 10803,
+      "source_interval": {
+        "end_record": 93304,
+        "end_row": 93304,
+        "end_time_s": 93300.64831199999,
+        "start_record": 0,
+        "start_row": 0,
+        "start_time_s": 1.0009
+      },
+      "status": "ok"
+    }
+  ],
+  "quality_warnings": [
+    "Would shift test_time_s to start at 0.",
+    "directional_throughput_imbalance",
+    "input_not_eligible",
+    "insufficient_rests_reaching_10s",
+    "insufficient_rests_reaching_1800s",
+    "insufficient_rests_reaching_300s",
+    "insufficient_rests_reaching_30s",
+    "insufficient_rests_reaching_600s",
+    "insufficient_rests_reaching_60s",
+    "no_current_step_candidates"
+  ],
+  "recomputation": {
+    "analysis_channels": {
+      "bdf_file_modified": false,
+      "temperature_column": "raw:Surface_Temp(degC)",
+      "temperature_column_source": "explicit",
+      "temperature_finite_sample_fraction": 1.0,
+      "voltage_column": "voltage_v",
+      "voltage_column_source": "standardized",
+      "voltage_finite_sample_fraction": 1.0
+    },
+    "analysis_row_count": 93305,
+    "bdf_schema_version": {
+      "reason": "provider package version is not a formal BDF ontology version",
+      "status": "not_reported_by_bds_legacy_export",
+      "value": null
+    },
+    "bdf_validator_passed": null,
+    "bds_schema_version": "bds-2026-05",
+    "bds_semantic_sources": {
+      "cycle_index": {
+        "origin": "absent",
+        "source": null,
+        "transform": null
+      },
+      "step_index": {
+        "origin": "source",
+        "source": "Step_Index",
+        "transform": "integer"
+      },
+      "test_time_s": {
+        "origin": "source",
+        "source": "Test_Time(s)",
+        "transform": "numeric"
+      }
+    },
+    "bds_target": "legacy_bdf_style",
+    "bds_time_sampling": {
+      "expected_interval_s": 1.0002,
+      "gaps": [],
+      "gaps_truncated": false,
+      "interpolation_method": "linear",
+      "interval_confidence": 0.9999142587670411,
+      "missing_points": 0,
+      "original_rows": 93305,
+      "output_rows": 93305,
+      "policy": "warn",
+      "status": "no-gaps",
+      "tolerance_fraction": 0.1
+    },
+    "capacity_flags": [],
+    "capacity_method": "zoh_previous_v1",
+    "compact_summary_evidence_references_valid": true,
+    "current_sign": "charge-positive",
+    "efficiency_recomputation": {
+      "coulombic_cycles_checked": 0,
+      "coulombic_max_absolute_error": null,
+      "energy_cycles_checked": 0,
+      "energy_max_absolute_error": null
+    },
+    "excluded_rows_without_finite_time": 0,
+    "excluded_source_rows_without_finite_time": [],
+    "handoff_conformance_status": "bds_valid_legacy_bdf_style",
+    "input_adapter": "bds",
+    "input_provider": "battery-data-standard",
+    "input_provider_version": "0.3.1",
+    "input_report_equals_provider_payload": true,
+    "input_report_file": "bds_conversion_report.json",
+    "normalized_row_count": 93305,
+    "pyprobe_bridge_row_count": 93305,
+    "record_ids_unique": true,
+    "records_with_sampling_interval_outlier": 0,
+    "reported_cumulative_column_flags": [],
+    "representative_excluded_duration_s": 0.0,
+    "row_count_preserved": true,
+    "short_window_recomputation": {
+      "capacity_profile_identities_checked": 2,
+      "capacity_profile_max_absolute_error": 0.0,
+      "capacity_profile_series_identities_checked": 0,
+      "capacity_profile_series_max_absolute_error": null,
+      "current_step_max_absolute_error_ohm": null,
+      "current_step_ratios_checked": 0,
+      "current_step_summary_count_max_absolute_error": 0.0,
+      "current_step_summary_counts_checked": 3,
+      "directional_identities_checked": 4,
+      "directional_max_absolute_error": 0.0,
+      "relaxation_absolute_median_max_absolute_error_v": null,
+      "relaxation_absolute_medians_checked": 0,
+      "relaxation_checkpoint_identities_checked": 36,
+      "relaxation_checkpoint_max_absolute_error_v": 9.507635612138188e-08,
+      "relaxation_median_max_absolute_error_v": null,
+      "relaxation_medians_checked": 0
+    }
+  },
+  "record_counts": {
+    "evolution.capacity": 1,
+    "operation.exposure_summary": 1,
+    "operation.mode_segment": 6,
+    "operation.phase_segment": 6,
+    "operation.window_summary": 1,
+    "response.capacity_aligned_profile": 1,
+    "response.current_step": 1,
+    "response.current_step_summary": 1,
+    "response.cycle_summary": 1,
+    "response.directional_energy_summary": 1,
+    "response.dva_curve": 1,
+    "response.ica_curve": 1,
+    "response.pulse_resistance": 1,
+    "response.relaxation_signature": 1,
+    "response.rest_and_thermal": 3
+  },
+  "run_id": "bfl-ce4f86db2cf5768e",
+  "schema_validation": {
+    "analysis_evidence": {
+      "errors": [],
+      "valid": true
+    },
+    "analysis_metadata": {
+      "errors": [],
+      "valid": true
+    },
+    "analysis_results": {
+      "errors": [],
+      "valid": true
+    },
+    "analysis_validation": {
+      "errors": [],
+      "valid": true
+    },
+    "draft": "2020-12"
+  },
+  "schema_version": "bfl.validation/0.1",
+  "software_versions": {
+    "PyProBE-Data": "2.6.0",
+    "battery-data-standard": "0.3.1",
+    "battery-feature-lab": "0.4.0",
+    "batterydf": "not-installed",
+    "bds_module": "0.3.1",
+    "numpy": "2.5.2",
+    "polars": "1.43.2",
+    "pyprobe_module": "2.6.0",
+    "python": "3.12.10",
+    "scipy": "1.18.0"
+  },
+  "status": "warning"
+}
