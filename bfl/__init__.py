@@ -1,22 +1,5 @@
-"""Short import interface for Battery Feature Lab."""
+"""Short public import path for Battery Feature Lab."""
 
-from battery_feature_lab import FeaturePipeline, PipelineConfig
-from battery_feature_lab.api import ExtractionResult, extract
-from battery_feature_lab.bds_adapter.readers import (
-    read_bds_export,
-    read_bds_export_with_report,
-)
-from battery_feature_lab.schemas import DiagnosticConfig, ExportConfig, FeatureConfig, ReaderConfig
+from battery_feature_lab import AnalysisResult, analyze
 
-__all__ = [
-    "DiagnosticConfig",
-    "ExportConfig",
-    "ExtractionResult",
-    "FeatureConfig",
-    "FeaturePipeline",
-    "PipelineConfig",
-    "ReaderConfig",
-    "extract",
-    "read_bds_export",
-    "read_bds_export_with_report",
-]
+__all__ = ["AnalysisResult", "analyze"]

@@ -1,9 +1,7 @@
-"""Battery Feature Lab.
+"""Battery Feature Lab public package."""
 
-Feature extraction tools for battery cycling data and BDS-style exports.
-"""
+from battery_feature_lab.analysis.schema import AnalysisResult
+from battery_feature_lab.api import analyze
 
-from battery_feature_lab.api import ExtractionResult, extract
-from battery_feature_lab.pipeline import FeaturePipeline, PipelineConfig
-
-__all__ = ["ExtractionResult", "FeaturePipeline", "PipelineConfig", "extract"]
+__version__ = "0.4.0"
+__all__ = ["AnalysisResult", "analyze"]

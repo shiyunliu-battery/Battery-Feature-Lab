@@ -1,245 +1,158 @@
-# BFL: Battery Feature Lab
+# Battery Feature Lab 0.4
 
-BFL extracts deterministic battery cycling features from standardised measurements and turns a controlled subset into evidence-backed context for AI/LLM use.
+Battery Feature Lab (BFL) converts supported battery-cycler exports into normalized data and auditable JSON analysis records for downstream software.
 
-File reading, cycler detection, column mapping, unit conversion, time-axis repair and current-sign resolution are delegated to [`battery-data-standard`](https://github.com/shiyunliu-battery/battery-data-standard) (BDS), which is installed as a dependency. BFL does not reimplement ingest. Every run records the BDS conversion report in `run_metadata.json` so provenance remains auditable back to the source conversion.
-
-The AI-facing path is deliberately one-way:
-
-```text
-cycler export
-  -> battery-data-standard
-  -> standardised measurements
-  -> protocol/context segmentation
-  -> deterministic feature tables
-  -> Feature Contracts
-  -> evidence records
-  -> LLM context
-```
-
-`llm_context.jsonl` is generated only from contracted evidence records. Feature tables cannot bypass the evidence layer.
-
-## Features
-
-- Cycle summaries: capacity, energy, efficiency, C-rate, voltage, temperature, and rest time.
-- Early-life curve features: `Delta Q(V)` variance, norms, quantiles, and related statistics.
-- ICA/DVA features: `dQ/dV` and `dV/dQ` peaks, locations, widths, heights, and areas. AI-visible cross-cycle evidence does not assume that within-cycle peak rank identifies the same electrochemical peak across cycles.
-- Relaxation features: voltage drop, slopes, interpolated voltages, and empirical exponential fits. AI-visible cross-cycle comparisons are matched by rest `step_index` and remain conditional on comparable pre-rest state/protocol.
-- Stress features: voltage, current, C-rate, temperature, throughput, and SOC-dependent exposure when an explicit SOC channel is supplied. BFL does not infer SOC from voltage or generic capacity traces.
-- Descriptive EIS features when impedance columns are available. The historical `EISDRTFeaturizer` import is retained for compatibility, but BFL does not perform DRT inversion or emit DRT peak placeholders.
-- Observation-level trend/stress signals. The default pipeline does not assign automatic LLI/LAM/root-cause mechanism labels.
-- Protocol-aware segmentation for CC/CV, pulse characterization, rest, and dynamic loads.
-- Feature Contracts for every retained deterministic feature-table column; only explicitly whitelisted contracts are AI-visible.
-- Evidence candidates and selected evidence packs for question-aware LLM grounding.
-
-## Safety and interpretation policy
-
-- Missing SOC remains not computable; no voltage-to-SOC or capacity-to-SOC surrogate is generated.
-- Adding a numeric feature column does not make it AI-visible. Evidence generation requires an explicit `ai_visible=true` Feature Contract.
-- Mechanism hypotheses and root-cause diagnosis are outside the default evidence layer.
-- ICA peak rank is not treated as a cross-cycle peak identity.
-- DRT is not claimed unless a future dedicated inversion implementation is added and contracted.
-
-## Installation
-
-From PyPI. This pulls in `battery-data-standard`, which BFL uses for all file reading:
-
-```bash
-pip install battery-feature-lab
-```
-
-From a local checkout:
-
-```bash
-python -m pip install -e ".[dev]"
-```
-
-## Quick Start
-
-Python:
+The public Python API is intentionally small:
 
 ```python
-from pathlib import Path
 import bfl
 
-result = bfl.extract(
-    "/content/25-LFP-1.csv",
-    output_dir="/content/bfl_outputs",
-    nominal_capacity_ah=1.2,
-    reference_cycle=2,
-    target_cycle=5,
+result = bfl.analyze(
+    "cell.csv",
+    output_dir="bfl_outputs",
+    input_adapter="auto",  # auto | bds | bdf
+    cell_id=None,
+    nominal_capacity_ah=None,
+    representative_cycle=None,
+    declared_protocol_name=None,
+    formation_cycles_to_exclude=1,
+    reference_window_size=4,
+    pulse_resistance_times_s=(10.0,),
+    relaxation_checkpoints_s=(10.0, 30.0, 60.0, 300.0, 600.0, 1800.0),
+    voltage_column=None,
+    temperature_column=None,
+    analysis_policy=None,  # optional named threshold overrides
 )
-
-print(result.llm_context_path)
-for path in result.files:
-    print(path.name)
 ```
 
-CLI:
+The equivalent CLI is:
 
-```bash
-bfl extract input.csv --output-dir out --cell-id cell_001 --nominal-capacity-ah 1.1
+```console
+bfl analyze cell.csv --output-dir bfl_outputs --nominal-capacity-ah 1.1
 ```
 
-The longer command name is also available:
-
-```bash
-battery-features extract input.csv --output-dir out --cell-id cell_001 --nominal-capacity-ah 1.1
-```
-
-Diagnostic/evidence thresholds remain configurable:
-
-```bash
-bfl extract input.csv \
-  --output-dir out \
-  --nominal-capacity-ah 1.1 \
-  --datasheet-max-discharge-c-rate 5 \
-  --high-soc-rest-threshold 0.25 \
-  --evidence-question "Why did capacity fade after cycle 80?" \
-  --evidence-token-budget 800
-```
-
-## Input Data
-
-Ingest is handled by BDS, so BFL reads any format the installed BDS version supports. Run `bds formats` to see the current list and `bds doctor <file>` when a file will not read. JSON and JSONL are staged to CSV and then handed to BDS so there remains one normalisation path.
-
-BDS returns its canonical schema. BFL renames it to the working names used by the featurizers:
+Every successful run writes six machine-readable files. The provider-native
+input report depends on the selected adapter:
 
 ```text
-time_s, voltage_v, current_a, temperature_c, charge_capacity_ah,
-discharge_capacity_ah, cycle_index, step_index, step_type
+normalized_data.bdf.parquet
+bds_conversion_report.json        # raw/BDS handoff
+# or bdf_validation_report.json   # native formal-BDF handoff
+analysis_metadata.json
+analysis_results.json
+analysis_evidence.json
+analysis_validation.json
 ```
 
-`cell_id` and `step_type` are not part of the BDS schema. BFL adds them, inferring `step_type` from current sign and `cell_id` from the file name when the source does not carry them. Columns BDS does not model, including explicit `soc` and the EIS triple below, are recovered from BDS pass-through fields.
+`analysis_results.json` is the compact `bfl.summary/0.1` entry point for downstream software. `analysis_evidence.json` keeps the complete `bfl.analysis/0.1` records, source intervals, methods and curve arrays. `analysis_metadata.json` stores tool-grounded cell, test, dataset and channel context. BFL does not generate prose reports or rendered text.
 
-Optional EIS columns are:
+## Tool responsibilities
 
-```text
-frequency_hz, z_real_ohm, z_imag_ohm
-```
+- BFL analysis consumes one provider-neutral, preprocessed table. `input_adapter="auto"` routes raw cycler files through `battery-data-standard>=0.3.1,<0.4` and explicitly identified BDF artifacts through formal BDF. Ambiguous files can be forced with `input_adapter="bds"` or `input_adapter="bdf"`; a provider error never triggers a silent fallback to the other adapter.
+- The BDS path performs vendor conversion, unit/current-sign normalization and source tracking with `repair_policy="warn"` and `time_sampling_policy="warn"`. Its native `ConversionReport.write_json()` output is preserved verbatim. BDS `target="bdf"` is recorded as legacy BDF-style column compatibility, not formal BDF certification.
+- The optional `battery-feature-lab[bdf]` extra pins `batterydf==0.1.0` and uses its released `read` and `validate` APIs for native BDF CSV/Parquet artifacts. This path never passes data through BDS or rewrites the BDF charge-positive current convention. It writes the provider-native `bdf_validation_report.json`; a passed validator is reported as such, not as certification of an ontology version.
+- `PyProBE-Data>=2.6,<2.7` provides cycling summaries, pulse resistance, and LEAN differentiation for ICA/DVA. Provider failures are recorded as `provider_error`; BFL does not silently substitute a same-name local algorithm.
+- SciPy provides peak finding, Theil–Sen slope, and Kendall tau-b.
+- BFL supplies only the project-specific rules and numerical conventions that these tools do not expose: source gating, structural completeness, conservative operation labels, previous-sample ZOH integration, duration-weighted exposure, and comparable-cycle selection.
+- Metadata is taken first from the selected preprocessing provider, adjacent BDF sidecar references, and explicit user declarations. BattINFO supplies a vocabulary reference and Battery Data Toolkit supplies a metadata field-model reference; neither is used to invent missing cell facts. PyProBE bridge objects do not replace source metadata.
 
-An SOC column is optional. If it is absent, SOC-dependent features such as `high_soc_rest_fraction` are `NaN`/not computable and are not exposed as evidence.
+Time and current are the minimum analyzable capability. With those channels BFL
+still produces phase, current-shape mode, duration-weighted current exposure,
+Ah throughput and current-squared exposure. Voltage enables power, energy,
+current-step response, paired profiles and eligible PyProBE analyses;
+temperature independently enriches operating/thermal context. Missing optional
+channels produce per-feature `not_computable` records and `not_invoked`
+provider calls rather than fabricated columns or a failed whole run. A literal
+current-only array without a measured time coordinate is not integrated.
 
-## Outputs
+The supported runtime is Python 3.11 or 3.12.
 
-BFL writes non-empty tables to the selected output directory. Typical outputs are:
+## Analysis records
 
-```text
-out/
-  normalized_timeseries.parquet
-  cycle_features.parquet
-  delta_q_features.parquet
-  ica_dva_features.parquet
-  relaxation_features.parquet
-  stress_features.parquet
-  eis_features.parquet               # only when EIS inputs exist
-  degradation_tags.parquet           # observation/stress signals only
-  protocol_segments.parquet
-  protocol_segments.jsonl
-  evidence_candidates.parquet
-  selected_evidence.parquet
-  evidence_candidates.jsonl
-  selected_evidence.jsonl
-  feature_contracts.json
-  llm_context.jsonl
-  run_metadata.json
-```
+Each record contains stable identity and scope fields, source row/time intervals, attributes, scalar metrics, optional curve series, exact method provenance, applicability, quality flags, and interpretation limits.
 
-Output roles:
+Record types are:
 
-- `feature_contracts.json`: complete contract catalogue for retained deterministic feature-table columns. Each contract includes `definition`, `unit`, `inputs`, `method`, `method_version`, parameters, `applicability`, `quality`, `source_interval`, `interpretation_level`, and `ai_visible`. Non-whitelisted retained features are documented with `ai_visible=false` rather than silently exposed.
-- `evidence_candidates.parquet` / `.jsonl`: controlled evidence objects created only from explicit AI-visible contracts, with source cycle/step/time bounds, method/version/parameters, applicability and quality status, protocol context, and interpretation level.
-- `selected_evidence.parquet` / `.jsonl`: question-aware compact evidence pack under the configured token budget and redundancy constraints.
-- `llm_context.jsonl`: context built only from contracted evidence records (selected evidence when available). The historical `export.llm_json_writer` module is now only a compatibility import to this evidence-only writer.
-- `run_metadata.json`: input/output paths, BDS conversion report, analysis settings, contract path, and the LLM evidence-chain policy.
-- `degradation_tags.parquet`: observation/stress signals such as a statistically significant decreasing capacity trend or specification-relative load flag. It does not contain automatic LLI/LAM mechanism assignments.
-- `protocol_segments.parquet` / `.jsonl`: primitive test steps, conservative protocol classification, structural signatures, confidence, and matching rationale.
-- `cycle_features.parquet`: per-cycle capacity, energy, efficiency, voltage/current, C-rate, and duration summaries.
-- `delta_q_features.parquet`: voltage-window Delta-Q comparison features between reference and target cycles.
-- `ica_dva_features.parquet`: ICA/DVA curve statistics and within-cycle peak descriptors.
-- `relaxation_features.parquet`: rest-voltage recovery, slope, interpolation, and empirical fit descriptors.
-- `stress_features.parquet`: usage/exposure summaries; SOC-dependent fields require an explicit SOC source.
-- `eis_features.parquet`: descriptive impedance-curve features only; no DRT inversion is implied.
-- `normalized_timeseries.parquet`: standardised time-series data used to compute the features.
+- `operation.phase_segment`
+- `operation.mode_segment`
+- `operation.window_summary`
+- `operation.exposure_summary`
+- `response.cycle_summary`
+- `response.rest_and_thermal`
+- `response.relaxation_signature`
+- `response.directional_energy_summary`
+- `response.capacity_aligned_profile`
+- `response.current_step`
+- `response.current_step_summary`
+- `response.pulse_resistance`
+- `response.ica_curve`
+- `response.dva_curve`
+- `evolution.capacity`
 
-## Feature Contract policy
+Operation mode labels are deliberately limited to `constant_current_like`, `constant_voltage_like`, `pulse_like`, `dynamic_current`, and `unmatched`. BFL never infers a named test protocol.
 
-AI visibility is an explicit whitelist, not a side effect of being numeric.
+The compact downstream view is organized into three analysis dimensions, while metadata and provenance apply to every result:
 
-A Feature Contract carries:
+- `operation.window_summary` describes duration, phase/mode fractions, current and power exposure, throughput, voltage/temperature envelope, and the dominant observed operating mode.
+- `response.directional_energy_summary` describes charge/discharge throughput, directional energy and mean voltage using previous-sample ZOH. Its balanced-window ratio is explicitly not called cycle efficiency.
+- `response.current_step` and `response.current_step_summary` describe rest-referenced terminal `delta-V/delta-I` at fixed response times. They do not infer SOC, intrinsic resistance, SOH, or a named pulse protocol. PyProBE `response.pulse_resistance` remains a separate, stricter path that requires a grounded capacity reference.
+- `response.capacity_aligned_profile` emits charge/discharge voltage curves only when state-window, capacity and current comparability gates pass. Standardized temperature is also matched when available; if it is absent, the record is warned and cannot support thermal or cross-test comparison. Its capacity coordinate is explicitly not SOC.
+- `response.relaxation_signature` aggregates terminal-voltage recovery at the configured checkpoints (10 s to 1800 s by default) and compact shape descriptors after observed charge or discharge phases. It does not claim equilibrium OCV or a degradation mechanism.
+- `evolution.capacity` describes comparable repeated cycle observations only when source or joined cycle identifiers and completeness gates permit it; absence of those inputs produces an explicit unavailable result.
 
-```text
-contract_id
-definition
-unit
-inputs
-method
-method_version
-parameter_names / resolved parameters
-applicability
-quality
-source_interval
-interpretation_level
-ai_visible
-```
+These records report source intervals, reference frames, deterministic quality gates, categorical confidence (never a probability), method parameters, and interpretation limits. Summaries with candidate gates also report rejection counts by reason. Capacity-aligned charge/discharge profiles are intentionally omitted unless a complete comparable phase pair is available; BFL does not emit a placeholder curve for incomplete data.
 
-The generated catalogue also records per-table coverage so retained feature columns can be checked against the contract registry. Generated documentation contracts default to `ai_visible=false`; promotion to AI-visible evidence requires an intentional, reviewed explicit contract.
+## Numerical conventions
 
-Current AI-visible interpretation levels are:
+Irregularly sampled exposure and fallback capacity/energy integration use a left-continuous previous-sample hold: `x[i]` applies on `[t[i], t[i+1])`. Missing held values are excluded, not replaced with zero. The final sample has zero duration. Sampling QA flags only an isolated interval that exceeds both neighbouring positive intervals by the configured factor; it calls this a `sampling_interval_outlier`, not a missing-data gap. Sustained multi-rate logging blocks therefore remain valid. Outlier intervals remain included in ZOH totals and their count, duration, and maximum are reported.
 
-- `derived`: deterministic descriptors computed from measurements.
-- `observation`: statistically detected trends or configured stress/specification flags.
+Reported cumulative capacity or energy columns are used only when they contain at least two finite points and are monotonic with a non-negative endpoint delta. Otherwise BFL uses the declared `zoh_previous_v1` branch and records why the reported column was unusable.
 
-## Validation
+Capacity evolution accepts only source or joined cycle identifiers, structurally complete cycles, and one conservative operation signature. The default reference is the median of up to four complete cycles after excluding one formation cycle, with at least three reference cycles required. Theil–Sen and Kendall tau-b are emitted only with at least eight comparable cycles; no trend p-value or significance claim is produced.
 
-Run the test suite:
+Scientific defaults are held in the versioned `bfl.analysis-policy/0.1`
+registry, not inferred from a filename, step number, row location, or the
+example dataset. Python callers may override named entries through
+`analysis_policy={...}`. Unknown names and invalid ranges are rejected. The
+complete resolved policy and its version are written to
+`analysis_evidence.json.configuration`; each method records its relevant
+effective parameters, so a threshold change also changes the run identity. Relaxation checkpoint times are
+configured separately with `relaxation_checkpoints_s`. Adding voltage or
+temperature enriches the available records without changing already-computed
+time/current metrics.
 
-```bash
-python -m pytest
-python -m ruff check .
-```
-
-Run the offline synthetic self-test:
-
-```bash
-python scripts/validate_on_dataset.py --synthetic 12
-```
-
-Run validation on a folder of per-cell CSV files:
-
-```bash
-python scripts/validate_on_dataset.py --data-dir path/to/cells --nominal-capacity-ah 1.1
-```
-
-The synthetic harness is a software self-test, not a scientific validation result. Real cross-dataset scientific validation remains a separate requirement.
-
-## Python Usage
+## Reading the outputs
 
 ```python
+import json
 from pathlib import Path
 
-from battery_feature_lab.pipeline import FeaturePipeline, PipelineConfig
-from battery_feature_lab.schemas import ExportConfig, FeatureConfig, ReaderConfig
+output_dir = Path("bfl_outputs")
+results = json.loads((output_dir / "analysis_results.json").read_text())
+metadata = json.loads((output_dir / "analysis_metadata.json").read_text())
+evidence = json.loads((output_dir / "analysis_evidence.json").read_text())
+validation = json.loads((output_dir / "analysis_validation.json").read_text())
 
-pipeline = FeaturePipeline(
-    PipelineConfig(
-        reader=ReaderConfig(cell_id="cell_001"),
-        features=FeatureConfig(nominal_capacity_ah=1.1),
-        export=ExportConfig(output_dir=Path("out")),
-    )
+indexed = results["dimensions"]["response"][0]
+record = next(
+    item for item in evidence["records"] if item["record_id"] == indexed["evidence"]["record_id"]
 )
-
-tables = pipeline.run("input.csv")
+print(validation["status"], metadata["cell"], record["source_intervals"])
 ```
+
+`analysis_validation.json` links all six artifacts, records the input adapter,
+handoff status, channel capability matrix, software versions and every
+third-party call, verifies compact-index evidence references, and reports
+schema validation and numerical recomputation without duplicating the native
+input report.
 
 ## Development
 
-```bash
-python -m pip install -e ".[dev]"
-python -m pytest
-python -m ruff check .
+```console
+uv sync --python 3.12 --extra dev
+# Add --extra bdf when native formal-BDF input is required.
+uv run pytest -q
+uv run ruff check .
 ```
 
-## License
-
-MIT License. See [LICENSE](LICENSE).
+The tutorial notebook is [examples/BFL_example.ipynb](examples/BFL_example.ipynb). Raw validation datasets belong in `tests/data/real/` and are intentionally ignored; only their manifest and usage notes are versioned.

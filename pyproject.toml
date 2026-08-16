@@ -4,35 +4,34 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "battery-feature-lab"
-version = "0.3.0"
-description = "Feature extraction pipeline for battery cycling data. Ingest is delegated to battery-data-standard (BDS)."
+version = "0.4.0"
+description = "Auditable battery time-series analysis over BDS and formal BDF handoffs."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11,<3.13"
 license = "MIT"
 authors = [{ name = "BFL contributors" }]
 dependencies = [
-  "numpy>=1.23",
-  "pandas>=1.5",
+  "battery-data-standard>=0.3.1,<0.4",
+  "jsonschema>=4.26",
+  "numpy>=1.26.4",
+  "polars>=1.18",
+  "PyProBE-Data>=2.6,<2.7",
   "scipy>=1.9",
-  "scikit-learn>=1.2",
-  "pyarrow>=10.0",
-  "battery-data-standard>=0.3.1",
 ]
 
 [project.optional-dependencies]
-explain = ["shap>=0.43", "xgboost>=1.7", "lightgbm>=4.0"]
-dev = ["pytest>=7.0", "ruff>=0.4"]
+dev = ["pytest>=8.0", "ruff>=0.9"]
+bdf = ["batterydf==0.1.0"]
 
 [project.scripts]
 bfl = "battery_feature_lab.cli:main"
-battery-features = "battery_feature_lab.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["battery_feature_lab*", "bfl*"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

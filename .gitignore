@@ -16,8 +16,15 @@ dist/
 .venv/
 venv/
 out/
-docs/
 test results/
 
-examples/BFL_example.ipynb
-EVIDENCE_LAYER_ROADMAP.md
+testdataset/
+tests/data/real/*
+!tests/data/real/README.md
+!tests/data/real/MANIFEST.sha256
+
+# Primary-source PDFs used during method review stay local; the audit note is tracked.
+docs/research/*.pdf
+
+# Local PDF render/extraction scratch space and other reproducible probes.
+tmp/

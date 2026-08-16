@@ -1,0 +1,5 @@
+# Local files supplied for validation on 2026-08-16.
+# The files currently remain in testdataset/; copy them here only for local test runs.
+a4da248c88285a5f5bd7200a9bd8a357bebff6677452036d64361c99c6a8c4cc  CC2Cch.mat
+ed5b0a85c5d2f77796664d55e303723bab08a39e08dc576566a043bcb62e9ef5  CC2Cdch.mat
+461e7295a0f550d41279fe67c881ba57df19f0975c5f3faaa47e46cfddf760fa  NCA_k1_0_05C_05degC.xlsx

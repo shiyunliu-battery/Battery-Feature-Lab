@@ -5,98 +5,73 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from battery_feature_lab.pipeline import FeaturePipeline, PipelineConfig
-from battery_feature_lab.schemas import (
-    DiagnosticConfig,
-    EvidenceConfig,
-    ExportConfig,
-    FeatureConfig,
-    ReaderConfig,
-)
+from battery_feature_lab import analyze
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="battery-features")
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    """Build the public CLI containing only ``bfl analyze``."""
 
-    extract = subparsers.add_parser("extract", help="Extract battery features from a BDS export.")
-    extract.add_argument("input_path", type=Path)
-    extract.add_argument("--output-dir", type=Path, required=True)
-    extract.add_argument("--cell-id", type=str, default=None)
-    extract.add_argument("--nominal-capacity-ah", type=float, default=None)
-    extract.add_argument("--negative-current-is-charge", action="store_true")
-    extract.add_argument("--time-unit", choices=["s", "min", "h"], default="s")
-    extract.add_argument("--capacity-unit", choices=["Ah", "mAh"], default="Ah")
-    extract.add_argument("--soc-unit", choices=["fraction", "percent"], default="fraction")
-    extract.add_argument("--reference-cycle", type=int, default=10)
-    extract.add_argument("--target-cycle", type=int, default=100)
-    extract.add_argument("--histogram-bins", type=int, default=20)
-    extract.add_argument("--trend-p-value-alpha", type=float, default=0.05)
-    extract.add_argument("--stress-percentile", type=float, default=0.9)
-    extract.add_argument("--stress-mad-threshold", type=float, default=3.0)
-    extract.add_argument("--high-soc-level", type=float, default=0.8)
-    extract.add_argument("--high-soc-rest-threshold", type=float, default=None)
-    extract.add_argument("--c-rate-variance-threshold", type=float, default=None)
-    extract.add_argument("--datasheet-max-discharge-c-rate", type=float, default=None)
-    extract.add_argument("--peak-prominence-noise-multiplier", type=float, default=6.0)
-    extract.add_argument("--skip-normalized-timeseries", action="store_true")
-    extract.add_argument("--evidence-question", type=str, default=None)
-    extract.add_argument("--evidence-token-budget", type=int, default=800)
-    extract.add_argument("--evidence-max-selected-items", type=int, default=12)
-    extract.add_argument("--skip-evidence", action="store_true")
+    parser = argparse.ArgumentParser(prog="bfl")
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    command = subparsers.add_parser(
+        "analyze", help="Analyze a raw cycler export or a formal BDF artifact."
+    )
+    command.add_argument("input_path", type=Path)
+    command.add_argument("--output-dir", type=Path, default=Path("bfl_outputs"))
+    command.add_argument("--input-adapter", choices=("auto", "bds", "bdf"), default="auto")
+    command.add_argument("--cell-id")
+    command.add_argument("--nominal-capacity-ah", type=float)
+    command.add_argument("--representative-cycle", type=int)
+    command.add_argument("--declared-protocol-name")
+    command.add_argument(
+        "--voltage-column",
+        help="Exact preprocessed column used as analysis voltage; normalized data is unchanged.",
+    )
+    command.add_argument(
+        "--temperature-column",
+        help="Exact preprocessed column used as analysis temperature; normalized data is unchanged.",
+    )
+    command.add_argument("--formation-cycles-to-exclude", type=int, default=1)
+    command.add_argument("--reference-window-size", type=int, default=4)
+    command.add_argument(
+        "--pulse-resistance-time-s",
+        type=float,
+        action="append",
+        dest="pulse_resistance_times_s",
+    )
+    command.add_argument(
+        "--relaxation-checkpoint-s",
+        type=float,
+        action="append",
+        dest="relaxation_checkpoints_s",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Execute the public CLI."""
+
     args = build_parser().parse_args(argv)
-    if args.command == "extract":
-        # Only override the config defaults when the user supplied a value, so the documented
-        # built-in defaults (e.g. the single-cell high-SOC-rest threshold) are preserved.
-        diagnostic_kwargs: dict[str, float] = {
-            "trend_p_value_alpha": args.trend_p_value_alpha,
-            "stress_percentile": args.stress_percentile,
-            "stress_mad_threshold": args.stress_mad_threshold,
-        }
-        if args.high_soc_rest_threshold is not None:
-            diagnostic_kwargs["high_soc_rest_fraction_threshold"] = args.high_soc_rest_threshold
-        if args.c_rate_variance_threshold is not None:
-            diagnostic_kwargs["c_rate_variance_threshold"] = args.c_rate_variance_threshold
-        if args.datasheet_max_discharge_c_rate is not None:
-            diagnostic_kwargs["datasheet_max_discharge_c_rate"] = args.datasheet_max_discharge_c_rate
-        config = PipelineConfig(
-            reader=ReaderConfig(
-                cell_id=args.cell_id,
-                positive_current_is_charge=not args.negative_current_is_charge,
-                time_unit=args.time_unit,
-                capacity_unit=args.capacity_unit,
-                soc_unit=args.soc_unit,
-            ),
-            features=FeatureConfig(
-                nominal_capacity_ah=args.nominal_capacity_ah,
-                early_reference_cycle=args.reference_cycle,
-                early_target_cycle=args.target_cycle,
-                histogram_bins=args.histogram_bins,
-                peak_prominence_noise_multiplier=args.peak_prominence_noise_multiplier,
-                high_soc_level=args.high_soc_level,
-            ),
-            export=ExportConfig(
-                output_dir=args.output_dir,
-                write_normalized_timeseries=not args.skip_normalized_timeseries,
-            ),
-            diagnostics=DiagnosticConfig(**diagnostic_kwargs),
-            evidence=EvidenceConfig(
-                enabled=not args.skip_evidence,
-                question=args.evidence_question,
-                token_budget=args.evidence_token_budget,
-                max_selected_items=args.evidence_max_selected_items,
-            ),
-        )
-        tables = FeaturePipeline(config).run(args.input_path)
-        non_empty = {name: len(frame) for name, frame in tables.items() if frame is not None and not frame.empty}
-        print(f"Wrote features to {args.output_dir}")
-        print(f"Non-empty tables: {non_empty}")
-        return 0
-    return 1
+    result = analyze(
+        args.input_path,
+        output_dir=args.output_dir,
+        input_adapter=args.input_adapter,
+        cell_id=args.cell_id,
+        nominal_capacity_ah=args.nominal_capacity_ah,
+        representative_cycle=args.representative_cycle,
+        declared_protocol_name=args.declared_protocol_name,
+        formation_cycles_to_exclude=args.formation_cycles_to_exclude,
+        reference_window_size=args.reference_window_size,
+        pulse_resistance_times_s=tuple(args.pulse_resistance_times_s or (10.0,)),
+        relaxation_checkpoints_s=tuple(
+            args.relaxation_checkpoints_s or (10.0, 30.0, 60.0, 300.0, 600.0, 1800.0)
+        ),
+        voltage_column=args.voltage_column,
+        temperature_column=args.temperature_column,
+    )
+    for path in result.files:
+        print(path)
+    return 0
 
 
 if __name__ == "__main__":

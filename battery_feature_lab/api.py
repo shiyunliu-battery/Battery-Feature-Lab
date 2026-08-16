@@ -1,113 +1,46 @@
-"""User-facing convenience API."""
+"""Single public API for Battery Feature Lab."""
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any
 
-import pandas as pd
-
-from battery_feature_lab.pipeline import FeaturePipeline, PipelineConfig
-from battery_feature_lab.schemas import (
-    DiagnosticConfig,
-    EvidenceConfig,
-    ExportConfig,
-    FeatureConfig,
-    ReaderConfig,
-)
+from battery_feature_lab.analysis.compiler import compile_analysis
+from battery_feature_lab.analysis.schema import AnalysisConfig, AnalysisResult
 
 
-@dataclass(frozen=True)
-class ExtractionResult:
-    """Result returned by :func:`extract`."""
-
-    tables: dict[str, pd.DataFrame]
-    output_dir: Path
-
-    @property
-    def files(self) -> list[Path]:
-        """Files written to the output directory."""
-
-        return sorted(self.output_dir.glob("*"))
-
-    @property
-    def llm_context_path(self) -> Path:
-        """Path to the JSONL context summary."""
-
-        return self.output_dir / "llm_context.jsonl"
-
-    @property
-    def metadata_path(self) -> Path:
-        """Path to the run metadata JSON output."""
-
-        return self.output_dir / "run_metadata.json"
-
-    @property
-    def evidence_candidates_path(self) -> Path:
-        """Path to the JSONL evidence candidate output."""
-
-        return self.output_dir / "evidence_candidates.jsonl"
-
-    @property
-    def selected_evidence_path(self) -> Path:
-        """Path to the JSONL selected evidence pack."""
-
-        return self.output_dir / "selected_evidence.jsonl"
-
-
-def extract(
+def analyze(
     input_path: str | Path,
     output_dir: str | Path = "bfl_outputs",
     *,
+    input_adapter: str = "auto",
     cell_id: str | None = None,
     nominal_capacity_ah: float | None = None,
-    positive_current_is_charge: bool = True,
-    reference_cycle: int = 10,
-    target_cycle: int = 100,
-    high_soc_rest_threshold: float | None = 0.5,
-    datasheet_max_discharge_c_rate: float | None = None,
-    write_normalized_timeseries: bool = True,
-    evidence_question: str | None = None,
-    evidence_token_budget: int = 800,
-    evidence_max_selected_items: int = 12,
-    write_evidence: bool = True,
-    **feature_overrides: Any,
-) -> ExtractionResult:
-    """Extract battery features from a BDS/cycler export with minimal setup.
+    representative_cycle: int | None = None,
+    declared_protocol_name: str | None = None,
+    formation_cycles_to_exclude: int = 1,
+    reference_window_size: int = 4,
+    pulse_resistance_times_s: tuple[float, ...] = (10.0,),
+    relaxation_checkpoints_s: tuple[float, ...] = (10.0, 30.0, 60.0, 300.0, 600.0, 1800.0),
+    voltage_column: str | None = None,
+    temperature_column: str | None = None,
+    analysis_policy: Mapping[str, float] | None = None,
+) -> AnalysisResult:
+    """Analyze a supported cycler file and write the machine-readable BFL contract."""
 
-    Parameters mirror the most common CLI options. Use the lower-level ``FeaturePipeline`` API
-    when you need complete control over every configuration object.
-    """
-
-    input_path = Path(input_path)
-    output_dir = Path(output_dir)
-    feature_kwargs = {
-        "nominal_capacity_ah": nominal_capacity_ah,
-        "early_reference_cycle": reference_cycle,
-        "early_target_cycle": target_cycle,
-        **feature_overrides,
-    }
-    config = PipelineConfig(
-        reader=ReaderConfig(
-            cell_id=cell_id or input_path.stem,
-            positive_current_is_charge=positive_current_is_charge,
-        ),
-        features=FeatureConfig(**feature_kwargs),
-        diagnostics=DiagnosticConfig(
-            high_soc_rest_fraction_threshold=high_soc_rest_threshold,
-            datasheet_max_discharge_c_rate=datasheet_max_discharge_c_rate,
-        ),
-        export=ExportConfig(
-            output_dir=output_dir,
-            write_normalized_timeseries=write_normalized_timeseries,
-        ),
-        evidence=EvidenceConfig(
-            enabled=write_evidence,
-            question=evidence_question,
-            token_budget=evidence_token_budget,
-            max_selected_items=evidence_max_selected_items,
-        ),
+    config = AnalysisConfig(
+        output_dir=Path(output_dir),
+        input_adapter=input_adapter,
+        cell_id=cell_id,
+        nominal_capacity_ah=nominal_capacity_ah,
+        representative_cycle=representative_cycle,
+        declared_protocol_name=declared_protocol_name,
+        formation_cycles_to_exclude=formation_cycles_to_exclude,
+        reference_window_size=reference_window_size,
+        pulse_resistance_times_s=pulse_resistance_times_s,
+        relaxation_checkpoints_s=relaxation_checkpoints_s,
+        voltage_column=voltage_column,
+        temperature_column=temperature_column,
+        analysis_policy=dict(analysis_policy or {}),
     )
-    tables = FeaturePipeline(config).run(input_path)
-    return ExtractionResult(tables=tables, output_dir=output_dir)
+    return compile_analysis(Path(input_path), config)
