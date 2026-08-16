@@ -11,3 +11,4 @@
 - Added explicit current-step rejection counts, reference frames, categorical confidence, and limits that prevent health or mechanism claims from short data.
 - Split the downstream contract into a compact results index, tool-grounded metadata, full retrievable evidence, validation, normalized BDF data and the native BDS report.
 - Added conservative capacity-aligned voltage profiles, expanded fixed-time relaxation descriptors, explicit analysis-channel overrides and metadata/provenance references.
+- Added a reproducible CC BY 4.0 Catenaro–Onori example dataset and an optional GPT-5.6 Responses API notebook step that interprets redacted BDS/BFL JSON without storing API credentials or model output.

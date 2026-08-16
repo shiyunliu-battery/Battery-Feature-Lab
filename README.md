@@ -149,10 +149,10 @@ input report.
 ## Development
 
 ```console
-uv sync --python 3.12 --extra dev
+uv sync --python 3.12 --extra dev --extra ai
 # Add --extra bdf when native formal-BDF input is required.
 uv run pytest -q
 uv run ruff check .
 ```
 
-The tutorial notebook is [examples/BFL_example.ipynb](examples/BFL_example.ipynb). Raw validation datasets belong in `tests/data/real/` and are intentionally ignored; only their manifest and usage notes are versioned.
+The tutorial notebook is [examples/BFL_Catenaro_Onori_example.ipynb](examples/BFL_Catenaro_Onori_example.ipynb). It includes an optional GPT-5.6 interpretation cell that reads the machine-readable JSON outputs through the OpenAI Responses API; the API key is supplied at runtime and is never stored in the notebook. Raw validation datasets belong in `tests/data/real/` and are intentionally ignored; only their manifest and usage notes are versioned.

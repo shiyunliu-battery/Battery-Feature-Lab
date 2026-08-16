@@ -22,6 +22,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.9"]
 bdf = ["batterydf==0.1.0"]
+ai = ["openai>=2,<3"]
 
 [project.scripts]
 bfl = "battery_feature_lab.cli:main"
