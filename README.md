@@ -19,54 +19,10 @@ shows conceptual and data dependencies, not the compiler's execution order or a 
 every dimension produce an applicable result. Metadata provides context, while evidence and
 validation make each result traceable and define its interpretation limits.
 
-```mermaid
-flowchart TB
-    H["Provider-neutral handoff<br/>canonical table · provider report<br/>source identity · sign convention"]
+![Battery Feature Lab organisation diagram](docs/assets/bfl-organisation.svg)
 
-    subgraph BFL["Battery Feature Lab"]
-        direction TB
-
-        I["Capability inventory<br/>time · current · voltage · temperature · cycle identity"]
-
-        M["Metadata compilation<br/>cell · test · dataset · available channels"]
-
-        subgraph A["Capability-gated analysis"]
-            direction LR
-
-            O["Operation<br/>Experienced conditions"]
-
-            R["Response<br/>Terminal behaviour"]
-
-            E["Evolution<br/>Capacity change across comparable cycles"]
-
-            O -. "interpretation context" .-> R
-            R -. "comparable observations" .-> E
-        end
-
-        V["Evidence and validation<br/>source intervals · method/version · parameters<br/>reference frame · applicability · quality · limits"]
-
-        I --> M
-        I --> O
-        I --> R
-        I --> E
-
-        M -. "contextualises" .-> O
-        M -. "contextualises" .-> R
-        M -. "contextualises" .-> E
-
-        I --> V
-        M --> V
-        O --> V
-        R --> V
-        E --> V
-    end
-
-    H --> I
-    H --> M
-    H --> O
-    H --> R
-    H --> V
-```
+The editable [Mermaid source](docs/assets/bfl-organisation.mmd) is retained alongside the static
+SVG.
 
 Raw files are standardized by Battery Data Standard (BDS). Existing formal Battery Data Format
 (BDF) artifacts may instead use the optional `batterydf` adapter. Both routes produce the same
