@@ -46,26 +46,13 @@ flowchart TB
         V["Evidence and validation<br/>source intervals · method/version · parameters<br/>reference frame · applicability · quality · limits"]
 
         I --> M
-        I --> O
-        I --> R
-        I --> E
-
-        M -. "contextualises" .-> O
-        M -. "contextualises" .-> R
-        M -. "contextualises" .-> E
-
-        I --> V
-        M --> V
-        O --> V
-        R --> V
-        E --> V
+        I --> A
+        M -. "contextualises" .-> A
+        A --> V
     end
 
     H --> I
-    H --> M
-    H --> O
-    H --> R
-    H --> V
+    H --> A
 ```
 
 Raw files are standardized by Battery Data Standard (BDS). Existing formal Battery Data Format
