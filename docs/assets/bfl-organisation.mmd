@@ -1,0 +1,70 @@
+---
+config:
+  layout: dagre
+  theme: base
+  fontFamily: 'Arial, Helvetica, sans-serif'
+  themeVariables:
+    background: '#ffffff'
+    primaryColor: '#ffffff'
+    primaryTextColor: '#24292f'
+    primaryBorderColor: '#2f81b7'
+    lineColor: '#2f81b7'
+    secondaryColor: '#ffffff'
+    tertiaryColor: '#f6f8fa'
+    clusterBkg: '#f6f8fa'
+    clusterBorder: '#d0d7de'
+    edgeLabelBackground: '#ffffff'
+    fontSize: '13px'
+  flowchart:
+    curve: basis
+    htmlLabels: false
+    nodeSpacing: 48
+    rankSpacing: 42
+---
+%% Render docs/assets/bfl-organisation.svg with Mermaid 11.15.0.
+flowchart TB
+    H["Provider-neutral handoff<br/>canonical table · provider report<br/>source identity · sign convention"]
+
+    subgraph BFL["Battery Feature Lab"]
+        direction TB
+
+        I["Capability inventory<br/>time · current · voltage · temperature · cycle identity"]
+
+        M["Metadata compilation<br/>cell · test · dataset · available channels"]
+
+        subgraph A["Capability-gated analysis"]
+            direction LR
+
+            O["Operation<br/>Experienced conditions"]
+
+            R["Response<br/>Terminal behaviour"]
+
+            E["Evolution<br/>Capacity change across comparable cycles"]
+
+            O -. "interpretation context" .-> R
+            R -. "comparable observations" .-> E
+        end
+
+        V["Evidence and validation<br/>source intervals · method/version · parameters<br/>reference frame · applicability · quality · limits"]
+
+        I --> M
+        I --> O
+        I --> R
+        I --> E
+
+        M -. "contextualises" .-> O
+        M -. "contextualises" .-> R
+        M -. "contextualises" .-> E
+
+        I --> V
+        M --> V
+        O --> V
+        R --> V
+        E --> V
+    end
+
+    H --> I
+    H --> M
+    H --> O
+    H --> R
+    H --> V
