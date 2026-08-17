@@ -14,44 +14,58 @@ software, databases, retrieval systems, and AI tools.
 
 ## How BFL is organised
 
-BFL analyses measurements along three complementary dimensions. Metadata and provenance apply to
-every result rather than forming separate analysis stages.
+BFL analyses measurements along three complementary, capability-gated dimensions. This diagram
+shows conceptual and data dependencies, not the compiler's execution order or a requirement that
+every dimension produce an applicable result. Metadata provides context, while evidence and
+validation make each result traceable and define its interpretation limits.
 
 ```mermaid
 flowchart TB
-    M[Metadata<br/>cell · test · channels · provider]:::context
-    P[Provenance<br/>source intervals · method · parameters · quality]:::context
+    H["Provider-neutral handoff<br/>canonical table · provider report<br/>source identity · sign convention"]
 
-    subgraph BFL[Battery Feature Lab]
-        O[Operation<br/>What happened?]
-        R[Response<br/>How did the cell respond?]
-        E[Evolution<br/>How did comparable responses change?]
-        O --> R --> E
+    subgraph BFL["Battery Feature Lab"]
+        direction TB
+
+        I["Capability inventory<br/>time · current · voltage · temperature · cycle identity"]
+
+        M["Metadata compilation<br/>cell · test · dataset · available channels"]
+
+        subgraph A["Capability-gated analysis"]
+            direction LR
+
+            O["Operation<br/>Experienced conditions"]
+
+            R["Response<br/>Terminal behaviour"]
+
+            E["Evolution<br/>Capacity change across comparable cycles"]
+
+            O -. "interpretation context" .-> R
+            R -. "comparable observations" .-> E
+        end
+
+        V["Evidence and validation<br/>source intervals · method/version · parameters<br/>reference frame · applicability · quality · limits"]
+
+        I --> M
+        I --> O
+        I --> R
+        I --> E
+
+        M -. "contextualises" .-> O
+        M -. "contextualises" .-> R
+        M -. "contextualises" .-> E
+
+        I --> V
+        M --> V
+        O --> V
+        R --> V
+        E --> V
     end
 
-    M -. contextualises .-> O
-    M -. contextualises .-> R
-    M -. contextualises .-> E
-    P -. grounds .-> O
-    P -. grounds .-> R
-    P -. grounds .-> E
-
-    classDef context fill:#f4f7fb,stroke:#64748b,color:#0f172a;
-```
-
-The input boundary is provider-based:
-
-```mermaid
-flowchart LR
-    RAW[Raw cycler export] -->|battery-data-standard| H[Provider-neutral handoff]
-    BDF[Formal BDF artifact] -->|batterydf optional extra| H
-    H --> C[Capability inventory]
-    C --> O[Operation]
-    C --> R[Response]
-    C --> E[Evolution]
-    O --> J[Compact JSON + retrievable evidence]
-    R --> J
-    E --> J
+    H --> I
+    H --> M
+    H --> O
+    H --> R
+    H --> V
 ```
 
 Raw files are standardized by Battery Data Standard (BDS). Existing formal Battery Data Format
