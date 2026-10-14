@@ -4,13 +4,21 @@
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-3776ab?logo=python&logoColor=white)](pyproject.toml)
 [![License](https://img.shields.io/badge/license-MPL--2.0-16a34a)](LICENSE)
 
-Battery Feature Lab (BFL) turns preprocessed battery time-series measurements into compact,
-machine-readable analysis with traceable evidence. It describes operating conditions,
-electrochemical responses, and change across comparable observations without asking downstream
-software to reconstruct those facts from raw arrays.
+Battery Feature Lab (BFL) is a Python framework for the analysis of battery time-series
+measurements and electrochemical impedance spectroscopy (EIS) data. It represents measurement
+conditions (Operation), observed and model-derived responses (Response), and changes across
+observations that meet explicit comparability criteria (Evolution).
 
-BFL does not generate prose reports. Its output is JSON and Parquet designed for analytical
-software, databases, retrieval systems, and AI tools.
+The framework produces machine-readable analysis records with traceable source references,
+processing provenance, method configurations, quality diagnostics, and interpretation limits.
+Time-series and EIS measurements are processed through distinct analysis interfaces and output
+schemas. For EIS, the framework retains measured spectra, evaluates linear Kramers–Kronig
+consistency, and estimates equivalent-circuit parameters with explicit convergence diagnostics.
+Parameter uncertainty, stability, and identifiability remain unassessed in the current release;
+numerical fit quality alone does not establish a physical interpretation.
+
+Outputs are provided as JSON and Parquet for downstream analytical workflows and
+evidence-informed data reuse.
 
 ## How BFL is organised
 
