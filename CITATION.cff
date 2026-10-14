@@ -10,11 +10,15 @@ repository-code: "https://github.com/shiyunliu-battery/Battery-Feature-Lab"
 url: "https://github.com/shiyunliu-battery/Battery-Feature-Lab"
 license: MPL-2.0
 abstract: >-
-  Auditable, capability-aware analysis of standardized battery time-series measurements into
-  machine-readable operation, response, evolution, metadata, provenance, and validation records.
+  A Python framework for battery time-series and electrochemical impedance spectroscopy
+  analysis. It represents measurement conditions, observed and model-derived responses,
+  and changes across comparable observations as machine-readable records with source
+  provenance, method configurations, quality diagnostics, and interpretation limits.
 keywords:
   - battery
   - time-series
+  - electrochemical impedance spectroscopy
+  - EIS
   - electrochemistry
   - battery-data-standard
   - battery-data-format
