@@ -10,6 +10,7 @@
 - Added condition-gated repeat, ageing, SOC and temperature comparisons.
 - Added modality-specific schemas, a six-artifact EIS evidence contract and
   a CC BY 4.0 real-spectrum regression fixture with attribution.
+- Constrained Polars to 1.x for PyProBE cycling and differentiation compatibility.
 - Locked the EIS extra to NumPy 1.26 for `impedance 1.7.1` compatibility.
 
 ## 0.4.0
