@@ -27,6 +27,10 @@
   fit options and tails, a declared unit for every fitted parameter (an undeclared parameter now
   yields `provider_invalid_result:ecm_parameter_units_undeclared` instead of a dimensionless
   value), and a release reference built from the installed eisfit version.
+- Kept pyarrow below 26 in the `eis` extra. pyarrow 26 requires NumPy 2 without declaring it, so a
+  pip installation of the extra could pair it with the required NumPy 1.26; BFL analysis still
+  ran, but importing pyarrow in that environment (for example Polars `to_pandas()` or pandas
+  Parquet I/O) failed.
 - Added an eisfit contract test that fits a small spectrum for each tail and checks the fields,
   shapes, units and JSON serialisation BFL depends on, and that the installed version matches
   the pin. Documented the eisfit upgrade procedure.

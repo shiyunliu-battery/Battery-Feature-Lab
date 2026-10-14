@@ -128,6 +128,7 @@ eis = [
     { name = "eisfit" },
     { name = "impedance" },
     { name = "numpy" },
+    { name = "pyarrow" },
 ]
 
 [package.metadata]
@@ -141,6 +142,7 @@ requires-dist = [
     { name = "numpy", marker = "extra == 'eis'", specifier = ">=1.26.4,<2" },
     { name = "openai", marker = "extra == 'ai'", specifier = ">=2,<3" },
     { name = "polars", specifier = ">=1.18,<2" },
+    { name = "pyarrow", marker = "extra == 'eis'", specifier = "<26" },
     { name = "pyprobe-data", specifier = ">=2.6,<2.7" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9" },

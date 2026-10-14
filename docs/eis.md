@@ -19,7 +19,9 @@ python -m pip install -e ".[eis]"
 
 The extra pins `eisfit==0.1.1`, `impedance==1.7.1` and NumPy 1.26.x.
 `impedance 1.7.1` builds an evaluated circuit expression that is incompatible
-with NumPy 2 scalar representations. The compatible versions are locked;
+with NumPy 2 scalar representations. The extra also keeps pyarrow below 26:
+pyarrow 26 requires NumPy 2 without declaring it, so pip would otherwise
+install a pair that fails at import. The compatible versions are locked;
 provider failures do not trigger a replacement implementation.
 
 ```python
