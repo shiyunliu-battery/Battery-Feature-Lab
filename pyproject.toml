@@ -24,7 +24,7 @@ dependencies = [
   "battery-data-standard>=0.3.1,<0.4",
   "jsonschema>=4.26",
   "numpy>=1.26.4",
-  "polars>=1.18",
+  "polars>=1.18,<2",
   "PyProBE-Data>=2.6,<2.7",
   "scipy>=1.9",
 ]
