@@ -1,0 +1,4 @@
+include CHANGELOG.md
+include CITATION.cff
+include LICENSE
+recursive-include docs *.md *.svg *.mmd

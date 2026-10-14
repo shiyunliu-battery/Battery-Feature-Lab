@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "battery-feature-lab"
-version = "0.5.0.dev0"
-description = "Auditable battery time-series analysis over BDS and formal BDF handoffs."
+version = "0.5.0"
+description = "Auditable battery time-series and EIS analysis with traceable evidence."
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 license = "MPL-2.0"
