@@ -5,10 +5,10 @@ time/current channel or serialize spectra as BDF time-series artifacts.
 
 ## Installation and entry points
 
-Install the EIS providers for Battery Feature Lab 0.5.0:
+Install the EIS providers for Battery Feature Lab 0.6.0:
 
 ```console
-python -m pip install "battery-feature-lab[eis]==0.5.0"
+python -m pip install "battery-feature-lab[eis]==0.6.0"
 ```
 
 For development from a source checkout:

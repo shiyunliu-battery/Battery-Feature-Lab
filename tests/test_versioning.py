@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import tomllib
 from importlib.metadata import version
 from pathlib import Path
 
@@ -15,6 +16,14 @@ RELEASE_LITERAL = re.compile(r"[\"'](?:BFL )?\d+\.\d+\.\d+[\"']|BFL \d+\.\d+\.\d
 def test_package_version_matches_installed_metadata():
     assert battery_feature_lab.__version__ == version("battery-feature-lab")
     assert PROVIDER_VERSION == f"BFL {version('battery-feature-lab')}"
+
+
+def test_installed_metadata_matches_the_declared_project_version():
+    pyproject = Path(__file__).resolve().parents[1] / "pyproject.toml"
+    declared = tomllib.loads(pyproject.read_text(encoding="utf-8"))["project"]["version"]
+    assert version("battery-feature-lab") == declared, (
+        "Installed metadata is stale; reinstall the package (uv sync) after changing its version"
+    )
 
 
 def test_package_sources_do_not_hard_code_release_versions():

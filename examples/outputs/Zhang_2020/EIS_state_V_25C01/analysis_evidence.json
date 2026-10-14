@@ -174,7 +174,7 @@
         "name": "declared_eis_measurement_context_v1",
         "parameters": {},
         "provider": "BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {},
@@ -277,7 +277,7 @@
           "interpolation": "linear_real_imag_in_log10_frequency"
         },
         "provider": "BDS+BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {
@@ -1967,7 +1967,7 @@
         "name": "declared_eis_measurement_context_v1",
         "parameters": {},
         "provider": "BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {},
@@ -2070,7 +2070,7 @@
           "interpolation": "linear_real_imag_in_log10_frequency"
         },
         "provider": "BDS+BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {
@@ -3760,7 +3760,7 @@
         "name": "declared_eis_measurement_context_v1",
         "parameters": {},
         "provider": "BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {},
@@ -3863,7 +3863,7 @@
           "interpolation": "linear_real_imag_in_log10_frequency"
         },
         "provider": "BDS+BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {
@@ -5549,7 +5549,7 @@
         "name": "declared_eis_measurement_context_v1",
         "parameters": {},
         "provider": "BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {},
@@ -5652,7 +5652,7 @@
           "interpolation": "linear_real_imag_in_log10_frequency"
         },
         "provider": "BDS+BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {
@@ -7342,7 +7342,7 @@
         "name": "declared_eis_measurement_context_v1",
         "parameters": {},
         "provider": "BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {},
@@ -7445,7 +7445,7 @@
           "interpolation": "linear_real_imag_in_log10_frequency"
         },
         "provider": "BDS+BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {
@@ -9135,7 +9135,7 @@
         "name": "declared_eis_measurement_context_v1",
         "parameters": {},
         "provider": "BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {},
@@ -9238,7 +9238,7 @@
           "interpolation": "linear_real_imag_in_log10_frequency"
         },
         "provider": "BDS+BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {
@@ -11026,7 +11026,7 @@
           "tolerances": {}
         },
         "provider": "BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {
@@ -11418,7 +11418,7 @@
           "tolerances": {}
         },
         "provider": "BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {
@@ -11810,7 +11810,7 @@
           "tolerances": {}
         },
         "provider": "BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {
@@ -12202,7 +12202,7 @@
           "tolerances": {}
         },
         "provider": "BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {
@@ -12594,7 +12594,7 @@
           "tolerances": {}
         },
         "provider": "BFL",
-        "provider_version": "BFL 0.5.0",
+        "provider_version": "BFL 0.6.0",
         "references": []
       },
       "metrics": {
@@ -12796,6 +12796,6 @@
       ]
     }
   ],
-  "run_id": "bfl-eis-7b08d07ec19cb44e",
+  "run_id": "bfl-eis-38e2fff2896885cf",
   "schema_version": "bfl.eis-analysis/0.1"
 }

@@ -2,7 +2,7 @@
   "artifacts": {
     "analysis_evidence.json": {
       "filename": "analysis_evidence.json",
-      "sha256": "138384fc7727116eb58ad86cd999b7c35240af3f1cb41a27235fdb0d2b8ef222"
+      "sha256": "e9f808f0917d6306efb07e7a8ca7de2d3302b92e48dedfafaf103373dfb8d9e7"
     },
     "analysis_metadata.json": {
       "filename": "analysis_metadata.json",
@@ -10,7 +10,7 @@
     },
     "analysis_results.json": {
       "filename": "analysis_results.json",
-      "sha256": "3f0ec14495691a93e12a521b62371126ca8287df00e5f07bb704802dea3f098e"
+      "sha256": "68725e6c72fefd0bd30cc007c17fdb4f3377b527bd7fae54b7eab2f3d19ff38e"
     },
     "eis_conversion_report.json": {
       "filename": "eis_conversion_report.json",
@@ -173,7 +173,7 @@
     "input_rows": 360,
     "retained_rows": 360
   },
-  "run_id": "bfl-eis-7b08d07ec19cb44e",
+  "run_id": "bfl-eis-38e2fff2896885cf",
   "schema_validation": {
     "analysis_evidence": {
       "errors": [],
@@ -195,7 +195,7 @@
   "schema_version": "bfl.eis-validation/0.1",
   "software_versions": {
     "battery-data-standard": "0.3.1",
-    "battery-feature-lab": "0.5.0",
+    "battery-feature-lab": "0.6.0",
     "bfl_eis_source_sha256": "cb68073dd7d29ce1ad9b60d141f8817c1f56011edc2901ecd84e2f5991944c0c",
     "eisfit": "0.1.1",
     "impedance": "1.7.1",

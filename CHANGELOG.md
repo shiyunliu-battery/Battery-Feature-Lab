@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.6.0 — 2026-10-14
 
 - Added an EIS example notebook for the CC BY 4.0 Zhang et al. (2020) dataset. It screens all
   261 state-V spectra of cell 25C01 with Lin-KK, fits and compares six of them under the
@@ -8,7 +8,7 @@
   over four input conditions.
 - Added an examples index with dataset attribution, layout and running instructions.
 - Fixed provenance: every BFL record now reads its provider version from the installed package
-  metadata (`BFL 0.5.0`). Records produced by 0.5.0 reported `0.4.0` or `BFL 0.4.0`.
+  metadata, for example `BFL 0.6.0`. Records produced by 0.5.0 reported `0.4.0` or `BFL 0.4.0`.
 - Lin-KK records now report `frequency_of_maximum_residual`, `points_above_residual_limit` and
   `fraction_points_above_residual_limit`.
 - A non-finite Lin-KK μ or invalid Lin-KK arrays are reported as
@@ -21,7 +21,7 @@
   their spectra instead of repeating condition blocks, and empty time-series member fields are
   omitted. Evidence records are unchanged. On the Zhang et al. example, the compact file shrinks
   from about 31k to 23k tokens.
-- Corrected the API reference install ranges to `>=0.5,<0.6` and listed the EIS schemas in the
+- Corrected the API reference install ranges, which pointed to 0.4.x, and listed the EIS schemas in the
   documentation index.
 - Kept the exact `eisfit==0.1.1` pin and made its integration explicit: named lists of validated
   fit options and tails, a declared unit for every fitted parameter (an undeclared parameter now
