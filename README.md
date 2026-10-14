@@ -1,6 +1,6 @@
 # Battery Feature Lab
 
-[![Version](https://img.shields.io/badge/version-0.6.0-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.0-2563eb)](CHANGELOG.md)
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-3776ab?logo=python&logoColor=white)](pyproject.toml)
 [![License](https://img.shields.io/badge/license-MPL--2.0-16a34a)](LICENSE)
 
@@ -39,16 +39,16 @@ to the other after a provider error.
 
 ## Quick start
 
-Battery Feature Lab 0.6.0 supports Python 3.11 and 3.12.
+Battery Feature Lab 0.7.0 supports Python 3.11 and 3.12.
 
 ```console
-python -m pip install "battery-feature-lab==0.6.0"
+python -m pip install "battery-feature-lab==0.7.0"
 ```
 
 For EIS analysis, install the optional providers:
 
 ```console
-python -m pip install "battery-feature-lab[eis]==0.6.0"
+python -m pip install "battery-feature-lab[eis]==0.7.0"
 ```
 
 Analyze a raw cycler export:
@@ -74,9 +74,9 @@ Equivalent CLI:
 bfl analyze cell.xlsx --output-dir bfl_outputs/cell --input-adapter bds
 ```
 
-For native formal-BDF input, install `"battery-feature-lab[bdf]==0.6.0"` and use
+For native formal-BDF input, install `"battery-feature-lab[bdf]==0.7.0"` and use
 `input_adapter="bdf"`. The optional OpenAI notebook client is available through
-`"battery-feature-lab[ai]==0.6.0"`.
+`"battery-feature-lab[ai]==0.7.0"`.
 
 ## Output contract
 
@@ -145,11 +145,11 @@ metadata.
 
 ### EIS
 
-Install `battery-feature-lab[eis]==0.6.0` and use
+Install `battery-feature-lab[eis]==0.7.0` and use
 `bfl.analyze_eis()` or
 `bfl analyze-eis`. The independent EIS path combines BDS-backed intake,
 explicit spectrum grouping, measurement conditions, Lin-KK consistency checks,
-`eisfit 0.1.1` circuit fitting and condition-gated comparisons. It retains
+`eisfit 0.2.0` circuit fitting and condition-gated comparisons. It retains
 source rows, conversion operations, provider failures and interpretation
 limits in a modality-specific six-artifact contract.
 
@@ -187,6 +187,12 @@ uv run pytest -q
 Real-data validation instructions are kept in
 [`tests/data/real/README.md`](tests/data/real/README.md).
 
+`main` is the only branch. To release, update the version in `pyproject.toml`,
+`CITATION.cff` and the documentation, add a `## <version>` section to `CHANGELOG.md`,
+run `uv lock` and `uv sync` so the installed metadata matches, push `main`, and after CI
+passes push the tag `v<version>`. The tag publishes to PyPI and creates a GitHub release
+whose notes are that changelog section.
+
 ## Citation
 
 If Battery Feature Lab supports your work, please cite the software:
@@ -196,7 +202,7 @@ If Battery Feature Lab supports your work, please cite the software:
   author  = {Liu, Shiyun},
   title   = {Battery Feature Lab},
   year    = {2026},
-  version = {0.6.0},
+  version = {0.7.0},
   url     = {https://github.com/shiyunliu-battery/Battery-Feature-Lab},
   license = {MPL-2.0}
 }
