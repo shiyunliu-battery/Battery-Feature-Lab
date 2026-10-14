@@ -1,0 +1,205 @@
+{
+  "artifacts": {
+    "analysis_evidence.json": {
+      "filename": "analysis_evidence.json",
+      "sha256": "138384fc7727116eb58ad86cd999b7c35240af3f1cb41a27235fdb0d2b8ef222"
+    },
+    "analysis_metadata.json": {
+      "filename": "analysis_metadata.json",
+      "sha256": "8b43e54a6a02a672f0d900fd15c7e95c991a73ec0f8af49587040de1471b433a"
+    },
+    "analysis_results.json": {
+      "filename": "analysis_results.json",
+      "sha256": "3f0ec14495691a93e12a521b62371126ca8287df00e5f07bb704802dea3f098e"
+    },
+    "eis_conversion_report.json": {
+      "filename": "eis_conversion_report.json",
+      "sha256": "fcf1138cb7bc4f6b31c2f3991c37cc1241a5e5a69780ee5114ca1ae8d1a48d4b"
+    },
+    "normalized_eis.parquet": {
+      "filename": "normalized_eis.parquet",
+      "sha256": "b6e26c26bee7b9290807200d5741846a445f4a9c2e13e15d0a01ec88852cec30"
+    }
+  },
+  "provider_calls": [
+    {
+      "method": "kk",
+      "provider": "impedance.py",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 1,
+        "warnings": []
+      },
+      "spectrum_uid": "13263cb7c685a33c",
+      "status": "ok",
+      "version": "1.7.1"
+    },
+    {
+      "method": "ecm",
+      "provider": "eisfit",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 0,
+        "warnings": []
+      },
+      "spectrum_uid": "13263cb7c685a33c",
+      "status": "ok",
+      "version": "0.1.1"
+    },
+    {
+      "method": "kk",
+      "provider": "impedance.py",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 1,
+        "warnings": []
+      },
+      "spectrum_uid": "ad0ac10dcf195797",
+      "status": "ok",
+      "version": "1.7.1"
+    },
+    {
+      "method": "ecm",
+      "provider": "eisfit",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 0,
+        "warnings": []
+      },
+      "spectrum_uid": "ad0ac10dcf195797",
+      "status": "ok",
+      "version": "0.1.1"
+    },
+    {
+      "method": "kk",
+      "provider": "impedance.py",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 1,
+        "warnings": []
+      },
+      "spectrum_uid": "0572c3971d112404",
+      "status": "ok",
+      "version": "1.7.1"
+    },
+    {
+      "method": "ecm",
+      "provider": "eisfit",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 0,
+        "warnings": []
+      },
+      "spectrum_uid": "0572c3971d112404",
+      "status": "ok",
+      "version": "0.1.1"
+    },
+    {
+      "method": "kk",
+      "provider": "impedance.py",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 1,
+        "warnings": []
+      },
+      "spectrum_uid": "153066e9616f17c0",
+      "status": "ok",
+      "version": "1.7.1"
+    },
+    {
+      "method": "ecm",
+      "provider": "eisfit",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 0,
+        "warnings": []
+      },
+      "spectrum_uid": "153066e9616f17c0",
+      "status": "ok",
+      "version": "0.1.1"
+    },
+    {
+      "method": "kk",
+      "provider": "impedance.py",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 1,
+        "warnings": []
+      },
+      "spectrum_uid": "5c33f1bb60c0f1f1",
+      "status": "ok",
+      "version": "1.7.1"
+    },
+    {
+      "method": "ecm",
+      "provider": "eisfit",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 0,
+        "warnings": []
+      },
+      "spectrum_uid": "5c33f1bb60c0f1f1",
+      "status": "ok",
+      "version": "0.1.1"
+    },
+    {
+      "method": "kk",
+      "provider": "impedance.py",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 1,
+        "warnings": []
+      },
+      "spectrum_uid": "26f1f5f128cdfcdf",
+      "status": "ok",
+      "version": "1.7.1"
+    },
+    {
+      "method": "ecm",
+      "provider": "eisfit",
+      "provider_output": {
+        "stderr_line_count": 0,
+        "stdout_line_count": 0,
+        "warnings": []
+      },
+      "spectrum_uid": "26f1f5f128cdfcdf",
+      "status": "ok",
+      "version": "0.1.1"
+    }
+  ],
+  "row_accounting": {
+    "accounted": true,
+    "excluded_rows": 0,
+    "input_rows": 360,
+    "retained_rows": 360
+  },
+  "run_id": "bfl-eis-7b08d07ec19cb44e",
+  "schema_validation": {
+    "analysis_evidence": {
+      "errors": [],
+      "valid": true
+    },
+    "analysis_metadata": {
+      "errors": [],
+      "valid": true
+    },
+    "analysis_results": {
+      "errors": [],
+      "valid": true
+    },
+    "analysis_validation": {
+      "errors": [],
+      "valid": true
+    }
+  },
+  "schema_version": "bfl.eis-validation/0.1",
+  "software_versions": {
+    "battery-data-standard": "0.3.1",
+    "battery-feature-lab": "0.5.0",
+    "bfl_eis_source_sha256": "cb68073dd7d29ce1ad9b60d141f8817c1f56011edc2901ecd84e2f5991944c0c",
+    "eisfit": "0.1.1",
+    "impedance": "1.7.1",
+    "numpy": "1.26.4"
+  },
+  "status": "warning"
+}

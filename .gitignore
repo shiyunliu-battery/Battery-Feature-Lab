@@ -29,3 +29,6 @@ tmp/
 # Public examples keep attribution and derived JSON, not source or normalized time-series arrays.
 examples/data/Catenaro_Onori_2021/*.xlsx
 examples/outputs/Catenaro_Onori_2021/**/normalized_data.bdf.parquet
+examples/data/Zhang_2020/*.zip
+examples/data/Zhang_2020/*.txt
+examples/outputs/Zhang_2020/**/normalized_eis.parquet

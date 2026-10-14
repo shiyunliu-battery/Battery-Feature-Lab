@@ -8,3 +8,7 @@ Third-party datasets and generated artifacts derived from them retain their own 
 the Catenaro-Onori example dataset is published under CC BY 4.0; its citation, attribution, source,
 and checksum are recorded in examples/data/Catenaro_Onori_2021/README.md. The raw workbook is not
 distributed in this repository.
+
+The Zhang et al. EIS example dataset (doi:10.5281/zenodo.3633835) is published under CC BY 4.0; its
+citation, attribution, source, and checksums are recorded in examples/data/Zhang_2020/README.md. The
+source archive and the input tables derived from it are not distributed in this repository.

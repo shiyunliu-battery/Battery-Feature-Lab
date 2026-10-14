@@ -1,0 +1,3136 @@
+{
+  "cell_id": "25C01",
+  "conditions": {
+    "not_reported": [
+      "ac_amplitude_v",
+      "cycle_index",
+      "dc_voltage_v",
+      "elapsed_time_s"
+    ],
+    "shared": {
+      "ac_amplitude_a": {
+        "source": "metadata",
+        "status": "declared",
+        "unit": "A",
+        "value": 0.005
+      },
+      "cell_id": {
+        "source": "metadata",
+        "status": "declared",
+        "unit": null,
+        "value": "25C01"
+      },
+      "instrument": {
+        "source": "metadata",
+        "status": "declared",
+        "unit": null,
+        "value": "unnamed_potentiostat_single_recording"
+      },
+      "protocol_id": {
+        "source": "metadata",
+        "status": "declared",
+        "unit": null,
+        "value": "Zhang2020_state_V"
+      },
+      "rest_time_s": {
+        "source": "metadata",
+        "status": "declared",
+        "unit": "s",
+        "value": 900.0
+      },
+      "soc_fraction": {
+        "source": "metadata",
+        "status": "declared",
+        "unit": "1",
+        "value": 1.0
+      },
+      "temperature_deg_c": {
+        "source": "metadata",
+        "status": "declared",
+        "unit": "degC",
+        "value": 25.0
+      }
+    }
+  },
+  "dimensions": {
+    "evolution": [
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "matched"
+        },
+        "attributes": {
+          "common_frequency_window_hz": [
+            0.01999,
+            20004.453
+          ],
+          "compared_spectra": [
+            {
+              "spectrum_id": "25C01_V_021",
+              "spectrum_uid": "13263cb7c685a33c"
+            },
+            {
+              "spectrum_id": "25C01_V_069",
+              "spectrum_uid": "ad0ac10dcf195797"
+            }
+          ],
+          "comparison_kind": "ageing",
+          "comparison_status": "comparable",
+          "ecm_parameter_comparison_limit": "parameter_stability_and_physical_arc_identity_not_assessed",
+          "ecm_parameter_comparison_status": "not_computable",
+          "mismatched_conditions": [],
+          "missing_conditions": [],
+          "supporting_record_ids": [
+            "operation.eis_conditions:13263cb7c685a33c",
+            "response.eis_spectrum:13263cb7c685a33c",
+            "response.eis_kk:13263cb7c685a33c",
+            "response.eis_ecm:13263cb7c685a33c",
+            "operation.eis_conditions:ad0ac10dcf195797",
+            "response.eis_spectrum:ad0ac10dcf195797",
+            "response.eis_kk:ad0ac10dcf195797",
+            "response.eis_ecm:ad0ac10dcf195797"
+          ]
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "evolution.eis_comparison:13263cb7c685a33c:ad0ac10dcf195797",
+          "source_interval_count": 2
+        },
+        "interpretation_limits": [
+          "L6",
+          "L7",
+          "L8"
+        ],
+        "metrics": {
+          "delta_z_imag_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.00213307199073888
+          },
+          "delta_z_imag_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.0032558855451263607
+          },
+          "delta_z_imag_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.023045210579484693
+          },
+          "delta_z_imag_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.004413983852141451
+          },
+          "delta_z_real_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.040327731249357957
+          },
+          "delta_z_real_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.0071760658766418794
+          },
+          "delta_z_real_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.027479314353913376
+          },
+          "delta_z_real_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.044003243009079096
+          }
+        },
+        "quality": {
+          "flags": [
+            "measurement_consistency_not_established"
+          ],
+          "status": "warning"
+        },
+        "record_id": "evolution.eis_comparison:13263cb7c685a33c:ad0ac10dcf195797",
+        "record_type": "evolution.eis_comparison",
+        "series": {
+          "available": false,
+          "keys": [],
+          "point_counts": {}
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "matched"
+        },
+        "attributes": {
+          "common_frequency_window_hz": [
+            0.01999,
+            20004.453
+          ],
+          "compared_spectra": [
+            {
+              "spectrum_id": "25C01_V_021",
+              "spectrum_uid": "13263cb7c685a33c"
+            },
+            {
+              "spectrum_id": "25C01_V_117",
+              "spectrum_uid": "0572c3971d112404"
+            }
+          ],
+          "comparison_kind": "ageing",
+          "comparison_status": "comparable",
+          "ecm_parameter_comparison_limit": "parameter_stability_and_physical_arc_identity_not_assessed",
+          "ecm_parameter_comparison_status": "not_computable",
+          "mismatched_conditions": [],
+          "missing_conditions": [],
+          "supporting_record_ids": [
+            "operation.eis_conditions:13263cb7c685a33c",
+            "response.eis_spectrum:13263cb7c685a33c",
+            "response.eis_kk:13263cb7c685a33c",
+            "response.eis_ecm:13263cb7c685a33c",
+            "operation.eis_conditions:0572c3971d112404",
+            "response.eis_spectrum:0572c3971d112404",
+            "response.eis_kk:0572c3971d112404",
+            "response.eis_ecm:0572c3971d112404"
+          ]
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "evolution.eis_comparison:13263cb7c685a33c:0572c3971d112404",
+          "source_interval_count": 2
+        },
+        "interpretation_limits": [
+          "L6",
+          "L7",
+          "L8"
+        ],
+        "metrics": {
+          "delta_z_imag_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.007894901996527079
+          },
+          "delta_z_imag_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.0026712853079345344
+          },
+          "delta_z_imag_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.054654564160427827
+          },
+          "delta_z_imag_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.011317732769132935
+          },
+          "delta_z_real_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.10630320543081462
+          },
+          "delta_z_real_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.013016163862355046
+          },
+          "delta_z_real_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.05868444647933835
+          },
+          "delta_z_real_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.10879209570687354
+          }
+        },
+        "quality": {
+          "flags": [
+            "measurement_consistency_not_established"
+          ],
+          "status": "warning"
+        },
+        "record_id": "evolution.eis_comparison:13263cb7c685a33c:0572c3971d112404",
+        "record_type": "evolution.eis_comparison",
+        "series": {
+          "available": false,
+          "keys": [],
+          "point_counts": {}
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "matched"
+        },
+        "attributes": {
+          "common_frequency_window_hz": [
+            0.01999,
+            20004.453
+          ],
+          "compared_spectra": [
+            {
+              "spectrum_id": "25C01_V_021",
+              "spectrum_uid": "13263cb7c685a33c"
+            },
+            {
+              "spectrum_id": "25C01_V_165",
+              "spectrum_uid": "153066e9616f17c0"
+            }
+          ],
+          "comparison_kind": "ageing",
+          "comparison_status": "comparable",
+          "ecm_parameter_comparison_limit": "parameter_stability_and_physical_arc_identity_not_assessed",
+          "ecm_parameter_comparison_status": "not_computable",
+          "mismatched_conditions": [],
+          "missing_conditions": [],
+          "supporting_record_ids": [
+            "operation.eis_conditions:13263cb7c685a33c",
+            "response.eis_spectrum:13263cb7c685a33c",
+            "response.eis_kk:13263cb7c685a33c",
+            "response.eis_ecm:13263cb7c685a33c",
+            "operation.eis_conditions:153066e9616f17c0",
+            "response.eis_spectrum:153066e9616f17c0",
+            "response.eis_kk:153066e9616f17c0",
+            "response.eis_ecm:153066e9616f17c0"
+          ]
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "evolution.eis_comparison:13263cb7c685a33c:153066e9616f17c0",
+          "source_interval_count": 2
+        },
+        "interpretation_limits": [
+          "L6",
+          "L7",
+          "L8"
+        ],
+        "metrics": {
+          "delta_z_imag_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.015437535242412134
+          },
+          "delta_z_imag_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.0036873511845763457
+          },
+          "delta_z_imag_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.07938093533446758
+          },
+          "delta_z_imag_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.01979029834630648
+          },
+          "delta_z_real_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.16400823671424947
+          },
+          "delta_z_real_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.02763156362516317
+          },
+          "delta_z_real_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.0783775413981519
+          },
+          "delta_z_real_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.16129944436770338
+          }
+        },
+        "quality": {
+          "flags": [
+            "measurement_consistency_not_established"
+          ],
+          "status": "warning"
+        },
+        "record_id": "evolution.eis_comparison:13263cb7c685a33c:153066e9616f17c0",
+        "record_type": "evolution.eis_comparison",
+        "series": {
+          "available": false,
+          "keys": [],
+          "point_counts": {}
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "matched"
+        },
+        "attributes": {
+          "common_frequency_window_hz": [
+            0.01999,
+            20004.453
+          ],
+          "compared_spectra": [
+            {
+              "spectrum_id": "25C01_V_021",
+              "spectrum_uid": "13263cb7c685a33c"
+            },
+            {
+              "spectrum_id": "25C01_V_213",
+              "spectrum_uid": "5c33f1bb60c0f1f1"
+            }
+          ],
+          "comparison_kind": "ageing",
+          "comparison_status": "comparable",
+          "ecm_parameter_comparison_limit": "parameter_stability_and_physical_arc_identity_not_assessed",
+          "ecm_parameter_comparison_status": "not_computable",
+          "mismatched_conditions": [],
+          "missing_conditions": [],
+          "supporting_record_ids": [
+            "operation.eis_conditions:13263cb7c685a33c",
+            "response.eis_spectrum:13263cb7c685a33c",
+            "response.eis_kk:13263cb7c685a33c",
+            "response.eis_ecm:13263cb7c685a33c",
+            "operation.eis_conditions:5c33f1bb60c0f1f1",
+            "response.eis_spectrum:5c33f1bb60c0f1f1",
+            "response.eis_kk:5c33f1bb60c0f1f1",
+            "response.eis_ecm:5c33f1bb60c0f1f1"
+          ]
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "evolution.eis_comparison:13263cb7c685a33c:5c33f1bb60c0f1f1",
+          "source_interval_count": 2
+        },
+        "interpretation_limits": [
+          "L6",
+          "L7",
+          "L8"
+        ],
+        "metrics": {
+          "delta_z_imag_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.044244259715154485
+          },
+          "delta_z_imag_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.010259886374375901
+          },
+          "delta_z_imag_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.13596262466699008
+          },
+          "delta_z_imag_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.05598613430610347
+          },
+          "delta_z_real_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.33115761364519036
+          },
+          "delta_z_real_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.07256117168231041
+          },
+          "delta_z_real_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.08704056279581796
+          },
+          "delta_z_real_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.3084071858009043
+          }
+        },
+        "quality": {
+          "flags": [
+            "measurement_consistency_not_established"
+          ],
+          "status": "warning"
+        },
+        "record_id": "evolution.eis_comparison:13263cb7c685a33c:5c33f1bb60c0f1f1",
+        "record_type": "evolution.eis_comparison",
+        "series": {
+          "available": false,
+          "keys": [],
+          "point_counts": {}
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "matched"
+        },
+        "attributes": {
+          "common_frequency_window_hz": [
+            0.01999,
+            20004.453
+          ],
+          "compared_spectra": [
+            {
+              "spectrum_id": "25C01_V_021",
+              "spectrum_uid": "13263cb7c685a33c"
+            },
+            {
+              "spectrum_id": "25C01_V_261",
+              "spectrum_uid": "26f1f5f128cdfcdf"
+            }
+          ],
+          "comparison_kind": "ageing",
+          "comparison_status": "comparable",
+          "ecm_parameter_comparison_limit": "parameter_stability_and_physical_arc_identity_not_assessed",
+          "ecm_parameter_comparison_status": "not_computable",
+          "mismatched_conditions": [],
+          "missing_conditions": [],
+          "supporting_record_ids": [
+            "operation.eis_conditions:13263cb7c685a33c",
+            "response.eis_spectrum:13263cb7c685a33c",
+            "response.eis_kk:13263cb7c685a33c",
+            "response.eis_ecm:13263cb7c685a33c",
+            "operation.eis_conditions:26f1f5f128cdfcdf",
+            "response.eis_spectrum:26f1f5f128cdfcdf",
+            "response.eis_kk:26f1f5f128cdfcdf",
+            "response.eis_ecm:26f1f5f128cdfcdf"
+          ]
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "evolution.eis_comparison:13263cb7c685a33c:26f1f5f128cdfcdf",
+          "source_interval_count": 2
+        },
+        "interpretation_limits": [
+          "L6",
+          "L7",
+          "L8"
+        ],
+        "metrics": {
+          "delta_z_imag_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.07963349152327921
+          },
+          "delta_z_imag_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.014227723341270454
+          },
+          "delta_z_imag_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.1779061210131245
+          },
+          "delta_z_imag_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.14335538982167711
+          },
+          "delta_z_real_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.5579786287281412
+          },
+          "delta_z_real_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.08489359739273367
+          },
+          "delta_z_real_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.05912331500972168
+          },
+          "delta_z_real_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.49818419505511136
+          }
+        },
+        "quality": {
+          "flags": [
+            "measurement_consistency_not_established"
+          ],
+          "status": "warning"
+        },
+        "record_id": "evolution.eis_comparison:13263cb7c685a33c:26f1f5f128cdfcdf",
+        "record_type": "evolution.eis_comparison",
+        "series": {
+          "available": false,
+          "keys": [],
+          "point_counts": {}
+        }
+      }
+    ],
+    "operation": [
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "conditions": {
+            "sequence_index": {
+              "source": "metadata",
+              "status": "declared",
+              "unit": "1",
+              "value": 21.0
+            }
+          },
+          "spectrum_id": "25C01_V_021",
+          "spectrum_uid": "13263cb7c685a33c"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "operation.eis_conditions:13263cb7c685a33c",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {},
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "operation.eis_conditions:13263cb7c685a33c",
+        "record_type": "operation.eis_conditions",
+        "series": {
+          "available": false,
+          "keys": [],
+          "point_counts": {}
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "conditions": {
+            "sequence_index": {
+              "source": "metadata",
+              "status": "declared",
+              "unit": "1",
+              "value": 69.0
+            }
+          },
+          "spectrum_id": "25C01_V_069",
+          "spectrum_uid": "ad0ac10dcf195797"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "operation.eis_conditions:ad0ac10dcf195797",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {},
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "operation.eis_conditions:ad0ac10dcf195797",
+        "record_type": "operation.eis_conditions",
+        "series": {
+          "available": false,
+          "keys": [],
+          "point_counts": {}
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "conditions": {
+            "sequence_index": {
+              "source": "metadata",
+              "status": "declared",
+              "unit": "1",
+              "value": 117.0
+            }
+          },
+          "spectrum_id": "25C01_V_117",
+          "spectrum_uid": "0572c3971d112404"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "operation.eis_conditions:0572c3971d112404",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {},
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "operation.eis_conditions:0572c3971d112404",
+        "record_type": "operation.eis_conditions",
+        "series": {
+          "available": false,
+          "keys": [],
+          "point_counts": {}
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "conditions": {
+            "sequence_index": {
+              "source": "metadata",
+              "status": "declared",
+              "unit": "1",
+              "value": 165.0
+            }
+          },
+          "spectrum_id": "25C01_V_165",
+          "spectrum_uid": "153066e9616f17c0"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "operation.eis_conditions:153066e9616f17c0",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {},
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "operation.eis_conditions:153066e9616f17c0",
+        "record_type": "operation.eis_conditions",
+        "series": {
+          "available": false,
+          "keys": [],
+          "point_counts": {}
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "conditions": {
+            "sequence_index": {
+              "source": "metadata",
+              "status": "declared",
+              "unit": "1",
+              "value": 213.0
+            }
+          },
+          "spectrum_id": "25C01_V_213",
+          "spectrum_uid": "5c33f1bb60c0f1f1"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "operation.eis_conditions:5c33f1bb60c0f1f1",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {},
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "operation.eis_conditions:5c33f1bb60c0f1f1",
+        "record_type": "operation.eis_conditions",
+        "series": {
+          "available": false,
+          "keys": [],
+          "point_counts": {}
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "conditions": {
+            "sequence_index": {
+              "source": "metadata",
+              "status": "declared",
+              "unit": "1",
+              "value": 261.0
+            }
+          },
+          "spectrum_id": "25C01_V_261",
+          "spectrum_uid": "26f1f5f128cdfcdf"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "operation.eis_conditions:26f1f5f128cdfcdf",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {},
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "operation.eis_conditions:26f1f5f128cdfcdf",
+        "record_type": "operation.eis_conditions",
+        "series": {
+          "available": false,
+          "keys": [],
+          "point_counts": {}
+        }
+      }
+    ],
+    "response": [
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "measurement_qc": "valid_numeric_points"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_spectrum:13263cb7c685a33c",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {
+          "duplicate_frequency_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "excluded_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "frequency_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 20004.453
+          },
+          "frequency_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "impedance_imaginary_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.04652
+          },
+          "impedance_imaginary_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.3324
+          },
+          "impedance_modulus_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.2785547419254288
+          },
+          "impedance_modulus_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.34395048262795036
+          },
+          "impedance_real_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.23459
+          },
+          "impedance_real_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.34079
+          },
+          "valid_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 60
+          },
+          "z_imag_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.1249928650778147
+          },
+          "z_imag_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.09074280936078048
+          },
+          "z_imag_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.13112099429314591
+          },
+          "z_imag_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.054888261027885396
+          },
+          "z_real_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.084551744073437
+          },
+          "z_real_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.4579285104281437
+          },
+          "z_real_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.91985734549927
+          },
+          "z_real_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.0134180981679601
+          }
+        },
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "response.eis_spectrum:13263cb7c685a33c",
+        "record_type": "response.eis_spectrum",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "source_rows",
+            "zimag_ohm",
+            "zreal_ohm"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "source_rows": 60,
+            "zimag_ohm": 60,
+            "zreal_ohm": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "partial"
+        },
+        "attributes": {
+          "measurement_consistency": "outside_configured_residual_limit"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_kk:13263cb7c685a33c",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "fraction_points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.016666666666666666
+          },
+          "frequency_of_maximum_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "maximum_normalized_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.055944726656371464
+          },
+          "mu": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.795865264824241
+          },
+          "points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 1
+          },
+          "rc_element_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 14
+          }
+        },
+        "quality": {
+          "flags": [
+            "lin_kk_residual_limit_exceeded"
+          ],
+          "status": "warning"
+        },
+        "record_id": "response.eis_kk:13263cb7c685a33c",
+        "record_type": "response.eis_kk",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "residual_imaginary",
+            "residual_real"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "residual_imaginary": 60,
+            "residual_real": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "partial"
+        },
+        "attributes": {
+          "circuit": "L + R0 + (R1 || CPE1) + (R2 || CPE2) + cpe",
+          "convergence": "converged",
+          "fit_quality": "within_configured_limit",
+          "identifiability": "not_assessed",
+          "parameter_stability": "not_assessed",
+          "parameter_units": {
+            "L_H": "H",
+            "Q1": "S*s^n",
+            "Q2": "S*s^n",
+            "Qd": "S*s^n",
+            "R0_Ohm": "Ohm",
+            "R1_Ohm": "Ohm",
+            "R2_Ohm": "Ohm",
+            "n1": "1",
+            "n2": "1",
+            "nd": "1"
+          },
+          "uncertainty": "not_assessed"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_ecm:13263cb7c685a33c",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "L_H": {
+            "reason": null,
+            "status": "ok",
+            "unit": "H",
+            "value": 6.385132713087247e-07
+          },
+          "Q1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.045597072275614936
+          },
+          "Q2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.04055728254063414
+          },
+          "Qd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 9.646263002277452
+          },
+          "R0_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.30595788026308274
+          },
+          "R1_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.439896968533628
+          },
+          "R2_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.2701156056497235
+          },
+          "n1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.5114879966233945
+          },
+          "n2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.8747929736439589
+          },
+          "nd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.6455297915181528
+          },
+          "nrmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.003731687880881992
+          },
+          "rmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.0032034001256606385
+          }
+        },
+        "quality": {
+          "flags": [
+            "measurement_consistency_not_established"
+          ],
+          "status": "warning"
+        },
+        "record_id": "response.eis_ecm:13263cb7c685a33c",
+        "record_type": "response.eis_ecm",
+        "series": {
+          "available": true,
+          "keys": [
+            "fitted_zimag_ohm",
+            "fitted_zreal_ohm",
+            "frequency_hz",
+            "residual_zimag_ohm",
+            "residual_zreal_ohm"
+          ],
+          "point_counts": {
+            "fitted_zimag_ohm": 60,
+            "fitted_zreal_ohm": 60,
+            "frequency_hz": 60,
+            "residual_zimag_ohm": 60,
+            "residual_zreal_ohm": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "measurement_qc": "valid_numeric_points"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_spectrum:ad0ac10dcf195797",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {
+          "duplicate_frequency_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "excluded_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "frequency_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 20004.453
+          },
+          "frequency_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "impedance_imaginary_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.04629
+          },
+          "impedance_imaginary_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.34957
+          },
+          "impedance_modulus_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.3324234489830924
+          },
+          "impedance_modulus_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.3547927024334069
+          },
+          "impedance_real_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.28575
+          },
+          "impedance_real_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.35176
+          },
+          "valid_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 60
+          },
+          "z_imag_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.12712593706855357
+          },
+          "z_imag_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.08748692381565412
+          },
+          "z_imag_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.1541662048726306
+          },
+          "z_imag_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.05930224488002685
+          },
+          "z_real_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.1248794753227949
+          },
+          "z_real_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.4651045763047856
+          },
+          "z_real_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.9473366598531834
+          },
+          "z_real_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.0574213411770392
+          }
+        },
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "response.eis_spectrum:ad0ac10dcf195797",
+        "record_type": "response.eis_spectrum",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "source_rows",
+            "zimag_ohm",
+            "zreal_ohm"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "source_rows": 60,
+            "zimag_ohm": 60,
+            "zreal_ohm": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "partial"
+        },
+        "attributes": {
+          "measurement_consistency": "outside_configured_residual_limit"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_kk:ad0ac10dcf195797",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "fraction_points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.016666666666666666
+          },
+          "frequency_of_maximum_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "maximum_normalized_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.05677727006403463
+          },
+          "mu": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.7862853990324765
+          },
+          "points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 1
+          },
+          "rc_element_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 14
+          }
+        },
+        "quality": {
+          "flags": [
+            "lin_kk_residual_limit_exceeded"
+          ],
+          "status": "warning"
+        },
+        "record_id": "response.eis_kk:ad0ac10dcf195797",
+        "record_type": "response.eis_kk",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "residual_imaginary",
+            "residual_real"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "residual_imaginary": 60,
+            "residual_real": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "partial"
+        },
+        "attributes": {
+          "circuit": "L + R0 + (R1 || CPE1) + (R2 || CPE2) + cpe",
+          "convergence": "converged",
+          "fit_quality": "within_configured_limit",
+          "identifiability": "not_assessed",
+          "parameter_stability": "not_assessed",
+          "parameter_units": {
+            "L_H": "H",
+            "Q1": "S*s^n",
+            "Q2": "S*s^n",
+            "Qd": "S*s^n",
+            "R0_Ohm": "Ohm",
+            "R1_Ohm": "Ohm",
+            "R2_Ohm": "Ohm",
+            "n1": "1",
+            "n2": "1",
+            "nd": "1"
+          },
+          "uncertainty": "not_assessed"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_ecm:ad0ac10dcf195797",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "L_H": {
+            "reason": null,
+            "status": "ok",
+            "unit": "H",
+            "value": 6.227021847529085e-07
+          },
+          "Q1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.04990849176148416
+          },
+          "Q2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.03969350372409828
+          },
+          "Qd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 9.519401540210426
+          },
+          "R0_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.3189394742759854
+          },
+          "R1_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.447827246120566
+          },
+          "R2_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.2968193570733193
+          },
+          "n1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.5070892645316413
+          },
+          "n2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.8912687644241228
+          },
+          "nd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.6592541075810968
+          },
+          "nrmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.0047803458113250775
+          },
+          "rmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.004178854336207816
+          }
+        },
+        "quality": {
+          "flags": [
+            "measurement_consistency_not_established"
+          ],
+          "status": "warning"
+        },
+        "record_id": "response.eis_ecm:ad0ac10dcf195797",
+        "record_type": "response.eis_ecm",
+        "series": {
+          "available": true,
+          "keys": [
+            "fitted_zimag_ohm",
+            "fitted_zreal_ohm",
+            "frequency_hz",
+            "residual_zimag_ohm",
+            "residual_zreal_ohm"
+          ],
+          "point_counts": {
+            "fitted_zimag_ohm": 60,
+            "fitted_zreal_ohm": 60,
+            "frequency_hz": 60,
+            "residual_zimag_ohm": 60,
+            "residual_zreal_ohm": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "measurement_qc": "valid_numeric_points"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_spectrum:0572c3971d112404",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {
+          "duplicate_frequency_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "excluded_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "frequency_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 20004.453
+          },
+          "frequency_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "impedance_imaginary_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.04646
+          },
+          "impedance_imaginary_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.37962
+          },
+          "impedance_modulus_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.4294784947315575
+          },
+          "impedance_modulus_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.36280706167328103
+          },
+          "impedance_real_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.37815
+          },
+          "impedance_real_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.35982
+          },
+          "valid_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 60
+          },
+          "z_imag_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.13288776707434177
+          },
+          "z_imag_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.08807152405284595
+          },
+          "z_imag_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.18577555845357374
+          },
+          "z_imag_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.06620599379701833
+          },
+          "z_real_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.1908549495042515
+          },
+          "z_real_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.47094467429049874
+          },
+          "z_real_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.9785417919786084
+          },
+          "z_real_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.1222101938748337
+          }
+        },
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "response.eis_spectrum:0572c3971d112404",
+        "record_type": "response.eis_spectrum",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "source_rows",
+            "zimag_ohm",
+            "zreal_ohm"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "source_rows": 60,
+            "zimag_ohm": 60,
+            "zreal_ohm": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "measurement_consistency": "within_configured_residual_limit"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_kk:0572c3971d112404",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "fraction_points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.0
+          },
+          "frequency_of_maximum_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "maximum_normalized_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.044831470191167094
+          },
+          "mu": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.7982912541992453
+          },
+          "points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "rc_element_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 14
+          }
+        },
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "response.eis_kk:0572c3971d112404",
+        "record_type": "response.eis_kk",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "residual_imaginary",
+            "residual_real"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "residual_imaginary": 60,
+            "residual_real": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "circuit": "L + R0 + (R1 || CPE1) + (R2 || CPE2) + cpe",
+          "convergence": "converged",
+          "fit_quality": "within_configured_limit",
+          "identifiability": "not_assessed",
+          "parameter_stability": "not_assessed",
+          "parameter_units": {
+            "L_H": "H",
+            "Q1": "S*s^n",
+            "Q2": "S*s^n",
+            "Qd": "S*s^n",
+            "R0_Ohm": "Ohm",
+            "R1_Ohm": "Ohm",
+            "R2_Ohm": "Ohm",
+            "n1": "1",
+            "n2": "1",
+            "nd": "1"
+          },
+          "uncertainty": "not_assessed"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_ecm:0572c3971d112404",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "L_H": {
+            "reason": null,
+            "status": "ok",
+            "unit": "H",
+            "value": 6.061667546018203e-07
+          },
+          "Q1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.05270404445208641
+          },
+          "Q2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.04077202815273681
+          },
+          "Qd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 9.19145777339542
+          },
+          "R0_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.32871024535186627
+          },
+          "R1_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.47609195005786337
+          },
+          "R2_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.32710599060820084
+          },
+          "n1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.5061442239884977
+          },
+          "n2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.9072997129296914
+          },
+          "nd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.660026849199071
+          },
+          "nrmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.007506495557563337
+          },
+          "rmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.00668747294906645
+          }
+        },
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "response.eis_ecm:0572c3971d112404",
+        "record_type": "response.eis_ecm",
+        "series": {
+          "available": true,
+          "keys": [
+            "fitted_zimag_ohm",
+            "fitted_zreal_ohm",
+            "frequency_hz",
+            "residual_zimag_ohm",
+            "residual_zreal_ohm"
+          ],
+          "point_counts": {
+            "fitted_zimag_ohm": 60,
+            "fitted_zreal_ohm": 60,
+            "frequency_hz": 60,
+            "residual_zimag_ohm": 60,
+            "residual_zreal_ohm": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "measurement_qc": "valid_numeric_points"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_spectrum:153066e9616f17c0",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {
+          "duplicate_frequency_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "excluded_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "frequency_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 20004.453
+          },
+          "frequency_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "impedance_imaginary_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.04489
+          },
+          "impedance_imaginary_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.39712
+          },
+          "impedance_modulus_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.4774508387083476
+          },
+          "impedance_modulus_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.3753241652225447
+          },
+          "impedance_real_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.42308
+          },
+          "impedance_real_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.37263
+          },
+          "valid_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 60
+          },
+          "z_imag_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.14043040032022683
+          },
+          "z_imag_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.08705545817620414
+          },
+          "z_imag_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.2105019296276135
+          },
+          "z_imag_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.07467855937419188
+          },
+          "z_real_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.2485599807876864
+          },
+          "z_real_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.48556007405330687
+          },
+          "z_real_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.9982348868974219
+          },
+          "z_real_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.1747175425356635
+          }
+        },
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "response.eis_spectrum:153066e9616f17c0",
+        "record_type": "response.eis_spectrum",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "source_rows",
+            "zimag_ohm",
+            "zreal_ohm"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "source_rows": 60,
+            "zimag_ohm": 60,
+            "zreal_ohm": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "partial"
+        },
+        "attributes": {
+          "measurement_consistency": "outside_configured_residual_limit"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_kk:153066e9616f17c0",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "fraction_points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.016666666666666666
+          },
+          "frequency_of_maximum_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "maximum_normalized_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.06012229519869192
+          },
+          "mu": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.7946514919830716
+          },
+          "points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 1
+          },
+          "rc_element_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 14
+          }
+        },
+        "quality": {
+          "flags": [
+            "lin_kk_residual_limit_exceeded"
+          ],
+          "status": "warning"
+        },
+        "record_id": "response.eis_kk:153066e9616f17c0",
+        "record_type": "response.eis_kk",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "residual_imaginary",
+            "residual_real"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "residual_imaginary": 60,
+            "residual_real": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "partial"
+        },
+        "attributes": {
+          "circuit": "L + R0 + (R1 || CPE1) + (R2 || CPE2) + cpe",
+          "convergence": "converged",
+          "fit_quality": "within_configured_limit",
+          "identifiability": "not_assessed",
+          "parameter_stability": "not_assessed",
+          "parameter_units": {
+            "L_H": "H",
+            "Q1": "S*s^n",
+            "Q2": "S*s^n",
+            "Qd": "S*s^n",
+            "R0_Ohm": "Ohm",
+            "R1_Ohm": "Ohm",
+            "R2_Ohm": "Ohm",
+            "n1": "1",
+            "n2": "1",
+            "nd": "1"
+          },
+          "uncertainty": "not_assessed"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_ecm:153066e9616f17c0",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "L_H": {
+            "reason": null,
+            "status": "ok",
+            "unit": "H",
+            "value": 6.055890667040983e-07
+          },
+          "Q1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.060393564725355044
+          },
+          "Q2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.04206997788362863
+          },
+          "Qd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 8.977793661032429
+          },
+          "R0_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.3376842270148831
+          },
+          "R1_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.5000994232335215
+          },
+          "R2_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.35330811469020995
+          },
+          "n1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.48741062674170715
+          },
+          "n2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.9187514642684057
+          },
+          "nd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.6783949668836612
+          },
+          "nrmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.006502434918857398
+          },
+          "rmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.005851936441575487
+          }
+        },
+        "quality": {
+          "flags": [
+            "measurement_consistency_not_established"
+          ],
+          "status": "warning"
+        },
+        "record_id": "response.eis_ecm:153066e9616f17c0",
+        "record_type": "response.eis_ecm",
+        "series": {
+          "available": true,
+          "keys": [
+            "fitted_zimag_ohm",
+            "fitted_zreal_ohm",
+            "frequency_hz",
+            "residual_zimag_ohm",
+            "residual_zreal_ohm"
+          ],
+          "point_counts": {
+            "fitted_zimag_ohm": 60,
+            "fitted_zreal_ohm": 60,
+            "frequency_hz": 60,
+            "residual_zimag_ohm": 60,
+            "residual_zreal_ohm": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "measurement_qc": "valid_numeric_points"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_spectrum:5c33f1bb60c0f1f1",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {
+          "duplicate_frequency_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "excluded_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "frequency_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 20004.453
+          },
+          "frequency_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "impedance_imaginary_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.04273
+          },
+          "impedance_imaginary_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.43624
+          },
+          "impedance_modulus_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.6828073020996788
+          },
+          "impedance_modulus_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.4225361402294483
+          },
+          "impedance_real_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.62528
+          },
+          "impedance_real_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.42037
+          },
+          "valid_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 60
+          },
+          "z_imag_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.16923712479296918
+          },
+          "z_imag_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.08048292298640458
+          },
+          "z_imag_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.267083618960136
+          },
+          "z_imag_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.11087439533398886
+          },
+          "z_real_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.4157093577186273
+          },
+          "z_real_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.5304896821104541
+          },
+          "z_real_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.006897908295088
+          },
+          "z_real_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.3218252839688645
+          }
+        },
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "response.eis_spectrum:5c33f1bb60c0f1f1",
+        "record_type": "response.eis_spectrum",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "source_rows",
+            "zimag_ohm",
+            "zreal_ohm"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "source_rows": 60,
+            "zimag_ohm": 60,
+            "zreal_ohm": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "partial"
+        },
+        "attributes": {
+          "measurement_consistency": "outside_configured_residual_limit"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_kk:5c33f1bb60c0f1f1",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "fraction_points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.016666666666666666
+          },
+          "frequency_of_maximum_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "maximum_normalized_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.05065748646487036
+          },
+          "mu": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.8323901605247137
+          },
+          "points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 1
+          },
+          "rc_element_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 14
+          }
+        },
+        "quality": {
+          "flags": [
+            "lin_kk_residual_limit_exceeded"
+          ],
+          "status": "warning"
+        },
+        "record_id": "response.eis_kk:5c33f1bb60c0f1f1",
+        "record_type": "response.eis_kk",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "residual_imaginary",
+            "residual_real"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "residual_imaginary": 60,
+            "residual_real": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "partial"
+        },
+        "attributes": {
+          "circuit": "L + R0 + (R1 || CPE1) + (R2 || CPE2) + cpe",
+          "convergence": "converged",
+          "fit_quality": "within_configured_limit",
+          "identifiability": "not_assessed",
+          "parameter_stability": "not_assessed",
+          "parameter_units": {
+            "L_H": "H",
+            "Q1": "S*s^n",
+            "Q2": "S*s^n",
+            "Qd": "S*s^n",
+            "R0_Ohm": "Ohm",
+            "R1_Ohm": "Ohm",
+            "R2_Ohm": "Ohm",
+            "n1": "1",
+            "n2": "1",
+            "nd": "1"
+          },
+          "uncertainty": "not_assessed"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_ecm:5c33f1bb60c0f1f1",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "L_H": {
+            "reason": null,
+            "status": "ok",
+            "unit": "H",
+            "value": 5.761898273918041e-07
+          },
+          "Q1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.08262996088185409
+          },
+          "Q2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.05172186580747529
+          },
+          "Qd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 8.070919786993256
+          },
+          "R0_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.3825695806910649
+          },
+          "R1_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.5432958322372454
+          },
+          "R2_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.4262424335796174
+          },
+          "n1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.45697554054094025
+          },
+          "n2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.9489025097253296
+          },
+          "nd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.6833995899166129
+          },
+          "nrmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.009164075394561978
+          },
+          "rmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.008236315796485448
+          }
+        },
+        "quality": {
+          "flags": [
+            "measurement_consistency_not_established"
+          ],
+          "status": "warning"
+        },
+        "record_id": "response.eis_ecm:5c33f1bb60c0f1f1",
+        "record_type": "response.eis_ecm",
+        "series": {
+          "available": true,
+          "keys": [
+            "fitted_zimag_ohm",
+            "fitted_zreal_ohm",
+            "frequency_hz",
+            "residual_zimag_ohm",
+            "residual_zreal_ohm"
+          ],
+          "point_counts": {
+            "fitted_zimag_ohm": 60,
+            "fitted_zreal_ohm": 60,
+            "frequency_hz": 60,
+            "residual_zimag_ohm": 60,
+            "residual_zreal_ohm": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "applicable"
+        },
+        "attributes": {
+          "measurement_qc": "valid_numeric_points"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_spectrum:26f1f5f128cdfcdf",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2"
+        ],
+        "metrics": {
+          "duplicate_frequency_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "excluded_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0
+          },
+          "frequency_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 20004.453
+          },
+          "frequency_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "impedance_imaginary_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.03797
+          },
+          "impedance_imaginary_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.58857
+          },
+          "impedance_modulus_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.9719061654399277
+          },
+          "impedance_modulus_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.43775981199740116
+          },
+          "impedance_real_max": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.88202
+          },
+          "impedance_real_min": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.43611
+          },
+          "valid_point_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 60
+          },
+          "z_imag_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.2046263566010939
+          },
+          "z_imag_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.07651508601951003
+          },
+          "z_imag_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.3090271153062704
+          },
+          "z_imag_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": -0.19824365084956252
+          },
+          "z_real_at_0.1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.642530372801578
+          },
+          "z_real_at_1000_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.5428221078208774
+          },
+          "z_real_at_10_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.9789806605089917
+          },
+          "z_real_at_1_hz": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 1.5116022932230715
+          }
+        },
+        "quality": {
+          "flags": [],
+          "status": "ok"
+        },
+        "record_id": "response.eis_spectrum:26f1f5f128cdfcdf",
+        "record_type": "response.eis_spectrum",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "source_rows",
+            "zimag_ohm",
+            "zreal_ohm"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "source_rows": 60,
+            "zimag_ohm": 60,
+            "zreal_ohm": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "partial"
+        },
+        "attributes": {
+          "measurement_consistency": "outside_configured_residual_limit"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_kk:26f1f5f128cdfcdf",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "fraction_points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.016666666666666666
+          },
+          "frequency_of_maximum_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Hz",
+            "value": 0.01999
+          },
+          "maximum_normalized_residual": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.07199357953676182
+          },
+          "mu": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.8166487843032925
+          },
+          "points_above_residual_limit": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 1
+          },
+          "rc_element_count": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 13
+          }
+        },
+        "quality": {
+          "flags": [
+            "lin_kk_residual_limit_exceeded"
+          ],
+          "status": "warning"
+        },
+        "record_id": "response.eis_kk:26f1f5f128cdfcdf",
+        "record_type": "response.eis_kk",
+        "series": {
+          "available": true,
+          "keys": [
+            "frequency_hz",
+            "residual_imaginary",
+            "residual_real"
+          ],
+          "point_counts": {
+            "frequency_hz": 60,
+            "residual_imaginary": 60,
+            "residual_real": 60
+          }
+        }
+      },
+      {
+        "applicability": {
+          "reasons": [],
+          "status": "partial"
+        },
+        "attributes": {
+          "circuit": "L + R0 + (R1 || CPE1) + (R2 || CPE2) + cpe",
+          "convergence": "converged",
+          "fit_quality": "within_configured_limit",
+          "identifiability": "not_assessed",
+          "parameter_stability": "not_assessed",
+          "parameter_units": {
+            "L_H": "H",
+            "Q1": "S*s^n",
+            "Q2": "S*s^n",
+            "Qd": "S*s^n",
+            "R0_Ohm": "Ohm",
+            "R1_Ohm": "Ohm",
+            "R2_Ohm": "Ohm",
+            "n1": "1",
+            "n2": "1",
+            "nd": "1"
+          },
+          "uncertainty": "not_assessed"
+        },
+        "cycle_scope": null,
+        "evidence": {
+          "file": "analysis_evidence.json",
+          "record_id": "response.eis_ecm:26f1f5f128cdfcdf",
+          "source_interval_count": 1
+        },
+        "interpretation_limits": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "metrics": {
+          "L_H": {
+            "reason": null,
+            "status": "ok",
+            "unit": "H",
+            "value": 5.633496180424893e-07
+          },
+          "Q1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.12489059462166144
+          },
+          "Q2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 0.06638094631453727
+          },
+          "Qd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "S*s^n",
+            "value": 6.952485095321446
+          },
+          "R0_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.3883417041346091
+          },
+          "R1_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.6456105335622404
+          },
+          "R2_Ohm": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.5706376271683814
+          },
+          "n1": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.4073608977674372
+          },
+          "n2": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.9563631592161069
+          },
+          "nd": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.7127436406788372
+          },
+          "nrmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "1",
+            "value": 0.011609204894826955
+          },
+          "rmse": {
+            "reason": null,
+            "status": "ok",
+            "unit": "Ohm",
+            "value": 0.010291544267909049
+          }
+        },
+        "quality": {
+          "flags": [
+            "measurement_consistency_not_established"
+          ],
+          "status": "warning"
+        },
+        "record_id": "response.eis_ecm:26f1f5f128cdfcdf",
+        "record_type": "response.eis_ecm",
+        "series": {
+          "available": true,
+          "keys": [
+            "fitted_zimag_ohm",
+            "fitted_zreal_ohm",
+            "frequency_hz",
+            "residual_zimag_ohm",
+            "residual_zreal_ohm"
+          ],
+          "point_counts": {
+            "fitted_zimag_ohm": 60,
+            "fitted_zreal_ohm": 60,
+            "frequency_hz": 60,
+            "residual_zimag_ohm": 60,
+            "residual_zreal_ohm": 60
+          }
+        }
+      }
+    ]
+  },
+  "evidence_file": "analysis_evidence.json",
+  "interpretation_limits": {
+    "L1": "EIS descriptors depend on measurement conditions and frequency coverage.",
+    "L2": "A spectrum or circuit parameter alone does not establish a degradation mechanism.",
+    "L3": "Lin-KK consistency is conditional on coverage and configuration; it does not prove a circuit model.",
+    "L4": "Arc numbering is a time-order convention, not persistent physical-process identity.",
+    "L5": "Convergence and fit error do not establish parameter identifiability or uncertainty.",
+    "L6": "Differences describe measurements under the recorded comparison conditions.",
+    "L7": "A comparison does not establish ageing causality or a degradation mechanism.",
+    "L8": "ECM arc identity and parameter stability are not established by canonical numbering."
+  },
+  "metadata_file": "analysis_metadata.json",
+  "retrieval": {
+    "evidence_record_count": 29,
+    "instructions": "Read this file first. Conditions identical for every spectrum are listed once under conditions.shared, and conditions reported for no spectrum under conditions.not_reported; operation records list only the conditions that differ between spectra. Interpretation limits are listed once and referenced by identifier. Resolve a record_id in analysis_evidence.json for complete condition blocks, source intervals, derivation details, parameters, references, or full series.",
+    "join_key": "record_id",
+    "record_type_counts": {
+      "evolution.eis_comparison": 5,
+      "operation.eis_conditions": 6,
+      "response.eis_ecm": 6,
+      "response.eis_kk": 6,
+      "response.eis_spectrum": 6
+    }
+  },
+  "run_id": "bfl-eis-7b08d07ec19cb44e",
+  "schema_version": "bfl.eis-summary/0.2",
+  "validation_file": "analysis_validation.json"
+}

@@ -1,0 +1,483 @@
+{
+  "schema_version": "bfl.eis-metadata/0.1",
+  "source": {
+    "filename": "EIS_state_V_25C01_selected.txt",
+    "metadata_artifact": {},
+    "reader_metadata": {
+      "delimiter": "\t",
+      "encoding": "utf-8-sig",
+      "header_row": 0
+    },
+    "sha256": "edfc35bce37658b935c290b91edb10226e9395bceb2642ee65faded69b45957a"
+  },
+  "spectra": [
+    {
+      "conditions": {
+        "ac_amplitude_a": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "A",
+          "value": 0.005
+        },
+        "ac_amplitude_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "cell_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "25C01"
+        },
+        "cycle_index": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "1",
+          "value": null
+        },
+        "dc_voltage_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "elapsed_time_s": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "s",
+          "value": null
+        },
+        "instrument": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "unnamed_potentiostat_single_recording"
+        },
+        "protocol_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "Zhang2020_state_V"
+        },
+        "rest_time_s": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "s",
+          "value": 900.0
+        },
+        "sequence_index": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 21.0
+        },
+        "soc_fraction": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 1.0
+        },
+        "temperature_deg_c": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "degC",
+          "value": 25.0
+        }
+      },
+      "spectrum_id": "25C01_V_021",
+      "spectrum_uid": "13263cb7c685a33c"
+    },
+    {
+      "conditions": {
+        "ac_amplitude_a": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "A",
+          "value": 0.005
+        },
+        "ac_amplitude_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "cell_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "25C01"
+        },
+        "cycle_index": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "1",
+          "value": null
+        },
+        "dc_voltage_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "elapsed_time_s": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "s",
+          "value": null
+        },
+        "instrument": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "unnamed_potentiostat_single_recording"
+        },
+        "protocol_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "Zhang2020_state_V"
+        },
+        "rest_time_s": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "s",
+          "value": 900.0
+        },
+        "sequence_index": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 69.0
+        },
+        "soc_fraction": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 1.0
+        },
+        "temperature_deg_c": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "degC",
+          "value": 25.0
+        }
+      },
+      "spectrum_id": "25C01_V_069",
+      "spectrum_uid": "ad0ac10dcf195797"
+    },
+    {
+      "conditions": {
+        "ac_amplitude_a": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "A",
+          "value": 0.005
+        },
+        "ac_amplitude_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "cell_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "25C01"
+        },
+        "cycle_index": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "1",
+          "value": null
+        },
+        "dc_voltage_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "elapsed_time_s": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "s",
+          "value": null
+        },
+        "instrument": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "unnamed_potentiostat_single_recording"
+        },
+        "protocol_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "Zhang2020_state_V"
+        },
+        "rest_time_s": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "s",
+          "value": 900.0
+        },
+        "sequence_index": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 117.0
+        },
+        "soc_fraction": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 1.0
+        },
+        "temperature_deg_c": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "degC",
+          "value": 25.0
+        }
+      },
+      "spectrum_id": "25C01_V_117",
+      "spectrum_uid": "0572c3971d112404"
+    },
+    {
+      "conditions": {
+        "ac_amplitude_a": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "A",
+          "value": 0.005
+        },
+        "ac_amplitude_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "cell_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "25C01"
+        },
+        "cycle_index": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "1",
+          "value": null
+        },
+        "dc_voltage_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "elapsed_time_s": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "s",
+          "value": null
+        },
+        "instrument": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "unnamed_potentiostat_single_recording"
+        },
+        "protocol_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "Zhang2020_state_V"
+        },
+        "rest_time_s": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "s",
+          "value": 900.0
+        },
+        "sequence_index": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 165.0
+        },
+        "soc_fraction": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 1.0
+        },
+        "temperature_deg_c": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "degC",
+          "value": 25.0
+        }
+      },
+      "spectrum_id": "25C01_V_165",
+      "spectrum_uid": "153066e9616f17c0"
+    },
+    {
+      "conditions": {
+        "ac_amplitude_a": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "A",
+          "value": 0.005
+        },
+        "ac_amplitude_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "cell_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "25C01"
+        },
+        "cycle_index": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "1",
+          "value": null
+        },
+        "dc_voltage_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "elapsed_time_s": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "s",
+          "value": null
+        },
+        "instrument": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "unnamed_potentiostat_single_recording"
+        },
+        "protocol_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "Zhang2020_state_V"
+        },
+        "rest_time_s": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "s",
+          "value": 900.0
+        },
+        "sequence_index": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 213.0
+        },
+        "soc_fraction": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 1.0
+        },
+        "temperature_deg_c": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "degC",
+          "value": 25.0
+        }
+      },
+      "spectrum_id": "25C01_V_213",
+      "spectrum_uid": "5c33f1bb60c0f1f1"
+    },
+    {
+      "conditions": {
+        "ac_amplitude_a": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "A",
+          "value": 0.005
+        },
+        "ac_amplitude_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "cell_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "25C01"
+        },
+        "cycle_index": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "1",
+          "value": null
+        },
+        "dc_voltage_v": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "V",
+          "value": null
+        },
+        "elapsed_time_s": {
+          "source": null,
+          "status": "not_reported",
+          "unit": "s",
+          "value": null
+        },
+        "instrument": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "unnamed_potentiostat_single_recording"
+        },
+        "protocol_id": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": null,
+          "value": "Zhang2020_state_V"
+        },
+        "rest_time_s": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "s",
+          "value": 900.0
+        },
+        "sequence_index": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 261.0
+        },
+        "soc_fraction": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "1",
+          "value": 1.0
+        },
+        "temperature_deg_c": {
+          "source": "metadata",
+          "status": "declared",
+          "unit": "degC",
+          "value": 25.0
+        }
+      },
+      "spectrum_id": "25C01_V_261",
+      "spectrum_uid": "26f1f5f128cdfcdf"
+    }
+  ]
+}

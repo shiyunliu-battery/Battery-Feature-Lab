@@ -1,0 +1,160 @@
+{
+  "columns": {
+    "frequency": "freq/Hz",
+    "imaginary": "  -Im(Z)/Ohm",
+    "magnitude": "   |Z|/Ohm",
+    "phase": null,
+    "real": "           Re(Z)/Ohm"
+  },
+  "group_columns": [
+    "Spectrum_ID"
+  ],
+  "imaginary_sign_flipped": true,
+  "input_rows": 360,
+  "phase_unit": null,
+  "polar_conversion": false,
+  "provider": "battery-data-standard",
+  "reader_metadata": {
+    "delimiter": "\t",
+    "encoding": "utf-8-sig",
+    "header_row": 0
+  },
+  "retained_rows": 360,
+  "row_index_basis": "zero_based_BDS_parsed_table",
+  "schema_version": "bfl.eis-intake/0.1",
+  "single_spectrum_declared": false,
+  "spectra": [
+    {
+      "bds_validation": {
+        "columns": [
+          "Frequency_Hz",
+          "Zre_exp_Ohm",
+          "Zim_exp_Ohm",
+          "-Zim_exp_Ohm",
+          "Phase_exp_deg",
+          "measurement_source_row",
+          "time/s",
+          "cycle number"
+        ],
+        "issues": [],
+        "rows": 60,
+        "schema_version": "eis-2026-05",
+        "valid": true
+      },
+      "excluded_rows": [],
+      "input_rows": 60,
+      "retained_rows": 60,
+      "spectrum_uid": "13263cb7c685a33c"
+    },
+    {
+      "bds_validation": {
+        "columns": [
+          "Frequency_Hz",
+          "Zre_exp_Ohm",
+          "Zim_exp_Ohm",
+          "-Zim_exp_Ohm",
+          "Phase_exp_deg",
+          "measurement_source_row",
+          "time/s",
+          "cycle number"
+        ],
+        "issues": [],
+        "rows": 60,
+        "schema_version": "eis-2026-05",
+        "valid": true
+      },
+      "excluded_rows": [],
+      "input_rows": 60,
+      "retained_rows": 60,
+      "spectrum_uid": "ad0ac10dcf195797"
+    },
+    {
+      "bds_validation": {
+        "columns": [
+          "Frequency_Hz",
+          "Zre_exp_Ohm",
+          "Zim_exp_Ohm",
+          "-Zim_exp_Ohm",
+          "Phase_exp_deg",
+          "measurement_source_row",
+          "time/s",
+          "cycle number"
+        ],
+        "issues": [],
+        "rows": 60,
+        "schema_version": "eis-2026-05",
+        "valid": true
+      },
+      "excluded_rows": [],
+      "input_rows": 60,
+      "retained_rows": 60,
+      "spectrum_uid": "0572c3971d112404"
+    },
+    {
+      "bds_validation": {
+        "columns": [
+          "Frequency_Hz",
+          "Zre_exp_Ohm",
+          "Zim_exp_Ohm",
+          "-Zim_exp_Ohm",
+          "Phase_exp_deg",
+          "measurement_source_row",
+          "time/s",
+          "cycle number"
+        ],
+        "issues": [],
+        "rows": 60,
+        "schema_version": "eis-2026-05",
+        "valid": true
+      },
+      "excluded_rows": [],
+      "input_rows": 60,
+      "retained_rows": 60,
+      "spectrum_uid": "153066e9616f17c0"
+    },
+    {
+      "bds_validation": {
+        "columns": [
+          "Frequency_Hz",
+          "Zre_exp_Ohm",
+          "Zim_exp_Ohm",
+          "-Zim_exp_Ohm",
+          "Phase_exp_deg",
+          "measurement_source_row",
+          "time/s",
+          "cycle number"
+        ],
+        "issues": [],
+        "rows": 60,
+        "schema_version": "eis-2026-05",
+        "valid": true
+      },
+      "excluded_rows": [],
+      "input_rows": 60,
+      "retained_rows": 60,
+      "spectrum_uid": "5c33f1bb60c0f1f1"
+    },
+    {
+      "bds_validation": {
+        "columns": [
+          "Frequency_Hz",
+          "Zre_exp_Ohm",
+          "Zim_exp_Ohm",
+          "-Zim_exp_Ohm",
+          "Phase_exp_deg",
+          "measurement_source_row",
+          "time/s",
+          "cycle number"
+        ],
+        "issues": [],
+        "rows": 60,
+        "schema_version": "eis-2026-05",
+        "valid": true
+      },
+      "excluded_rows": [],
+      "input_rows": 60,
+      "retained_rows": 60,
+      "spectrum_uid": "26f1f5f128cdfcdf"
+    }
+  ]
+}

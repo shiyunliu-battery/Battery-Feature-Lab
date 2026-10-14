@@ -160,12 +160,19 @@ comparison policy, dependency compatibility and output schemas.
 - [Core architecture](docs/architecture.md)
 - [API reference](docs/api.md)
 
-The worked example is
-[`examples/BFL_Catenaro_Onori_example.ipynb`](examples/BFL_Catenaro_Onori_example.ipynb). Its source
-workbook is available from the cited CC BY 4.0 dataset and is intentionally not tracked here; follow
-the [download and checksum instructions](examples/data/Catenaro_Onori_2021/README.md). Derived JSON
-examples are under `examples/outputs/Catenaro_Onori_2021/`; full normalized time-series arrays are
-also excluded.
+Two worked examples are indexed in [`examples/README.md`](examples/README.md):
+
+- [`examples/BFL_Catenaro_Onori_example.ipynb`](examples/BFL_Catenaro_Onori_example.ipynb) analyses a
+  time-series workbook. Follow the
+  [download and checksum instructions](examples/data/Catenaro_Onori_2021/README.md); derived JSON is
+  under `examples/outputs/Catenaro_Onori_2021/`.
+- [`examples/BFL_Zhang_2020_EIS_example.ipynb`](examples/BFL_Zhang_2020_EIS_example.ipynb) screens
+  261 impedance spectra from one ageing coin cell, then fits and compares six of them. Follow the
+  [download and checksum instructions](examples/data/Zhang_2020/README.md); derived JSON is under
+  `examples/outputs/Zhang_2020/`.
+
+Source data comes from the cited CC BY 4.0 datasets and is intentionally not tracked here, nor are
+normalized time-series or spectrum arrays.
 
 ## Development
 
@@ -195,6 +202,7 @@ If Battery Feature Lab supports your work, please cite the software:
 }
 ```
 
-GitHub can also generate citation formats from [`CITATION.cff`](CITATION.cff). The included
-Catenaro–Onori example data remains separately licensed under CC BY 4.0 and must retain its original
-[citation and attribution](examples/data/Catenaro_Onori_2021/README.md).
+GitHub can also generate citation formats from [`CITATION.cff`](CITATION.cff). The example datasets
+remain separately licensed under CC BY 4.0 and must retain their original citation and attribution:
+[Catenaro–Onori](examples/data/Catenaro_Onori_2021/README.md) and
+[Zhang et al.](examples/data/Zhang_2020/README.md).
