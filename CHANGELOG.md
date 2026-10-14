@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- Added an independent `analyze_eis()` API and `analyze-eis` CLI.
+- Added BDS-backed spectrum grouping, explicit phase units, source-row
+  provenance, condition declarations and retained/excluded row accounting.
+- Added versioned Lin-KK diagnostics, released `eisfit 0.1.1` fitting and
+  explicit provider-failure records without numerical fallback.
+- Added condition-gated repeat, ageing, SOC and temperature comparisons.
+- Added modality-specific schemas, a six-artifact EIS evidence contract and
+  a CC BY 4.0 real-spectrum regression fixture with attribution.
+- Locked the EIS extra to NumPy 1.26 for `impedance 1.7.1` compatibility.
+
 ## 0.4.0
 
 - Added the single `bfl.analyze()` API and `bfl analyze` CLI.
