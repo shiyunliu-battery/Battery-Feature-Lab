@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.5.0.dev0 (unreleased)
+## 0.5.0 — 2026-10-14
 
 - Added an independent `analyze_eis()` API and `analyze-eis` CLI.
 - Added BDS-backed spectrum grouping, explicit phase units, source-row

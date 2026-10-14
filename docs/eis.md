@@ -5,17 +5,16 @@ time/current channel or serialize spectra as BDF time-series artifacts.
 
 ## Installation and entry points
 
-This interface is part of `0.5.0.dev0`, which is currently unreleased. From a
-checkout containing this change:
+Install the EIS providers for Battery Feature Lab 0.5.0:
+
+```console
+python -m pip install "battery-feature-lab[eis]==0.5.0"
+```
+
+For development from a source checkout:
 
 ```console
 python -m pip install -e ".[eis]"
-```
-
-After the next package release:
-
-```console
-python -m pip install "battery-feature-lab[eis]>=0.5,<0.6"
 ```
 
 The extra pins `eisfit==0.1.1`, `impedance==1.7.1` and NumPy 1.26.x.
