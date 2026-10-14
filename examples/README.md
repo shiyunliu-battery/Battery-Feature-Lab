@@ -43,3 +43,7 @@ OpenAI Files API after each response, and requests use `store=False`.
 
 Model output varies between runs. Treat the saved responses as one sample per condition, not as a
 benchmark.
+
+Saved notebook outputs record the software versions that produced them. The Zhang et al. example
+was run with BFL 0.6.0 and eisfit 0.1.1; re-running it with a later release regenerates the
+outputs, for example adding the multistart near-best ranges reported from eisfit 0.2.0.

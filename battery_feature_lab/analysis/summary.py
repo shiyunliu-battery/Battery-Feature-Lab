@@ -97,6 +97,7 @@ def _compact_record(record: dict[str, Any]) -> dict[str, Any]:
             "spectrum_uid",
             "conditions",
             "convergence",
+            "multistart_near_best",
             "measurement_consistency",
             "measurement_qc",
             "fit_quality",

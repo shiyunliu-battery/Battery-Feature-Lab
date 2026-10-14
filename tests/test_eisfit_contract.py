@@ -17,7 +17,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from battery_feature_lab.eis.analysis import ECM_PARAMETER_UNITS, eisfit_reference
+from battery_feature_lab.eis.analysis import eisfit_reference
 from battery_feature_lab.eis.schema import ECM_FIT_OPTIONS, ECM_TAILS
 
 pytestmark = pytest.mark.skipif(
@@ -59,7 +59,6 @@ def test_fit_result_provides_every_field_bfl_reads(tail):
     import eisfit
 
     names = eisfit.parameter_names(tail)
-    assert set(names) <= set(ECM_PARAMETER_UNITS)
     frequency = np.logspace(4, -1, 32)
     impedance = eisfit.model_eis(np.array(TRUE_PARAMETERS[tail]), 2 * np.pi * frequency, tail)
     options = eisfit.FitConfig(tail=tail, n_starts=2, seed=7)
@@ -70,7 +69,14 @@ def test_fit_result_provides_every_field_bfl_reads(tail):
     assert fit.Zsim.shape == impedance.shape
     assert list(fit.parameters) == names
     assert all(np.isfinite(value) for value in fit.parameters.values())
+    assert list(fit.parameter_units) == names
+    assert all(isinstance(unit, str) and unit for unit in fit.parameter_units.values())
     assert hasattr(fit, "bound_hits")
+    near_best = fit.diagnostics["near_best"]
+    assert {"relative_cost_tolerance", "start_count", "start_indices", "parameter_ranges"} <= set(
+        near_best
+    )
+    assert near_best["start_count"] >= 1 and set(near_best["parameter_ranges"]) == set(names)
     json.dumps(fit.diagnostics, allow_nan=False)
     json.dumps([dataclasses.asdict(attempt) for attempt in fit.attempts], allow_nan=False)
     json.dumps(dataclasses.asdict(options), allow_nan=False)

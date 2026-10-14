@@ -245,9 +245,10 @@ def test_undeclared_ecm_parameter_units_are_rejected(tmp_path, monkeypatch):
             nrmse=0.001,
             rmse=0.0001,
             parameters={"R0_Ohm": 0.01, "tau1": 0.002},
+            parameter_units={"R0_Ohm": "Ohm"},
             Zsim=z.copy(),
             bound_hits=[],
-            diagnostics={},
+            diagnostics={"near_best": {}},
         )
 
     monkeypatch.setattr(eisfit, "fit_model_eis", fitted)
@@ -486,6 +487,7 @@ def test_cli_writes_six_eis_artifacts(tmp_path, capsys):
     [
         {"phase_unit": "unknown"},
         {"fit_options": {"n_starts": 0}},
+        {"fit_options": {"near_best_rtol": -0.1}},
         {"kk_options": {"max_M": 1}},
         {"probe_frequencies_hz": (float("nan"),)},
     ],
@@ -510,6 +512,9 @@ def test_real_spectrum_uses_released_fit_provider(tmp_path):
     assert fit["attributes"]["convergence"] == "converged"
     assert fit["metrics"]["nrmse"]["value"] < 0.02
     assert fit["attributes"]["identifiability"] == "not_assessed"
+    near_best = fit["attributes"]["multistart_near_best"]
+    assert 1 <= near_best["start_count"] <= 3
+    assert set(near_best["parameter_ranges"]) == set(fit["attributes"]["parameter_units"])
     assert (
         find(result, "response.eis_kk")["metrics"]["maximum_normalized_residual"]["value"]
         is not None
@@ -593,9 +598,10 @@ def test_model_parameter_differences_keep_cpe_unit_and_identity_limits(tmp_path,
             nrmse=0.001,
             rmse=0.0001,
             parameters=parameters,
+            parameter_units=eisfit.parameter_units("cpe"),
             Zsim=z.copy(),
             bound_hits=[],
-            diagnostics={},
+            diagnostics={"near_best": {"start_count": 1}},
         )
 
     monkeypatch.setattr(validation, "linKK", consistent)

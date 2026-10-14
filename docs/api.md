@@ -9,14 +9,14 @@ interface and its modality-specific contract are documented in [EIS analysis](ei
 Python 3.11 and 3.12 are supported.
 
 ```console
-python -m pip install "battery-feature-lab>=0.6,<0.7"
+python -m pip install "battery-feature-lab>=0.7,<0.8"
 ```
 
 Optional extras:
 
 ```console
-python -m pip install "battery-feature-lab[bdf]>=0.6,<0.7"  # native formal-BDF input
-python -m pip install "battery-feature-lab[ai]>=0.6,<0.7"   # OpenAI example notebook
+python -m pip install "battery-feature-lab[bdf]>=0.7,<0.8"  # native formal-BDF input
+python -m pip install "battery-feature-lab[ai]>=0.7,<0.8"   # OpenAI example notebook
 ```
 
 For repository development, clone the project and run `uv sync --extra dev`.

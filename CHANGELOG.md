@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.7.0 — 2026-10-14
+
+- Adopted `eisfit==0.2.0`. Parameter units now come from eisfit; a fitted parameter without
+  a unit is still rejected with `provider_invalid_result:ecm_parameter_units_undeclared`.
+- ECM records keep each multistart start's start and final parameters, and report
+  `attributes.multistart_near_best` (also in the compact index): the starts whose cost is
+  within the eisfit `near_best_rtol` of the best, and each parameter's range across them.
+  BFL applies no stability threshold; parameter stability remains `not_assessed`.
+- Added `near_best_rtol` to the validated ECM fit options. ECM method parameters no longer
+  include figure options, which eisfit 0.2.0 moved out of its fit configuration.
+- `main` is the only branch: releases are published by pushing a `v<version>` tag, and the
+  GitHub release notes are the version's changelog section instead of the whole changelog.
+- The Zhang et al. example outputs remain a BFL 0.6.0 / eisfit 0.1.1 snapshot.
+
 ## 0.6.0 — 2026-10-14
 
 - Added an EIS example notebook for the CC BY 4.0 Zhang et al. (2020) dataset. It screens all

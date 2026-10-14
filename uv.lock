@@ -102,7 +102,7 @@ wheels = [
 
 [[package]]
 name = "battery-feature-lab"
-version = "0.6.0"
+version = "0.7.0"
 source = { editable = "." }
 dependencies = [
     { name = "battery-data-standard" },
@@ -135,7 +135,7 @@ eis = [
 requires-dist = [
     { name = "battery-data-standard", specifier = ">=0.3.1,<0.4" },
     { name = "batterydf", marker = "extra == 'bdf'", specifier = "==0.1.0" },
-    { name = "eisfit", marker = "extra == 'eis'", specifier = "==0.1.1" },
+    { name = "eisfit", marker = "extra == 'eis'", specifier = "==0.2.0" },
     { name = "impedance", marker = "extra == 'eis'", specifier = "==1.7.1" },
     { name = "jsonschema", specifier = ">=4.26" },
     { name = "numpy", specifier = ">=1.26.4" },
@@ -403,7 +403,7 @@ wheels = [
 
 [[package]]
 name = "eisfit"
-version = "0.1.1"
+version = "0.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "matplotlib" },
@@ -412,9 +412,9 @@ dependencies = [
     { name = "pandas" },
     { name = "scipy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/37/4a/99eecf577d5d079adc838ba9eb0be39564a230b0e99232dacc5a9466cb35/eisfit-0.1.1.tar.gz", hash = "sha256:c5116e2de559212edc3146977c45838cac38c4417d37f413d7edaf395b108243", size = 13333, upload-time = "2026-10-13T23:51:01.619Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c0/82/bdbb1d48f0b6d9407fe33a71ca7fb7e87e561a7360a8acb5edd5bea76f52/eisfit-0.2.0.tar.gz", hash = "sha256:2e9eacd7bca3c72eda74d18f824ba40533619eabbfa57e34a787e9f2bac62228", size = 16311, upload-time = "2026-10-14T18:35:16.816Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3d/ac/c2148c210ceff451c9aaf6c1b7dcd997f0127cd6f18c018d56eab9af7b63/eisfit-0.1.1-py3-none-any.whl", hash = "sha256:5c46d7b717aa038ef8d5878291eadc28a5860349ef73794a191259fd75518fb6", size = 16364, upload-time = "2026-10-13T23:50:59.989Z" },
+    { url = "https://files.pythonhosted.org/packages/b7/f9/aaa54ce4a9877f659a31520d3b7134dd926e7dbc025cf53bbb8cb931d371/eisfit-0.2.0-py3-none-any.whl", hash = "sha256:96f5d18dd8748758932444eb76eeb0fd6a4cc2b79381d699e88501323f569d2d", size = 18984, upload-time = "2026-10-14T18:35:15.59Z" },
 ]
 
 [[package]]

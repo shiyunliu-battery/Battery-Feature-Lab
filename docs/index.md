@@ -18,7 +18,7 @@ series) or [`examples/BFL_Zhang_2020_EIS_example.ipynb`](../examples/BFL_Zhang_2
 
 | Interface | Version |
 |---|---|
-| Package | `0.6.0` |
+| Package | `0.7.0` |
 | Detailed evidence | `bfl.analysis/0.1` |
 | Compact summary | `bfl.summary/0.1` |
 | Metadata | `bfl.metadata/0.1` |
@@ -31,7 +31,7 @@ series) or [`examples/BFL_Zhang_2020_EIS_example.ipynb`](../examples/BFL_Zhang_2
 | EIS validation | `bfl.eis-validation/0.1` |
 
 Provider versions in evidence records are read from the installed package metadata, for example
-`BFL 0.6.0` or `PyProBE <version>; BFL 0.6.0`.
+`BFL 0.7.0` or `PyProBE <version>; BFL 0.7.0`.
 
 BFL emits machine-readable JSON and Parquet. Natural-language rendering belongs to downstream
 software.

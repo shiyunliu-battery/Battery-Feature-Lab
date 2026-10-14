@@ -11,8 +11,8 @@ from typing import Any
 
 from battery_feature_lab.analysis.schema import RECORD_SCHEMA, SUMMARY_SCHEMA
 
-# Fitting options BFL has validated against eisfit. Plotting options are deliberately excluded,
-# and new eisfit options require explicit review rather than automatic pass-through.
+# Fitting options BFL has validated against eisfit. New eisfit options require explicit review
+# rather than automatic pass-through.
 ECM_FIT_OPTIONS = frozenset(
     {
         "tail",
@@ -26,6 +26,7 @@ ECM_FIT_OPTIONS = frozenset(
         "use_adaptive_bounds",
         "lb",
         "ub",
+        "near_best_rtol",
     }
 )
 # Tail models covered by the two-arc ECM record, circuit description and parameter units.
@@ -110,6 +111,14 @@ class EISConfig:
             value = self.fit_options.get(key, 1)
             if not isinstance(value, int) or isinstance(value, bool) or value < 1:
                 raise ValueError(f"ECM {key} must be a positive integer")
+        near_best_rtol = self.fit_options.get("near_best_rtol", 0.01)
+        if (
+            isinstance(near_best_rtol, bool)
+            or not isinstance(near_best_rtol, (int, float))
+            or not math.isfinite(near_best_rtol)
+            or near_best_rtol < 0
+        ):
+            raise ValueError("ECM near_best_rtol must be finite and non-negative")
         if not isinstance(self.metadata.get("defaults", {}), dict) or not isinstance(
             self.metadata.get("spectra", {}), dict
         ):

@@ -5,10 +5,10 @@ time/current channel or serialize spectra as BDF time-series artifacts.
 
 ## Installation and entry points
 
-Install the EIS providers for Battery Feature Lab 0.6.0:
+Install the EIS providers for Battery Feature Lab 0.7.0:
 
 ```console
-python -m pip install "battery-feature-lab[eis]==0.6.0"
+python -m pip install "battery-feature-lab[eis]==0.7.0"
 ```
 
 For development from a source checkout:
@@ -17,7 +17,7 @@ For development from a source checkout:
 python -m pip install -e ".[eis]"
 ```
 
-The extra pins `eisfit==0.1.1`, `impedance==1.7.1` and NumPy 1.26.x.
+The extra pins `eisfit==0.2.0`, `impedance==1.7.1` and NumPy 1.26.x.
 `impedance 1.7.1` builds an evaluated circuit expression that is incompatible
 with NumPy 2 scalar representations. The extra also keeps pyarrow below 26:
 pyarrow 26 requires NumPy 2 without declaring it, so pip would otherwise
@@ -125,8 +125,17 @@ cells for metadata and comparisons, or callers must use `spectrum_uid`.
   weighting, loss, multistart audit, convergence, fit error and residuals.
   Failed fits retain the measured spectrum and produce an explicit unavailable
   ECM record. Duplicate grids and insufficient point counts skip providers.
+- The multistart audit keeps each start's start and final parameters (final
+  values in the reported arc order). `attributes.multistart_near_best`, also in
+  the compact index, gives the starts whose cost is within the eisfit
+  `near_best_rtol` (fit option, default 0.01) of the best, and the range of each
+  parameter across them. These are recorded facts about the optimizer run;
+  BFL applies no stability threshold to them. When `start_count` is 1 the ranges
+  are zero by construction and say nothing about stability; it only shows that a
+  single start reached the best cost within the tolerance.
 - Parameter stability, uncertainty and identifiability remain `not_assessed`.
-  A converged fit or a canonical arc label does not establish those properties.
+  A converged fit, a canonical arc label or agreement among near-best starts
+  does not establish those properties.
 
 Residual limits and the default minimum of 12 provider points are configurable
 analysis policies, not universal scientific acceptance criteria. A failing or
@@ -217,15 +226,16 @@ release is not picked up automatically; adopting it is an explicit change to BFL
 
 What follows the installed release without code changes: the provider version in
 ECM records and validation, the `run_id`, the release reference (built from the
-installed version, so the matching `v<version>` tag must exist on GitHub), and any
-new content inside `fit.diagnostics`, which is stored as returned.
+installed version, so the matching `v<version>` tag must exist on GitHub), the
+parameter units, which eisfit provides, and any new content inside
+`fit.diagnostics`, which is stored as returned.
 
 What BFL still decides explicitly:
 
 - the validated fit options (`ECM_FIT_OPTIONS`) and tail models (`ECM_TAILS`);
-  plotting options are not passed through, and new options need review;
-- the unit of every fitted parameter (`ECM_PARAMETER_UNITS`); a parameter without
-  a declared unit makes the ECM record `not_computable` with reason
+  new options need review before they can be passed through;
+- that every fitted parameter has a unit: a parameter for which eisfit supplies
+  none makes the ECM record `not_computable` with reason
   `provider_invalid_result:ecm_parameter_units_undeclared`, rather than being
   reported as dimensionless;
 - the two-arc ECM method name, circuit description and parameter-comparison rules.

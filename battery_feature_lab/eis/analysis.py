@@ -18,21 +18,6 @@ LIMITS = [
     "A spectrum or circuit parameter alone does not establish a degradation mechanism.",
 ]
 EISFIT_REPOSITORY = "https://github.com/shiyunliu-battery/Battery-EIS-Fit"
-# Units of every parameter the pinned eisfit returns for the two-arc ECM. A parameter missing
-# from this table is rejected rather than assumed dimensionless.
-ECM_PARAMETER_UNITS = {
-    "L_H": "H",
-    "R0_Ohm": "Ohm",
-    "R1_Ohm": "Ohm",
-    "R2_Ohm": "Ohm",
-    "Q1": "S*s^n",
-    "Q2": "S*s^n",
-    "Qd": "S*s^n",
-    "n1": "1",
-    "n2": "1",
-    "nd": "1",
-    "sigma": "Ohm*s^(-1/2)",
-}
 
 
 def eisfit_reference() -> str:
@@ -270,23 +255,25 @@ def analyze_spectrum(spectrum, source_ref, config: EISConfig, calls):
                         raise ValueError("ECM provider returned an unconverged or invalid fit")
                     if fit.Zsim.shape != z.shape or not np.all(np.isfinite(fit.Zsim)):
                         raise ValueError("ECM provider returned an invalid fitted spectrum")
-                    undeclared = sorted(set(fit.parameters) - set(ECM_PARAMETER_UNITS))
+                    undeclared = sorted(set(fit.parameters) - set(fit.parameter_units))
                     if undeclared:
                         attributes.update(convergence="converged", undeclared_parameters=undeclared)
                         raise InvalidProviderResult(
                             "ecm_parameter_units_undeclared",
                             f"eisfit returned parameters without a declared unit: {undeclared}",
                         )
+                    diagnostics = fit.diagnostics
                     attributes.update(
                         {
                             "convergence": "converged",
-                            "diagnostics": fit.diagnostics,
+                            "diagnostics": diagnostics,
+                            "multistart_near_best": diagnostics["near_best"],
                             "fit_quality": "within_configured_limit"
                             if fit.nrmse <= config.fit_nrmse_limit
                             else "outside_configured_limit",
                             "circuit": "L + R0 + (R1 || CPE1) + (R2 || CPE2) + " + options.tail,
                             "parameter_units": {
-                                name: ECM_PARAMETER_UNITS[name] for name in fit.parameters
+                                name: fit.parameter_units[name] for name in fit.parameters
                             },
                         }
                     )

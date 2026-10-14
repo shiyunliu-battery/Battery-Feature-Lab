@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "battery-feature-lab"
-version = "0.6.0"
+version = "0.7.0"
 description = "Battery time-series and electrochemical impedance spectroscopy analysis with traceable evidence."
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
@@ -32,7 +32,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.9"]
 # impedance 1.7.1 needs NumPy 1.x; pyarrow 26 requires NumPy 2 without declaring it.
-eis = ["eisfit==0.1.1", "impedance==1.7.1", "numpy>=1.26.4,<2", "pyarrow<26"]
+eis = ["eisfit==0.2.0", "impedance==1.7.1", "numpy>=1.26.4,<2", "pyarrow<26"]
 bdf = ["batterydf==0.1.0"]
 ai = ["openai>=2,<3"]
 
