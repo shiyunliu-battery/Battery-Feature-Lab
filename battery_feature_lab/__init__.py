@@ -1,7 +1,7 @@
 """Battery Feature Lab public package."""
 
 from battery_feature_lab.analysis.schema import AnalysisResult
-from battery_feature_lab.api import analyze
+from battery_feature_lab.api import analyze, analyze_eis
 
 __version__ = "0.4.0"
-__all__ = ["AnalysisResult", "analyze"]
+__all__ = ["AnalysisResult", "analyze", "analyze_eis"]

@@ -222,7 +222,7 @@ def test_provider_error_does_not_use_local_cycle_summary_fallback(
 
 
 def test_public_api_is_exact() -> None:
-    assert bfl.__all__ == ["AnalysisResult", "analyze"]
+    assert bfl.__all__ == ["AnalysisResult", "analyze", "analyze_eis"]
 
 
 def test_non_finite_metric_is_explicitly_not_computable() -> None:

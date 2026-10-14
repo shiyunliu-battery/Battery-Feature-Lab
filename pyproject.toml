@@ -31,6 +31,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.9"]
+eis = ["eisfit==0.1.1", "impedance==1.7.1", "numpy>=1.26.4,<2"]
 bdf = ["batterydf==0.1.0"]
 ai = ["openai>=2,<3"]
 

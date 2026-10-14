@@ -1,6 +1,8 @@
 # API reference
 
-Battery Feature Lab exposes one Python function, one result type, and one CLI command.
+Battery Feature Lab exposes `analyze()` for time-series measurements and
+`analyze_eis()` for spectra, with an `AnalysisResult` output object. The EIS
+interface and its modality-specific contract are documented in [EIS analysis](eis.md).
 
 ## Install
 

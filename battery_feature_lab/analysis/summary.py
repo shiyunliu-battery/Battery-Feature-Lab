@@ -5,6 +5,11 @@ from __future__ import annotations
 from typing import Any
 
 CORE_TYPES = {
+    "operation.eis_conditions",
+    "response.eis_spectrum",
+    "response.eis_kk",
+    "response.eis_ecm",
+    "evolution.eis_comparison",
     "operation.window_summary",
     "response.directional_energy_summary",
     "response.capacity_aligned_profile",
@@ -88,6 +93,26 @@ def _compact_record(record: dict[str, Any]) -> dict[str, Any]:
     keep_attributes = {
         name: attributes[name]
         for name in (
+            "spectrum_id",
+            "spectrum_uid",
+            "conditions",
+            "convergence",
+            "measurement_consistency",
+            "measurement_qc",
+            "fit_quality",
+            "identifiability",
+            "parameter_stability",
+            "uncertainty",
+            "circuit",
+            "parameter_units",
+            "comparison_status",
+            "ecm_parameter_comparison_status",
+            "ecm_parameter_comparison_limit",
+            "comparison_kind",
+            "missing_conditions",
+            "mismatched_conditions",
+            "common_frequency_window_hz",
+            "supporting_record_ids",
             "analysis_context",
             "confidence",
             "contributing_counts_by_preceding_mode",

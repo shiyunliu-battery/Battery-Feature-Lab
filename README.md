@@ -129,6 +129,18 @@ metadata.
 
 ## Documentation
 
+### EIS
+
+Install `battery-feature-lab[eis]` and use `bfl.analyze_eis()` or
+`bfl analyze-eis`. The independent EIS path combines BDS-backed intake,
+explicit spectrum grouping, measurement conditions, Lin-KK consistency checks,
+`eisfit 0.1.1` circuit fitting and condition-gated comparisons. It retains
+source rows, conversion operations, provider failures and interpretation
+limits in a modality-specific six-artifact contract.
+
+See [EIS analysis and evidence](docs/eis.md) for the input declarations,
+comparison policy, dependency compatibility and output schemas.
+
 - [Documentation home](docs/index.md)
 - [Core architecture](docs/architecture.md)
 - [API reference](docs/api.md)
@@ -145,7 +157,7 @@ also excluded.
 ```console
 git clone https://github.com/shiyunliu-battery/Battery-Feature-Lab.git
 cd Battery-Feature-Lab
-uv sync --python 3.12 --extra dev --extra ai
+uv sync --python 3.12 --extra dev --extra ai --extra eis
 uv run ruff check .
 uv run pytest -q
 ```
