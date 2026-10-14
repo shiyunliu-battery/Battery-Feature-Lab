@@ -1,6 +1,6 @@
 # Battery Feature Lab
 
-[![Version](https://img.shields.io/badge/version-0.4.0-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.5.0.dev0%20%28unreleased%29-2563eb)](CHANGELOG.md)
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-3776ab?logo=python&logoColor=white)](pyproject.toml)
 [![License](https://img.shields.io/badge/license-MPL--2.0-16a34a)](LICENSE)
 
@@ -31,7 +31,16 @@ to the other after a provider error.
 
 ## Quick start
 
-Battery Feature Lab supports Python 3.11 and 3.12.
+Battery Feature Lab supports Python 3.11 and 3.12. The current source version is
+`0.5.0.dev0` (unreleased), including the EIS interface. Install it from a checkout:
+
+```console
+git clone https://github.com/shiyunliu-battery/Battery-Feature-Lab.git
+cd Battery-Feature-Lab
+python -m pip install -e ".[eis]"
+```
+
+For the previously released 0.4 series (time-series analysis only):
 
 ```console
 python -m pip install "battery-feature-lab>=0.4,<0.5"
@@ -131,7 +140,8 @@ metadata.
 
 ### EIS
 
-Install `battery-feature-lab[eis]` and use `bfl.analyze_eis()` or
+Install the current source with `python -m pip install -e ".[eis]"` and use
+`bfl.analyze_eis()` or
 `bfl analyze-eis`. The independent EIS path combines BDS-backed intake,
 explicit spectrum grouping, measurement conditions, Lin-KK consistency checks,
 `eisfit 0.1.1` circuit fitting and condition-gated comparisons. It retains
@@ -174,7 +184,7 @@ If Battery Feature Lab supports your work, please cite the software:
   author  = {Liu, Shiyun},
   title   = {Battery Feature Lab},
   year    = {2026},
-  version = {0.4.0},
+  version = {0.5.0.dev0},
   url     = {https://github.com/shiyunliu-battery/Battery-Feature-Lab},
   license = {MPL-2.0}
 }
