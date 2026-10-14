@@ -7,6 +7,7 @@ from typing import Any
 import numpy as np
 import polars as pl
 
+from battery_feature_lab._version import PROVIDER_VERSION
 from battery_feature_lab.analysis.adapters import temperature_column
 from battery_feature_lab.analysis.numerics import json_number
 from battery_feature_lab.analysis.schema import (
@@ -454,7 +455,7 @@ def analyze_capacity_aligned_profile(
             },
             provider="BFL",
             method_name="capacity_aligned_bidirectional_profile_v1",
-            provider_version="0.4.0",
+            provider_version=PROVIDER_VERSION,
             parameters=method_parameters,
             references=["https://doi.org/10.1038/s42256-024-00972-x"],
             applicability_status="not_computable",
@@ -554,7 +555,7 @@ def analyze_capacity_aligned_profile(
         },
         provider="BFL",
         method_name="capacity_aligned_bidirectional_profile_v1",
-        provider_version="0.4.0",
+        provider_version=PROVIDER_VERSION,
         parameters={
             **method_parameters,
             "interpolation": "linear_on_monotone_capacity",

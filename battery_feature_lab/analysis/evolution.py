@@ -9,6 +9,7 @@ import numpy as np
 import scipy
 from scipy.stats import kendalltau, theilslopes
 
+from battery_feature_lab._version import PROVIDER_VERSION
 from battery_feature_lab.analysis.schema import AnalysisConfig, make_record, metric
 
 THEIL_REFERENCE = (
@@ -478,7 +479,7 @@ def analyze_capacity_evolution(
         series={},
         provider="SciPy+BFL",
         method_name="conservative_cycle_level_capacity_evolution_v2",
-        provider_version=f"SciPy {scipy.__version__}; BFL 0.4.0",
+        provider_version=f"SciPy {scipy.__version__}; {PROVIDER_VERSION}",
         parameters={
             "reference_window_size": reference_window_size,
             "minimum_repeat_observations": MINIMUM_REPEAT_OBSERVATIONS,

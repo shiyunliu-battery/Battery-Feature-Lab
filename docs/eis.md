@@ -102,7 +102,23 @@ cells for metadata and comparisons, or callers must use `spectrum_uid`.
   and imaginary impedance against log10 frequency, with no extrapolation.
 - Lin-KK records provider version, settings, normalized residuals and the
   configured residual-limit outcome. This is a consistency test, not proof of
-  linearity, stationarity or a particular circuit interpretation.
+  linearity, stationarity or a particular circuit interpretation. Metrics
+  locate the result: `frequency_of_maximum_residual` (Hz),
+  `points_above_residual_limit` and `fraction_points_above_residual_limit`.
+  A largest residual at one frequency does not show that the remaining points
+  pass a re-run without that point; Lin-KK places its time constants from the
+  measured frequency range.
+- When `impedance.py` returns a non-finite μ or non-finite or misshaped arrays,
+  the Lin-KK record is `not_computable` with reason
+  `provider_invalid_result:lin_kk_mu_not_finite` or
+  `provider_invalid_result:lin_kk_invalid_outputs`. The record keeps the
+  observed facts under `attributes.lin_kk_termination`: the RC element count at
+  termination, μ when finite, its class (`nan`, `positive_infinity` or
+  `negative_infinity`) and the invalid outputs. `impedance.py` computes
+  μ = 1 − Σ|negative RC resistances| / Σ|non-negative RC resistances|, and its
+  automatic element-count search also ends when μ is non-finite. BFL reports
+  this outcome; it does not substitute another Lin-KK implementation or infer a
+  measurement cause.
 - ECM records the circuit, parameter units, effective bounds, random seed,
   weighting, loss, multistart audit, convergence, fit error and residuals.
   Failed fits retain the measured spectrum and produce an explicit unavailable
@@ -155,10 +171,32 @@ analysis_evidence.json
 analysis_validation.json
 ```
 
-The JSON contracts use the modality-specific `bfl.eis-* /0.1` schemas. The
-compact results index uses the existing Operation/Response/Evolution layout,
-while methods, dense spectra, fit residuals and detailed diagnostics remain
-in evidence. Resolve `record_id` within its `run_id`; IDs are run-scoped.
+The JSON contracts use modality-specific schemas: `bfl.eis-intake/0.1`,
+`bfl.eis-analysis/0.1`, `bfl.eis-metadata/0.1`, `bfl.eis-validation/0.1` and
+`bfl.eis-summary/0.2`. The compact results index uses the Operation/Response/
+Evolution layout, while methods, dense spectra, fit residuals and detailed
+diagnostics remain in evidence. Resolve `record_id` within its `run_id`; IDs
+are run-scoped.
+
+The compact index states repeated content once:
+
+- `conditions.shared` holds condition blocks identical for every spectrum, and
+  `conditions.not_reported` names conditions reported for no spectrum. Each
+  `operation.eis_conditions` record lists only the conditions that differ
+  between spectra.
+- Comparison records name `compared_spectra` (reference first) instead of
+  repeating both condition blocks.
+- `interpretation_limits` maps identifiers such as `L1` to their text; each
+  compact record lists identifiers.
+
+Nothing is dropped: the evidence record with the same `record_id` keeps the
+complete condition block and limit text.
+
+Each `provider_calls` entry for an invoked Lin-KK or circuit-fit provider
+includes `provider_output`: stdout and stderr line counts and the warning
+categories, messages and counts emitted during the call. Calls that were not
+invoked, or whose provider could not be imported, have no `provider_output`. Console text and warning source locations are not retained,
+and absolute paths inside warning messages are replaced with `<path>`.
 Validation checks finite JSON, schemas, reference identity, artifact digests
 and complete retained/excluded row accounting. Serialized provenance contains
 no host-local paths. Output directories must be empty.
@@ -169,3 +207,42 @@ change does not implement the Battery Context consumer or DRT analysis.
 The validation file records the installed provider versions and a digest of
 the EIS implementation sources, so development checkouts remain distinguishable
 even before the next BFL version is released.
+
+## Upgrading eisfit
+
+BFL pins an exact eisfit release in the `eis` extra and in `uv.lock`. A new eisfit
+release is not picked up automatically; adopting it is an explicit change to BFL.
+
+What follows the installed release without code changes: the provider version in
+ECM records and validation, the `run_id`, the release reference (built from the
+installed version, so the matching `v<version>` tag must exist on GitHub), and any
+new content inside `fit.diagnostics`, which is stored as returned.
+
+What BFL still decides explicitly:
+
+- the validated fit options (`ECM_FIT_OPTIONS`) and tail models (`ECM_TAILS`);
+  plotting options are not passed through, and new options need review;
+- the unit of every fitted parameter (`ECM_PARAMETER_UNITS`); a parameter without
+  a declared unit makes the ECM record `not_computable` with reason
+  `provider_invalid_result:ecm_parameter_units_undeclared`, rather than being
+  reported as dimensionless;
+- the two-arc ECM method name, circuit description and parameter-comparison rules.
+  A new circuit or tail model needs explicit adaptation, not only a version change.
+
+To adopt a release: change the pin, run `uv lock --upgrade-package eisfit`, run the
+test suite, including `tests/test_eisfit_contract.py`, which fits a small spectrum
+for each tail and checks fields, shapes, units and JSON serialisation, then update
+this page and the changelog. Most failures while reading provider results are
+recorded as provider errors, but an incompatible release can still fail during
+serialisation, which is why the contract test runs a real fit.
+
+An exact pin supports reproducibility but does not guarantee it: `pip install`
+does not read `uv.lock`, and other dependencies, configuration and platform also
+affect results. Users of the published package receive a new eisfit only through
+a new BFL release that declares it.
+
+## Worked example
+
+[`examples/BFL_Zhang_2020_EIS_example.ipynb`](../examples/BFL_Zhang_2020_EIS_example.ipynb) runs this
+path on a public CC BY 4.0 dataset. It screens 261 spectra from one ageing coin cell, then fits and
+compares six of them under the `ageing` gate.

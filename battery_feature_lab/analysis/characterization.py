@@ -9,6 +9,7 @@ import numpy as np
 import polars as pl
 import pyprobe
 
+from battery_feature_lab._version import PROVIDER_VERSION
 from battery_feature_lab.analysis.adapters import temperature_column
 from battery_feature_lab.analysis.numerics import (
     json_number,
@@ -162,7 +163,7 @@ def analyze_directional_energy(
         },
         provider="BFL",
         method_name="directional_previous_zoh_energy_voltage_v1",
-        provider_version="0.4.0",
+        provider_version=PROVIDER_VERSION,
         parameters={
             "rest_current_threshold_a": config.rest_current_threshold_a,
             "sampling_interval_outlier_factor": (config.sampling_interval_outlier_factor),
@@ -381,7 +382,7 @@ def analyze_relaxation_summary(
         metrics=metrics,
         provider="PyProBE+BFL",
         method_name="phase_conditioned_rest_voltage_recovery_v1",
-        provider_version=f"PyProBE {pyprobe.__version__}; BFL 0.4.0",
+        provider_version=f"PyProBE {pyprobe.__version__}; {PROVIDER_VERSION}",
         parameters={
             "analysis_policy_version": ANALYSIS_POLICY_VERSION,
             "checkpoints_s": list(config.relaxation_checkpoints_s),
@@ -596,7 +597,7 @@ def analyze_current_step_summary(
         metrics=metrics,
         provider="BFL",
         method_name="current_step_distribution_v1",
-        provider_version="0.4.0",
+        provider_version=PROVIDER_VERSION,
         parameters={
             "analysis_policy_version": ANALYSIS_POLICY_VERSION,
             "response_times_s": list(response_times_s),
@@ -896,7 +897,7 @@ def _current_step_record(
         metrics=metrics,
         provider="BFL",
         method_name="current_step_delta_v_over_delta_i_v1",
-        provider_version="0.4.0",
+        provider_version=PROVIDER_VERSION,
         parameters={
             "analysis_policy_version": ANALYSIS_POLICY_VERSION,
             "baseline_window_s": baseline_window_s,
@@ -1052,7 +1053,7 @@ def _unavailable_directional_record(
         source_intervals=[],
         provider="BFL",
         method_name="directional_previous_zoh_energy_voltage_v1",
-        provider_version="0.4.0",
+        provider_version=PROVIDER_VERSION,
         applicability_status="not_computable",
         applicability_reasons=[reason],
         quality_status="warning",
@@ -1092,7 +1093,7 @@ def _unavailable_current_step_record(
         },
         provider="BFL",
         method_name="current_step_delta_v_over_delta_i_v1",
-        provider_version="0.4.0",
+        provider_version=PROVIDER_VERSION,
         references=["https://doi.org/10.1038/s41598-017-18424-5"],
         applicability_status="not_computable",
         applicability_reasons=[reason],

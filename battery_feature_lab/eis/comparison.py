@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from battery_feature_lab._version import PROVIDER_VERSION
 from battery_feature_lab.analysis.schema import make_record, metric
 from battery_feature_lab.eis.analysis import interpolate_impedance
 from battery_feature_lab.eis.schema import EISConfig
@@ -161,7 +162,7 @@ def compare_spectra(spectra, records, refs, config: EISConfig):
                 metrics=measured,
                 provider="BFL",
                 method_name="condition_gated_spectral_comparison_v1",
-                provider_version="BFL 0.4.0",
+                provider_version=PROVIDER_VERSION,
                 parameters={
                     "tolerances": config.comparison_tolerances,
                     "interpolation": "linear_real_imag_in_log10_frequency",

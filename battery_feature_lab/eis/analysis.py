@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 from dataclasses import asdict
-from importlib.metadata import version
+from importlib.metadata import PackageNotFoundError, version
 from typing import Any
 
 import numpy as np
 
+from battery_feature_lab._version import PROVIDER_VERSION
+from battery_feature_lab.analysis.provider_output import capture_provider_output
 from battery_feature_lab.analysis.schema import make_record, metric
 from battery_feature_lab.eis.schema import EISConfig
 
@@ -15,6 +17,47 @@ LIMITS = [
     "EIS descriptors depend on measurement conditions and frequency coverage.",
     "A spectrum or circuit parameter alone does not establish a degradation mechanism.",
 ]
+EISFIT_REPOSITORY = "https://github.com/shiyunliu-battery/Battery-EIS-Fit"
+# Units of every parameter the pinned eisfit returns for the two-arc ECM. A parameter missing
+# from this table is rejected rather than assumed dimensionless.
+ECM_PARAMETER_UNITS = {
+    "L_H": "H",
+    "R0_Ohm": "Ohm",
+    "R1_Ohm": "Ohm",
+    "R2_Ohm": "Ohm",
+    "Q1": "S*s^n",
+    "Q2": "S*s^n",
+    "Qd": "S*s^n",
+    "n1": "1",
+    "n2": "1",
+    "nd": "1",
+    "sigma": "Ohm*s^(-1/2)",
+}
+
+
+def eisfit_reference() -> str:
+    """Return the release page of the installed eisfit, or its repository if absent."""
+    try:
+        return f"{EISFIT_REPOSITORY}/releases/tag/v{version('eisfit')}"
+    except PackageNotFoundError:
+        return EISFIT_REPOSITORY
+
+
+class InvalidProviderResult(ValueError):
+    """A provider returned values that cannot be serialized as a valid result."""
+
+    def __init__(self, code: str, message: str) -> None:
+        super().__init__(message)
+        self.code = code
+
+
+def value_class(value: float) -> str:
+    """Name the IEEE class of a provider scalar without coercing it to JSON."""
+    if np.isnan(value):
+        return "nan"
+    if np.isinf(value):
+        return "positive_infinity" if value > 0 else "negative_infinity"
+    return "finite"
 
 
 def interpolate_impedance(f, z, query):
@@ -35,7 +78,7 @@ def record(spectrum, kind, source_ref, **kwargs):
         cell_id=spectrum["conditions"]["cell_id"]["value"] or "unknown",
         cycle_scope=None,
         source_intervals=[source_ref],
-        provider_version=kwargs.pop("provider_version", "BFL 0.4.0"),
+        provider_version=kwargs.pop("provider_version", PROVIDER_VERSION),
         interpretation_limits=kwargs.pop("interpretation_limits", LIMITS),
         **kwargs,
     )
@@ -158,18 +201,40 @@ def analyze_spectrum(spectrum, source_ref, config: EISConfig, calls):
                         **config.kk_options,
                     }
                     parameters.update(options)
-                    count, mu, simulated, residual_real, residual_imag = linKK(f, z, **options)
-                    arrays = [
-                        np.asarray(x)
-                        for x in (simulated.real, simulated.imag, residual_real, residual_imag)
-                    ]
-                    if any(
-                        x.shape != f.shape or not np.all(np.isfinite(x)) for x in arrays
-                    ) or not np.isfinite(mu):
-                        raise ValueError("Lin-KK returned invalid numerical results")
-                    maximum = float(
-                        max(np.max(np.abs(residual_real)), np.max(np.abs(residual_imag)))
+                    with capture_provider_output() as provider_output:
+                        call["provider_output"] = provider_output
+                        count, mu, simulated, residual_real, residual_imag = linKK(
+                            f, z, **options
+                        )
+                    outputs = {
+                        "fitted_real": simulated.real,
+                        "fitted_imaginary": simulated.imag,
+                        "residual_real": residual_real,
+                        "residual_imaginary": residual_imag,
+                    }
+                    invalid_outputs = sorted(
+                        name
+                        for name, values in outputs.items()
+                        if np.shape(values) != f.shape or not np.all(np.isfinite(values))
                     )
+                    if invalid_outputs or not np.isfinite(mu):
+                        attributes["lin_kk_termination"] = {
+                            "rc_element_count": int(count),
+                            "mu": float(mu) if np.isfinite(mu) else None,
+                            "mu_class": value_class(float(mu)),
+                            "invalid_outputs": invalid_outputs,
+                        }
+                        if not np.isfinite(mu):
+                            raise InvalidProviderResult(
+                                "lin_kk_mu_not_finite", "Lin-KK returned a non-finite mu"
+                            )
+                        raise InvalidProviderResult(
+                            "lin_kk_invalid_outputs",
+                            "Lin-KK returned non-finite or misshaped arrays",
+                        )
+                    magnitude = np.maximum(np.abs(residual_real), np.abs(residual_imag))
+                    maximum = float(np.max(magnitude))
+                    above = int(np.sum(magnitude > config.kk_residual_limit))
                     attributes["measurement_consistency"] = (
                         "within_configured_residual_limit"
                         if maximum <= config.kk_residual_limit
@@ -177,6 +242,11 @@ def analyze_spectrum(spectrum, source_ref, config: EISConfig, calls):
                     )
                     measured = {
                         "maximum_normalized_residual": metric(maximum, "1"),
+                        "frequency_of_maximum_residual": metric(
+                            float(f[int(np.argmax(magnitude))]), "Hz"
+                        ),
+                        "points_above_residual_limit": metric(above, "1"),
+                        "fraction_points_above_residual_limit": metric(above / len(f), "1"),
                         "mu": metric(float(mu), "1"),
                         "rc_element_count": metric(int(count), "1"),
                     }
@@ -193,11 +263,20 @@ def analyze_spectrum(spectrum, source_ref, config: EISConfig, calls):
                     provider_version = eisfit.__version__
                     options = eisfit.FitConfig(**config.fit_options)
                     parameters.update(asdict(options))
-                    fit = eisfit.fit_model_eis(f, z, options)
+                    with capture_provider_output() as provider_output:
+                        call["provider_output"] = provider_output
+                        fit = eisfit.fit_model_eis(f, z, options)
                     if not fit.optimizer.success or not np.isfinite(fit.nrmse):
                         raise ValueError("ECM provider returned an unconverged or invalid fit")
                     if fit.Zsim.shape != z.shape or not np.all(np.isfinite(fit.Zsim)):
                         raise ValueError("ECM provider returned an invalid fitted spectrum")
+                    undeclared = sorted(set(fit.parameters) - set(ECM_PARAMETER_UNITS))
+                    if undeclared:
+                        attributes.update(convergence="converged", undeclared_parameters=undeclared)
+                        raise InvalidProviderResult(
+                            "ecm_parameter_units_undeclared",
+                            f"eisfit returned parameters without a declared unit: {undeclared}",
+                        )
                     attributes.update(
                         {
                             "convergence": "converged",
@@ -207,16 +286,7 @@ def analyze_spectrum(spectrum, source_ref, config: EISConfig, calls):
                             else "outside_configured_limit",
                             "circuit": "L + R0 + (R1 || CPE1) + (R2 || CPE2) + " + options.tail,
                             "parameter_units": {
-                                name: "S*s^n"
-                                if name.startswith("Q")
-                                else "Ohm*s^(-1/2)"
-                                if name == "sigma"
-                                else "H"
-                                if name == "L_H"
-                                else "Ohm"
-                                if name.endswith("Ohm")
-                                else "1"
-                                for name in fit.parameters
+                                name: ECM_PARAMETER_UNITS[name] for name in fit.parameters
                             },
                         }
                     )
@@ -248,6 +318,9 @@ def analyze_spectrum(spectrum, source_ref, config: EISConfig, calls):
             except ImportError as exc:
                 reason = "provider_unavailable; install battery-feature-lab[eis]"
                 call.update(status="error", error=str(exc))
+            except InvalidProviderResult as exc:
+                reason = f"provider_invalid_result:{exc.code}"
+                call.update(status="error", error=str(exc))
             except Exception as exc:  # noqa: BLE001 - provider failures are retained as evidence
                 reason = f"provider_error:{type(exc).__name__}:{exc}"
                 call.update(status="error", error=str(exc))
@@ -275,7 +348,7 @@ def analyze_spectrum(spectrum, source_ref, config: EISConfig, calls):
                 parameters=parameters,
                 references=["https://doi.org/10.1016/j.electacta.2014.01.034"]
                 if method == "kk"
-                else ["https://github.com/shiyunliu-battery/Battery-EIS-Fit/releases/tag/v0.1.1"],
+                else [eisfit_reference()],
                 applicability_status="not_computable"
                 if reason
                 else "partial"

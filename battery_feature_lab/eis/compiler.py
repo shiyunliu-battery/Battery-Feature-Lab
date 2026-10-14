@@ -23,6 +23,7 @@ from battery_feature_lab.eis.schema import (
     EIS_VALIDATION_SCHEMA,
     EISConfig,
 )
+from battery_feature_lab.eis.summary import compact_eis_summary
 
 
 def compile_eis(source: Path, config: EISConfig) -> AnalysisResult:
@@ -79,7 +80,7 @@ def compile_eis(source: Path, config: EISConfig) -> AnalysisResult:
         else "multiple_or_unknown"
     )
     summary = compile_summary(records, run_id=run_id, cell_id=cell_id)
-    summary["schema_version"] = "bfl.eis-summary/0.1"
+    summary = compact_eis_summary(summary)
     metadata = {
         "schema_version": "bfl.eis-metadata/0.1",
         "source": {

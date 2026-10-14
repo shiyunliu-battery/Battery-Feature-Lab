@@ -11,6 +11,26 @@ from typing import Any
 
 from battery_feature_lab.analysis.schema import RECORD_SCHEMA, SUMMARY_SCHEMA
 
+# Fitting options BFL has validated against eisfit. Plotting options are deliberately excluded,
+# and new eisfit options require explicit review rather than automatic pass-through.
+ECM_FIT_OPTIONS = frozenset(
+    {
+        "tail",
+        "n_starts",
+        "seed",
+        "max_nfev",
+        "weight_func",
+        "weight_eps",
+        "loss",
+        "f_scale",
+        "use_adaptive_bounds",
+        "lb",
+        "ub",
+    }
+)
+# Tail models covered by the two-arc ECM record, circuit description and parameter units.
+ECM_TAILS = frozenset({"cpe", "warburg"})
+
 CONDITION_UNITS = {
     "temperature_deg_c": "degC",
     "soc_fraction": "1",
@@ -82,21 +102,9 @@ class EISConfig:
         cutoff = self.kk_options.get("c", 0.85)
         if cutoff is not None and not (math.isfinite(float(cutoff)) and 0 < cutoff < 1):
             raise ValueError("Lin-KK c must be between zero and one, or None")
-        if set(self.fit_options) - {
-            "tail",
-            "n_starts",
-            "seed",
-            "max_nfev",
-            "weight_func",
-            "weight_eps",
-            "loss",
-            "f_scale",
-            "use_adaptive_bounds",
-            "lb",
-            "ub",
-        }:
+        if set(self.fit_options) - ECM_FIT_OPTIONS:
             raise ValueError("Unknown ECM fit option")
-        if self.fit_options.get("tail", "cpe") not in {"cpe", "warburg"}:
+        if self.fit_options.get("tail", "cpe") not in ECM_TAILS:
             raise ValueError("Unknown ECM tail")
         for key in ("n_starts", "max_nfev"):
             value = self.fit_options.get(key, 1)
@@ -145,7 +153,27 @@ EIS_EVIDENCE_SCHEMA = {
 }
 
 EIS_SUMMARY_SCHEMA = copy.deepcopy(SUMMARY_SCHEMA)
-EIS_SUMMARY_SCHEMA["properties"]["schema_version"] = {"const": "bfl.eis-summary/0.1"}
+EIS_SUMMARY_SCHEMA["properties"]["schema_version"] = {"const": "bfl.eis-summary/0.2"}
+EIS_SUMMARY_SCHEMA["required"] += ["conditions", "interpretation_limits"]
+EIS_SUMMARY_SCHEMA["properties"]["conditions"] = {
+    "type": "object",
+    "required": ["shared", "not_reported"],
+    "properties": {
+        "shared": {"type": "object"},
+        "not_reported": {"type": "array", "items": {"type": "string"}},
+    },
+    "additionalProperties": False,
+}
+EIS_SUMMARY_SCHEMA["properties"]["interpretation_limits"] = {
+    "type": "object",
+    "propertyNames": {"pattern": "^L[0-9]+$"},
+    "additionalProperties": {"type": "string"},
+}
+for _dimension in EIS_SUMMARY_SCHEMA["properties"]["dimensions"]["properties"].values():
+    _dimension["items"]["properties"]["interpretation_limits"]["items"] = {
+        "type": "string",
+        "pattern": "^L[0-9]+$",
+    }
 
 EIS_METADATA_SCHEMA = {
     "type": "object",

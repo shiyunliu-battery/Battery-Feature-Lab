@@ -13,6 +13,7 @@ import scipy
 from pyprobe.analysis import cycling, differentiation, pulsing
 from scipy.signal import find_peaks, peak_prominences
 
+from battery_feature_lab._version import PROVIDER_VERSION
 from battery_feature_lab.analysis.adapters import (
     analysis_capacity,
     pyprobe_experiment,
@@ -135,7 +136,7 @@ def analyze_rest_and_thermal(
                 provider="PyProBE+BFL",
                 method="rest_filter_with_interval_descriptors_v1",
                 reason=f"provider_error: {exc}",
-                version=f"PyProBE {pyprobe.__version__}; BFL 0.4.0",
+                version=f"PyProBE {pyprobe.__version__}; {PROVIDER_VERSION}",
             )
         ]
 
@@ -164,7 +165,7 @@ def analyze_rest_and_thermal(
                     provider="PyProBE+BFL",
                     method="rest_filter_with_interval_descriptors_v1",
                     reason="pyprobe_rest_filter_did_not_confirm_complete_interval",
-                    version=f"PyProBE {pyprobe.__version__}; BFL 0.4.0",
+                    version=f"PyProBE {pyprobe.__version__}; {PROVIDER_VERSION}",
                     source_interval=segment["source_interval"],
                 )
             )
@@ -386,7 +387,7 @@ def analyze_rest_and_thermal(
                 metrics=metrics,
                 provider="PyProBE+BFL",
                 method_name="rest_filter_with_interval_descriptors_v1",
-                provider_version=f"PyProBE {pyprobe.__version__}; BFL 0.4.0",
+                provider_version=f"PyProBE {pyprobe.__version__}; {PROVIDER_VERSION}",
                 parameters={
                     "analysis_policy_version": ANALYSIS_POLICY_VERSION,
                     "checkpoints_s": list(config.relaxation_checkpoints_s),
@@ -421,7 +422,7 @@ def analyze_rest_and_thermal(
                 provider="PyProBE+BFL",
                 method="rest_filter_with_interval_descriptors_v1",
                 reason="no_rest_interval_in_representative_scope",
-                version=f"PyProBE {pyprobe.__version__}; BFL 0.4.0",
+                version=f"PyProBE {pyprobe.__version__}; {PROVIDER_VERSION}",
             )
         )
     return records
@@ -969,7 +970,7 @@ def _cycle_record(
         metrics=metrics,
         provider="PyProBE+BFL",
         method_name="cycling.summary_with_structural_completeness_v1",
-        provider_version=f"PyProBE {pyprobe.__version__}; BFL 0.4.0",
+        provider_version=f"PyProBE {pyprobe.__version__}; {PROVIDER_VERSION}",
         parameters={
             "analysis_policy_version": ANALYSIS_POLICY_VERSION,
             "minimum_integration_coverage": minimum_coverage,

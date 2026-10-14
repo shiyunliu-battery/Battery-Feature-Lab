@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+from importlib.metadata import version
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -14,6 +15,7 @@ import pytest
 import bfl
 from battery_feature_lab.analysis.writer import sha256_file
 from battery_feature_lab.cli import main
+from battery_feature_lab.eis.analysis import eisfit_reference
 
 pytestmark = pytest.mark.skipif(
     any(importlib.util.find_spec(name) is None for name in ("eisfit", "impedance")),
@@ -62,7 +64,7 @@ def test_eis_contract_paths_hashes_and_record_references(tmp_path):
     summary = json.loads(result.analysis_results_path.read_text())
     evidence = json.loads(result.analysis_evidence_path.read_text())
     validation = json.loads(result.analysis_validation_path.read_text())
-    assert summary["schema_version"] == "bfl.eis-summary/0.1"
+    assert summary["schema_version"] == "bfl.eis-summary/0.2"
     assert evidence["schema_version"] == "bfl.eis-analysis/0.1"
     assert validation["row_accounting"] == {
         "input_rows": 32,
@@ -234,6 +236,141 @@ def test_lin_kk_runs_with_declared_configuration(tmp_path):
     assert kk["attributes"]["measurement_consistency"] == "within_configured_residual_limit"
 
 
+def test_undeclared_ecm_parameter_units_are_rejected(tmp_path, monkeypatch):
+    import eisfit
+
+    def fitted(f, z, options):
+        return SimpleNamespace(
+            optimizer=SimpleNamespace(success=True),
+            nrmse=0.001,
+            rmse=0.0001,
+            parameters={"R0_Ohm": 0.01, "tau1": 0.002},
+            Zsim=z.copy(),
+            bound_hits=[],
+            diagnostics={},
+        )
+
+    monkeypatch.setattr(eisfit, "fit_model_eis", fitted)
+    result = bfl.analyze_eis(source(tmp_path), tmp_path / "out", single_spectrum=True, run_kk=False)
+    fit = find(result, "response.eis_ecm")
+    assert fit["applicability"]["reasons"] == [
+        "provider_invalid_result:ecm_parameter_units_undeclared"
+    ]
+    assert fit["attributes"]["undeclared_parameters"] == ["tau1"]
+    assert not fit["metrics"]
+
+
+def test_bfl_records_carry_the_installed_package_version(tmp_path):
+    result = observed(tmp_path, source(tmp_path), single_spectrum=True)
+    spectrum = find(result, "response.eis_spectrum")
+    assert spectrum["method"]["provider_version"] == f"BFL {version('battery-feature-lab')}"
+
+
+def test_lin_kk_locates_the_largest_residual_and_counts_exceedances(tmp_path):
+    limit = 1e-12
+    result = bfl.analyze_eis(
+        source(tmp_path), tmp_path / "out", single_spectrum=True, run_fit=False,
+        kk_residual_limit=limit,
+    )
+    kk = find(result, "response.eis_kk")
+    frequency = np.asarray(kk["series"]["frequency_hz"])
+    magnitude = np.maximum(
+        np.abs(kk["series"]["residual_real"]), np.abs(kk["series"]["residual_imaginary"])
+    )
+    metrics = kk["metrics"]
+    assert metrics["frequency_of_maximum_residual"]["value"] == frequency[np.argmax(magnitude)]
+    assert metrics["frequency_of_maximum_residual"]["unit"] == "Hz"
+    assert metrics["points_above_residual_limit"]["value"] == int(np.sum(magnitude > limit))
+    assert metrics["fraction_points_above_residual_limit"]["value"] == pytest.approx(
+        np.sum(magnitude > limit) / len(frequency)
+    )
+
+
+def test_non_finite_lin_kk_mu_is_reported_without_inferring_a_cause(tmp_path, monkeypatch):
+    from impedance import validation
+
+    def degenerate(f, z, **options):
+        return 1, -np.inf, z, np.zeros(len(f)), np.zeros(len(f))
+
+    monkeypatch.setattr(validation, "linKK", degenerate)
+    result = bfl.analyze_eis(
+        source(tmp_path), tmp_path / "out", single_spectrum=True, run_fit=False
+    )
+    kk = find(result, "response.eis_kk")
+    assert kk["applicability"]["reasons"] == ["provider_invalid_result:lin_kk_mu_not_finite"]
+    assert kk["attributes"]["measurement_consistency"] == "not_assessed"
+    assert kk["attributes"]["lin_kk_termination"] == {
+        "rc_element_count": 1,
+        "mu": None,
+        "mu_class": "negative_infinity",
+        "invalid_outputs": [],
+    }
+    assert not kk["metrics"]
+    calls = json.loads(result.analysis_validation_path.read_text())["provider_calls"]
+    call = next(c for c in calls if c["method"] == "kk")
+    assert call["status"] == "error"
+    assert call["reason"] == "provider_invalid_result:lin_kk_mu_not_finite"
+
+
+def test_provider_output_is_counted_without_host_paths(tmp_path, monkeypatch):
+    import warnings
+
+    from impedance import validation
+
+    real_lin_kk = validation.linKK
+
+    def noisy(f, z, **options):
+        print("progress 1")
+        print("progress 2")
+        warnings.warn(f"divide by zero in {tmp_path / 'validation.py'}", RuntimeWarning)
+        return real_lin_kk(f, z, **options)
+
+    monkeypatch.setattr(validation, "linKK", noisy)
+    result = bfl.analyze_eis(
+        source(tmp_path), tmp_path / "out", single_spectrum=True, run_fit=False
+    )
+    text = result.analysis_validation_path.read_text()
+    call = next(c for c in json.loads(text)["provider_calls"] if c["method"] == "kk")
+    output = call["provider_output"]
+    assert output["stdout_line_count"] >= 2
+    assert {
+        "category": "RuntimeWarning",
+        "message": "divide by zero in <path>",
+        "count": 1,
+    } in output["warnings"]
+    assert tmp_path.name not in text
+
+
+def test_compact_summary_states_shared_conditions_and_limits_once(tmp_path):
+    metadata = comparison_metadata()
+    metadata["spectra"] = {"a": {"sequence_index": 1}, "b": {"sequence_index": 2}}
+    result = observed(
+        tmp_path,
+        comparison_source(tmp_path),
+        metadata=metadata,
+        comparison_pairs=(("a", "b"),),
+        comparison_kind="ageing",
+    )
+    summary = json.loads(result.analysis_results_path.read_text())
+    evidence = {
+        r["record_id"]: r for r in json.loads(result.analysis_evidence_path.read_text())["records"]
+    }
+    assert summary["conditions"]["shared"]["temperature_deg_c"]["value"] == 25.0
+    assert "elapsed_time_s" in summary["conditions"]["not_reported"]
+    operations = summary["dimensions"]["operation"]
+    assert [list(op["attributes"]["conditions"]) for op in operations] == [["sequence_index"]] * 2
+    full_conditions = evidence[operations[0]["record_id"]]["attributes"]["conditions"]
+    assert {"temperature_deg_c", "elapsed_time_s", "sequence_index"} <= set(full_conditions)
+    comparison = summary["dimensions"]["evolution"][0]
+    assert "conditions" not in comparison["attributes"]
+    assert [s["spectrum_id"] for s in comparison["attributes"]["compared_spectra"]] == ["a", "b"]
+    for record in (r for records in summary["dimensions"].values() for r in records):
+        assert "member_summaries" not in record["attributes"]
+        assert [
+            summary["interpretation_limits"][key] for key in record["interpretation_limits"]
+        ] == evidence[record["record_id"]]["interpretation_limits"]
+
+
 def comparison_source(tmp_path):
     path = source(tmp_path)
     frame = pl.read_csv(path)
@@ -368,7 +505,8 @@ def test_real_spectrum_uses_released_fit_provider(tmp_path):
         fit_options={"n_starts": 3, "max_nfev": 8000},
     )
     fit = find(result, "response.eis_ecm")
-    assert fit["method"]["provider_version"] == "0.1.1"
+    assert fit["method"]["provider_version"] == version("eisfit")
+    assert fit["method"]["references"] == [eisfit_reference()]
     assert fit["attributes"]["convergence"] == "converged"
     assert fit["metrics"]["nrmse"]["value"] < 0.02
     assert fit["attributes"]["identifiability"] == "not_assessed"

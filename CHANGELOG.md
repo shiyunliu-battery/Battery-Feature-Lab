@@ -1,5 +1,36 @@
 # Changelog
 
+## Unreleased
+
+- Added an EIS example notebook for the CC BY 4.0 Zhang et al. (2020) dataset. It screens all
+  261 state-V spectra of cell 25C01 with Lin-KK, fits and compares six of them under the
+  `ageing` gate, shows the comparison gate's outcomes, and adds an optional GPT-5.6 Sol step
+  over four input conditions.
+- Added an examples index with dataset attribution, layout and running instructions.
+- Fixed provenance: every BFL record now reads its provider version from the installed package
+  metadata (`BFL 0.5.0`). Records produced by 0.5.0 reported `0.4.0` or `BFL 0.4.0`.
+- Lin-KK records now report `frequency_of_maximum_residual`, `points_above_residual_limit` and
+  `fraction_points_above_residual_limit`.
+- A non-finite Lin-KK μ or invalid Lin-KK arrays are reported as
+  `provider_invalid_result:lin_kk_mu_not_finite` or `provider_invalid_result:lin_kk_invalid_outputs`,
+  with the termination facts retained in `attributes.lin_kk_termination`.
+- EIS provider calls record captured console line counts and warnings in `provider_output`,
+  with absolute paths in warning messages replaced by `<path>`.
+- **Changed contract:** the EIS compact summary is now `bfl.eis-summary/0.2`. Conditions shared
+  by every spectrum and interpretation-limit text are stated once at run level, comparisons name
+  their spectra instead of repeating condition blocks, and empty time-series member fields are
+  omitted. Evidence records are unchanged. On the Zhang et al. example, the compact file shrinks
+  from about 31k to 23k tokens.
+- Corrected the API reference install ranges to `>=0.5,<0.6` and listed the EIS schemas in the
+  documentation index.
+- Kept the exact `eisfit==0.1.1` pin and made its integration explicit: named lists of validated
+  fit options and tails, a declared unit for every fitted parameter (an undeclared parameter now
+  yields `provider_invalid_result:ecm_parameter_units_undeclared` instead of a dimensionless
+  value), and a release reference built from the installed eisfit version.
+- Added an eisfit contract test that fits a small spectrum for each tail and checks the fields,
+  shapes, units and JSON serialisation BFL depends on, and that the installed version matches
+  the pin. Documented the eisfit upgrade procedure.
+
 ## 0.5.0 — 2026-10-14
 
 - Added an independent `analyze_eis()` API and `analyze-eis` CLI.

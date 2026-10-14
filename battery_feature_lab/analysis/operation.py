@@ -9,6 +9,7 @@ import numpy as np
 import polars as pl
 import pyprobe
 
+from battery_feature_lab._version import PROVIDER_VERSION
 from battery_feature_lab.analysis.adapters import pyprobe_experiment, temperature_column
 from battery_feature_lab.analysis.numerics import (
     integrate_previous,
@@ -82,7 +83,7 @@ def analyze_operation(
                 },
                 provider="BFL",
                 method_name="source_step_and_current_phase_segmentation_v1",
-                provider_version="BFL 0.4.0",
+                provider_version=PROVIDER_VERSION,
                 parameters={"rest_current_threshold_a": config.rest_current_threshold_a},
                 references=[
                     "https://github.com/shiyunliu-battery/battery-data-standard/blob/main/docs/step-cycle-semantics.md",
@@ -132,9 +133,9 @@ def analyze_operation(
                     else "current_shape_mode_gate_v1"
                 ),
                 provider_version=(
-                    f"PyProBE {pyprobe.__version__}; BFL 0.4.0"
+                    f"PyProBE {pyprobe.__version__}; {PROVIDER_VERSION}"
                     if selected_pyprobe is not None
-                    else "BFL 0.4.0"
+                    else PROVIDER_VERSION
                 ),
                 parameters=mode_policy,
                 references=[PYPROBE_REFERENCE],
@@ -863,7 +864,7 @@ def _window_summary_record(
         provider="PyProBE+BFL" if pyprobe_available else "BFL",
         method_name="source_grounded_operating_window_v1",
         provider_version=(
-            f"PyProBE {pyprobe.__version__}; BFL 0.4.0" if pyprobe_available else "BFL 0.4.0"
+            f"PyProBE {pyprobe.__version__}; {PROVIDER_VERSION}" if pyprobe_available else PROVIDER_VERSION
         ),
         parameters={
             "rest_current_threshold_a": config.rest_current_threshold_a,
@@ -998,7 +999,7 @@ def _exposure_record(
         metrics=metrics,
         provider="BFL",
         method_name="duration_weighted_previous_zoh_v1",
-        provider_version="0.4.0",
+        provider_version=PROVIDER_VERSION,
         parameters={
             "interval_semantics": "x[i] holds on [t[i], t[i+1])",
             "sampling_interval_outlier_factor": (config.sampling_interval_outlier_factor),
