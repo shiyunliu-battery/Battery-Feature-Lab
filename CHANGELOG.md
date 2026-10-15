@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.1 — 2026-10-15
+
+- Migrated the dependency and lock file to released `battery-data-steward>=0.4.0,<0.5`.
+- Cycling and EIS reports now record the installed BDS distribution and version.
+- Reject mixed legacy/Steward installations before processing because their modules overlap.
+- Preserved compatible imports, CLI adapters, report filenames, data formats and historical results.
+- Added installed-provider provenance tests and Python 3.11/3.12 CI coverage for both BDS providers.
+- Upgrade in a fresh environment; do not install both BDS distributions together.
+
 ## 0.7.0 — 2026-10-14
 
 - Adopted `eisfit==0.2.0`. Parameter units now come from eisfit; a fitted parameter without

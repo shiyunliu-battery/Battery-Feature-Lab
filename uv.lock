@@ -102,7 +102,7 @@ wheels = [
 
 [[package]]
 name = "battery-feature-lab"
-version = "0.7.0"
+version = "0.7.1"
 source = { editable = "." }
 dependencies = [
     { name = "battery-data-steward" },
