@@ -19,6 +19,7 @@ from pyprobe.filters import Experiment
 
 from battery_feature_lab.analysis.numerics import integrate_previous, reported_delta
 from battery_feature_lab.analysis.writer import artifact_reference
+from battery_feature_lab.bds_provider import bds_distribution
 
 _BDF_TO_CANONICAL = {
     "Test Time / s": "test_time_s",
@@ -88,8 +89,8 @@ def prepare_input_handoff(
         return InputHandoff(
             frame=frame,
             adapter="bds",
-            provider="battery-data-standard",
-            provider_version=importlib.metadata.version("battery-data-standard"),
+            provider=bds_distribution()[0],
+            provider_version=bds_distribution()[1],
             report=report,
             report_payload=payload,
             report_path=report_path,

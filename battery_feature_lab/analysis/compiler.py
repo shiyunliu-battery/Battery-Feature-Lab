@@ -64,11 +64,13 @@ from battery_feature_lab.analysis.writer import (
     validate_payload,
     write_json,
 )
+from battery_feature_lab.bds_provider import bds_distribution
 
 
 def compile_analysis(input_path: Path, config: AnalysisConfig) -> AnalysisResult:
     """Run BDS ingest, tool-backed analysis, validation, and structured export."""
 
+    bds_distribution()
     source = Path(input_path).expanduser().resolve()
     if not source.is_file():
         raise FileNotFoundError(source)
@@ -734,7 +736,7 @@ def _software_versions() -> dict[str, str]:
     versions = {
         "python": platform.python_version(),
         "battery-feature-lab": importlib.metadata.version("battery-feature-lab"),
-        "battery-data-standard": importlib.metadata.version("battery-data-standard"),
+        bds_distribution()[0]: bds_distribution()[1],
         "PyProBE-Data": importlib.metadata.version("PyProBE-Data"),
         "numpy": numpy.__version__,
         "scipy": scipy.__version__,

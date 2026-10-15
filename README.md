@@ -32,10 +32,29 @@ validation make each result traceable and define its interpretation limits.
 The editable [Mermaid source](docs/assets/bfl-organisation.mmd) is retained alongside the static
 SVG.
 
-Raw files are standardized by Battery Data Standard (BDS). Existing formal Battery Data Format
+Raw files are standardized by Battery Data Steward (BDS). Existing formal Battery Data Format
 (BDF) artifacts may instead use the optional `batterydf` adapter. Both routes produce the same
 internal quantity names and retain their provider-native report; neither route silently falls back
 to the other after a provider error.
+
+## BDS distribution migration
+
+The source dependency now uses `battery-data-steward>=0.4.0,<0.5`. Its 0.4.0 wheel
+was published on PyPI on 14 October 2026. `uv.lock` records its artifact hash.
+The source version (0.7.0) is distinct from the published BFL version: the public
+PyPI release checked on 15 October 2026 was 0.5.0. Installing that release does
+not install these source changes. Use the Development instructions to test this revision.
+
+Use a **fresh virtual environment** when upgrading from BFL releases that depend
+on `battery-data-standard`. Do not install the old and new BDS distributions together:
+they own the same `bds` and `battery_data_standard` modules. If both are present,
+recreate the environment; uninstalling only one can remove shared files.
+BFL rejects this ambiguous installation before processing input.
+
+The Python imports, `--input-adapter bds`, conversion report filenames, and data
+format identifiers remain compatible. New reports identify the installed distribution
+and version. Historical example outputs retain their original provider identity.
+See [migration validation](docs/bds-migration.md) for the compatibility evidence.
 
 ## Quick start
 
