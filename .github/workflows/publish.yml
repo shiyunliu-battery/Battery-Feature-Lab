@@ -7,9 +7,20 @@ on:
   push:
     tags:
       - "v*.*.*"
+    branches: [main]
+    paths: [".github/workflows/publish.yml"]
+
+concurrency:
+  group: pypi-release
+  cancel-in-progress: false
+
+env:
+  RELEASE_TAG: ${{ github.ref_type == 'tag' && github.ref_name || 'v0.7.1' }}
 
 jobs:
   test:
+    # One-time bootstrap for the already prepared 0.7.1 release; tag releases stay unchanged.
+    if: github.ref_type == 'tag' || github.event.head_commit.message == 'Publish BFL 0.7.1'
     name: Test package
     runs-on: ubuntu-latest
     steps:
@@ -25,7 +36,7 @@ jobs:
 
       - name: Verify release version and changelog
         env:
-          RELEASE_REF: ${{ github.ref }}
+          RELEASE_REF: refs/tags/${{ env.RELEASE_TAG }}
         run: |
           python - <<'PY'
           import os
@@ -116,7 +127,7 @@ jobs:
           import re
           from pathlib import Path
 
-          version = os.environ["GITHUB_REF_NAME"].removeprefix("v")
+          version = os.environ["RELEASE_TAG"].removeprefix("v")
           changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
           section = re.search(rf"^## {re.escape(version)}\b[^\n]*\n(.*?)(?=^## |\Z)", changelog, re.M | re.S)
           Path("release-notes.md").write_text(section.group(1).strip() + "\n", encoding="utf-8")
@@ -126,10 +137,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             exit 0
           fi
-          gh release create "$GITHUB_REF_NAME" \
-            --verify-tag \
-            --title "Battery Feature Lab ${GITHUB_REF_NAME#v}" \
+          gh release create "$RELEASE_TAG" \
+            --target "$GITHUB_SHA" \
+            --title "Battery Feature Lab ${RELEASE_TAG#v}" \
             --notes-file release-notes.md
