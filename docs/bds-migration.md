@@ -11,8 +11,10 @@ SHA-256, and upload time. This is a released package, not just the renamed
 repository source (`6802e688162aab18f3db635fa26dae407878b8ab`).
 Therefore this revision switches the mandatory dependency to
 `battery-data-steward>=0.4.0,<0.5` and updates the lock without unrelated upgrades.
-BFL source is 0.7.0; the public BFL PyPI page checked during this work still
-served 0.5.0. This PR neither publishes nor changes the BFL version.
+The initial public-page retrieval served a stale BFL 0.5.0 description. Release
+verification subsequently confirmed that the 0.7.0 publishing workflow and
+GitHub release had completed successfully on 14 October 2026. The migration
+is therefore packaged as BFL 0.7.1; the existing 0.7.0 tag is left intact.
 
 ## Isolated compatibility checks
 

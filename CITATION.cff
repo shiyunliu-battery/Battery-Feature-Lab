@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use Battery Feature Lab, please cite this software."
 title: "Battery Feature Lab"
 type: software
-version: 0.7.0
+version: 0.7.1
 authors:
   - family-names: "Liu"
     given-names: "Shiyun"

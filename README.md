@@ -1,6 +1,6 @@
 # Battery Feature Lab
 
-[![Version](https://img.shields.io/badge/version-0.7.0-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.1-2563eb)](CHANGELOG.md)
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-3776ab?logo=python&logoColor=white)](pyproject.toml)
 [![License](https://img.shields.io/badge/license-MPL--2.0-16a34a)](LICENSE)
 
@@ -41,9 +41,8 @@ to the other after a provider error.
 
 The source dependency now uses `battery-data-steward>=0.4.0,<0.5`. Its 0.4.0 wheel
 was published on PyPI on 14 October 2026. `uv.lock` records its artifact hash.
-The source version (0.7.0) is distinct from the published BFL version: the public
-PyPI release checked on 15 October 2026 was 0.5.0. Installing that release does
-not install these source changes. Use the Development instructions to test this revision.
+BFL 0.7.1 is the first release to require the renamed distribution. Earlier
+BFL releases use `battery-data-standard`.
 
 Use a **fresh virtual environment** when upgrading from BFL releases that depend
 on `battery-data-standard`. Do not install the old and new BDS distributions together:
@@ -58,16 +57,16 @@ See [migration validation](docs/bds-migration.md) for the compatibility evidence
 
 ## Quick start
 
-Battery Feature Lab 0.7.0 supports Python 3.11 and 3.12.
+Battery Feature Lab 0.7.1 supports Python 3.11 and 3.12.
 
 ```console
-python -m pip install "battery-feature-lab==0.7.0"
+python -m pip install "battery-feature-lab==0.7.1"
 ```
 
 For EIS analysis, install the optional providers:
 
 ```console
-python -m pip install "battery-feature-lab[eis]==0.7.0"
+python -m pip install "battery-feature-lab[eis]==0.7.1"
 ```
 
 Analyze a raw cycler export:
@@ -93,9 +92,9 @@ Equivalent CLI:
 bfl analyze cell.xlsx --output-dir bfl_outputs/cell --input-adapter bds
 ```
 
-For native formal-BDF input, install `"battery-feature-lab[bdf]==0.7.0"` and use
+For native formal-BDF input, install `"battery-feature-lab[bdf]==0.7.1"` and use
 `input_adapter="bdf"`. The optional OpenAI notebook client is available through
-`"battery-feature-lab[ai]==0.7.0"`.
+`"battery-feature-lab[ai]==0.7.1"`.
 
 ## Output contract
 
@@ -164,7 +163,7 @@ metadata.
 
 ### EIS
 
-Install `battery-feature-lab[eis]==0.7.0` and use
+Install `battery-feature-lab[eis]==0.7.1` and use
 `bfl.analyze_eis()` or
 `bfl analyze-eis`. The independent EIS path combines BDS-backed intake,
 explicit spectrum grouping, measurement conditions, Lin-KK consistency checks,
@@ -221,7 +220,7 @@ If Battery Feature Lab supports your work, please cite the software:
   author  = {Liu, Shiyun},
   title   = {Battery Feature Lab},
   year    = {2026},
-  version = {0.7.0},
+  version = {0.7.1},
   url     = {https://github.com/shiyunliu-battery/Battery-Feature-Lab},
   license = {MPL-2.0}
 }
