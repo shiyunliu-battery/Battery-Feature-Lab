@@ -86,7 +86,7 @@ def analyze_operation(
                 provider_version=PROVIDER_VERSION,
                 parameters={"rest_current_threshold_a": config.rest_current_threshold_a},
                 references=[
-                    "https://github.com/shiyunliu-battery/battery-data-standard/blob/main/docs/step-cycle-semantics.md",
+                    "https://github.com/shiyunliu-battery/Battery-Data-Steward/blob/main/docs/step-cycle-semantics.md",
                     "https://github.com/battery-data-alliance/battery-data-format",
                     PYPROBE_REFERENCE,
                 ],

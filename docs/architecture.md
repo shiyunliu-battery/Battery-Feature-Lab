@@ -13,7 +13,7 @@ flowchart LR
     end
 
     subgraph Preprocessing
-        BDS[Battery Data Standard]
+        BDS[Battery Data Steward]
         BDF[batterydf validator]
     end
 

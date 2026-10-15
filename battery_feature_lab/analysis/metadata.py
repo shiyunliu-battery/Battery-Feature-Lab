@@ -12,6 +12,7 @@ import polars as pl
 from battery_feature_lab.analysis.adapters import temperature_column
 from battery_feature_lab.analysis.schema import AnalysisConfig
 from battery_feature_lab.analysis.writer import artifact_reference
+from battery_feature_lab.bds_provider import bds_distribution
 
 
 def _field(value: Any, *, status: str, source: str, unit: str | None = None) -> dict[str, Any]:
@@ -171,7 +172,7 @@ def compile_metadata(
     adapter = (input_adapter or "bds").strip().lower()
     is_native_bdf = adapter in {"bdf", "native_bdf"}
     resolved_provider = input_provider or (
-        "batterydf" if is_native_bdf else "battery-data-standard"
+        "batterydf" if is_native_bdf else bds_distribution()[0]
     )
     resolved_report_filename = input_report_filename or (
         "bdf_validation_report.json" if is_native_bdf else "bds_conversion_report.json"
@@ -357,7 +358,7 @@ def compile_metadata(
     else:
         tool_sources.append(
             {
-                "provider": "battery-data-standard",
+                "provider": resolved_provider,
                 "role": "conversion, units, source mapping, sampling and semantic provenance",
                 "report_file": resolved_report_filename,
             }

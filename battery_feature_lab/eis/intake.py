@@ -13,6 +13,7 @@ from battery_data_standard.eis import normalize_eis_frame, validate_eis
 from battery_data_standard.io import read_table_with_metadata
 
 from battery_feature_lab.analysis.writer import canonical_sha256
+from battery_feature_lab.bds_provider import bds_distribution
 from battery_feature_lab.eis.schema import CONDITION_UNITS, EISConfig
 
 ALIASES = {
@@ -129,6 +130,7 @@ def _conditions(group: pl.DataFrame, declared: dict[str, Any]) -> dict[str, Any]
 
 
 def read_spectra(source, config: EISConfig):
+    bds_distribution()
     read = read_table_with_metadata(source, options={"sheet": config.sheet, "excel_sheets": "eis"})
     raw = read.data
     if "measurement_source_row" in raw.columns:
@@ -286,7 +288,8 @@ def read_spectra(source, config: EISConfig):
     }
     report = {
         "schema_version": "bfl.eis-intake/0.1",
-        "provider": "battery-data-standard",
+        "provider": bds_distribution()[0],
+        "provider_version": bds_distribution()[1],
         "reader_metadata": reader_metadata,
         "group_columns": group_columns,
         "single_spectrum_declared": config.single_spectrum,

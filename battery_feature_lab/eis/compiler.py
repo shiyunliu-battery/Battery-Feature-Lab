@@ -13,6 +13,7 @@ from battery_feature_lab.analysis.writer import (
     validate_payload,
     write_json,
 )
+from battery_feature_lab.bds_provider import bds_distribution
 from battery_feature_lab.eis.analysis import analyze_spectrum
 from battery_feature_lab.eis.comparison import compare_spectra
 from battery_feature_lab.eis.intake import read_spectra
@@ -35,7 +36,7 @@ def compile_eis(source: Path, config: EISConfig) -> AnalysisResult:
         raise ValueError("EIS output directory must be empty; use a new directory for each run")
     spectra, normalized, intake = read_spectra(source, config)
     versions = {}
-    for package in ("battery-feature-lab", "battery-data-standard", "eisfit", "impedance", "numpy"):
+    for package in ("battery-feature-lab", bds_distribution()[0], "eisfit", "impedance", "numpy"):
         try:
             versions[package] = version(package)
         except PackageNotFoundError:

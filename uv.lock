@@ -85,8 +85,8 @@ wheels = [
 ]
 
 [[package]]
-name = "battery-data-standard"
-version = "0.3.1"
+name = "battery-data-steward"
+version = "0.4.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "openpyxl" },
@@ -95,9 +95,9 @@ dependencies = [
     { name = "reportlab" },
     { name = "xlrd" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/35/46/e0fbf7e6f2033e74576076aa0057c41bdc16e2af770ce3d65d92d7082029/battery_data_standard-0.3.1.tar.gz", hash = "sha256:63c9c01e32b99374d659163cba3c1d0b6285ef32796281b49162f9e53783d34e", size = 124376, upload-time = "2026-06-10T19:34:19.776Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/27/87/65f125ca8788603360e21f6fd09e5a2f97aea4d08d9da5e7fb808f991ae5/battery_data_steward-0.4.0.tar.gz", hash = "sha256:425b021d0808b413e80438f1b43d58e3bde4f499f9ef9df93b37de2baca5519d", size = 141636, upload-time = "2026-10-14T22:38:32.506Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/76/5a/8c7d93312c068512fc03a888f87725a93f3057947e6bad284193062afaf3/battery_data_standard-0.3.1-py3-none-any.whl", hash = "sha256:500904521a5eaaaa927e74a61ecbed9be79975748ef9eec810b284cd886303e0", size = 115153, upload-time = "2026-06-10T19:34:18.614Z" },
+    { url = "https://files.pythonhosted.org/packages/33/93/2eb0c03781eeebd2a6b3eb80a68714b55efb269ae43120423767f252c4fc/battery_data_steward-0.4.0-py3-none-any.whl", hash = "sha256:c9b40d288769d5267096311b42ee6a5338dde5020977595a87f6d1d9529ecbc2", size = 125790, upload-time = "2026-10-14T22:38:30.99Z" },
 ]
 
 [[package]]
@@ -105,7 +105,7 @@ name = "battery-feature-lab"
 version = "0.7.0"
 source = { editable = "." }
 dependencies = [
-    { name = "battery-data-standard" },
+    { name = "battery-data-steward" },
     { name = "jsonschema" },
     { name = "numpy" },
     { name = "polars" },
@@ -133,7 +133,7 @@ eis = [
 
 [package.metadata]
 requires-dist = [
-    { name = "battery-data-standard", specifier = ">=0.3.1,<0.4" },
+    { name = "battery-data-steward", specifier = ">=0.4.0,<0.5" },
     { name = "batterydf", marker = "extra == 'bdf'", specifier = "==0.1.0" },
     { name = "eisfit", marker = "extra == 'eis'", specifier = "==0.2.0" },
     { name = "impedance", marker = "extra == 'eis'", specifier = "==1.7.1" },

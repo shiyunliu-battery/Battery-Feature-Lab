@@ -14,6 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.11", "3.12"]
+        bds-provider: ["steward", "legacy"]
 
     steps:
       - uses: actions/checkout@v4
@@ -23,4 +24,9 @@ jobs:
           enable-cache: true
       - run: uv sync --extra dev --extra eis
       - run: uv run ruff check .
-      - run: uv run pytest -q
+      # Legacy is an API compatibility test, not the supported dependency resolution.
+      - if: matrix.bds-provider == 'legacy'
+        run: |
+          uv pip uninstall battery-data-steward
+          uv pip install --no-deps 'battery-data-standard==0.3.1'
+      - run: uv run --no-sync pytest -q
