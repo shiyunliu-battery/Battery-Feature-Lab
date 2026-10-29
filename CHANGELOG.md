@@ -1,7 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.8.0 — 2026-10-29
 
+This release changes default analysis behaviour (Lin-KK, EIS comparison tolerances and
+capacity-evolution grouping); results from 0.7.x runs are not directly comparable for those
+records. See the entries marked **Changed default** and the capacity-evolution fix.
+
+- Require `battery-data-steward>=0.5.0,<0.6`, the release that keeps every EIS source column
+  during normalization and requires Python 3.11 or newer.
 - Fixed: `analysis_evidence.json` (and therefore `analysis_validation.json`) could differ between
   identical runs. PyProBE 2.6's constant-current/constant-voltage filters keep rows within 0.1 %
   of `abs(column).round_sig_figs(4).mode()`. When every rounded value in a mode segment is

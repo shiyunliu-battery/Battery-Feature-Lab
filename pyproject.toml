@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "battery-feature-lab"
-version = "0.7.1"
+version = "0.8.0"
 description = "Battery time-series and electrochemical impedance spectroscopy analysis with traceable evidence."
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
@@ -21,7 +21,7 @@ classifiers = [
   "Topic :: Scientific/Engineering",
 ]
 dependencies = [
-  "battery-data-steward>=0.4.0,<0.5",
+  "battery-data-steward>=0.5.0,<0.6",
   "jsonschema>=4.26",
   "numpy>=1.26.4",
   "polars>=1.18,<2",
