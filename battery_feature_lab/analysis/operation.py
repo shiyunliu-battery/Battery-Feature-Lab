@@ -28,6 +28,29 @@ from battery_feature_lab.analysis.schema import (
 
 PYPROBE_REFERENCE = "https://doi.org/10.21105/joss.07474"
 
+# Column each PyProBE candidate filter compares against its modal value.
+PYPROBE_MODE_COLUMNS = {"constant_current": "Current [A]", "constant_voltage": "Voltage [V]"}
+PYPROBE_MODE_UNDEFINED = (
+    "pyprobe_modal_reference_undefined:all_values_distinct_at_4_significant_figures"
+)
+
+
+def _pyprobe_modal_reference_defined(frame: pl.DataFrame, column: str) -> bool:
+    """Whether PyProBE's constant-current/voltage filter has a single reference value.
+
+    PyProBE 2.6 keeps rows within 0.1 % of ``abs(column).round_sig_figs(4).mode()``.
+    Polars returns every tied modal value, in hash order. When all rounded values in the
+    window are distinct, the mode has one value per row, the comparison runs row by row
+    against that reordered list, and the candidate count changes between identical runs.
+    Other ties make Polars raise a shape error, which BFL already records as a provider
+    error. This check mirrors PyProBE's expression and reports only the silent case.
+    """
+
+    if frame.height <= 1:
+        return True
+    modal = frame.select(pl.col(column).abs().round_sig_figs(4).mode())
+    return modal.height != frame.height
+
 
 def analyze_operation(
     frame: pl.DataFrame,
@@ -466,6 +489,18 @@ def _mode_for_segment(
         try:
             exp = pyprobe_experiment(py_sub)
             for name, _current_count in candidate_counts.items():  # noqa: PERF102 - mutation during iteration
+                if not _pyprobe_modal_reference_defined(py_sub, PYPROBE_MODE_COLUMNS[name]):
+                    candidate_counts[name] = None
+                    calls.append(
+                        {
+                            "provider": "PyProBE",
+                            "method": name,
+                            "status": "not_invoked",
+                            "reason": PYPROBE_MODE_UNDEFINED,
+                            "source_interval": segment["source_interval"],
+                        }
+                    )
+                    continue
                 candidate_counts[name] = int(getattr(exp, name)().data.height)
                 calls.append(
                     {
