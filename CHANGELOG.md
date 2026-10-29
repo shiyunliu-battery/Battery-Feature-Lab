@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- Fixed: `analysis_evidence.json` (and therefore `analysis_validation.json`) could differ between
+  identical runs. PyProBE 2.6's constant-current/constant-voltage filters keep rows within 0.1 %
+  of `abs(column).round_sig_figs(4).mode()`. When every rounded value in a mode segment is
+  distinct, Polars returns all of them as tied modes in hash order, so each row was compared with
+  a reordered copy of the column and `attributes.pyprobe_candidate_rows` changed from run to run.
+  BFL now detects this case, does not call the filter, records the count as `null`, and logs a
+  `not_invoked` PyProBE call with reason
+  `pyprobe_modal_reference_undefined:all_values_distinct_at_4_significant_figures`. Segments with
+  a repeated modal value are unchanged. On the Chen et al. (2020) LG M50 cell 02 record, mode
+  labels and `analysis_results.json` are unchanged and all six artifacts are byte-identical across
+  runs and processes.
+- The committed example outputs were generated before this fix and may contain affected counts.
+
 ## 0.7.1 — 2026-10-15
 
 - Migrated the dependency and lock file to released `battery-data-steward>=0.4.0,<0.5`.
