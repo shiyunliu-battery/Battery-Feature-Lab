@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.11, <3.13"
 resolution-markers = [
     "python_full_version >= '3.12' and sys_platform == 'win32'",
@@ -86,7 +86,7 @@ wheels = [
 
 [[package]]
 name = "battery-data-steward"
-version = "0.4.0"
+version = "0.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "openpyxl" },
@@ -95,14 +95,14 @@ dependencies = [
     { name = "reportlab" },
     { name = "xlrd" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/27/87/65f125ca8788603360e21f6fd09e5a2f97aea4d08d9da5e7fb808f991ae5/battery_data_steward-0.4.0.tar.gz", hash = "sha256:425b021d0808b413e80438f1b43d58e3bde4f499f9ef9df93b37de2baca5519d", size = 141636, upload-time = "2026-10-14T22:38:32.506Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/19/4c/852735ba36d900c01c5163727c3a669667f56eeb0846bf91eafa8cb20a20/battery_data_steward-0.5.0.tar.gz", hash = "sha256:4bb5aec87b63cc9956cff747997bfa535edf1d2b72211a1f65e0a022e711aacb", size = 148630, upload-time = "2026-10-29T21:57:38.218Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/33/93/2eb0c03781eeebd2a6b3eb80a68714b55efb269ae43120423767f252c4fc/battery_data_steward-0.4.0-py3-none-any.whl", hash = "sha256:c9b40d288769d5267096311b42ee6a5338dde5020977595a87f6d1d9529ecbc2", size = 125790, upload-time = "2026-10-14T22:38:30.99Z" },
+    { url = "https://files.pythonhosted.org/packages/7c/2c/db1d2756825f9bf631c8cd1479632378a012702ea8cd4b85c8899d7965b6/battery_data_steward-0.5.0-py3-none-any.whl", hash = "sha256:15c34e2d6a2cdfa323f6941737030148ea4c1abd5bf2fbb4172676e962bab66d", size = 131768, upload-time = "2026-10-29T21:57:36.771Z" },
 ]
 
 [[package]]
 name = "battery-feature-lab"
-version = "0.7.1"
+version = "0.8.0"
 source = { editable = "." }
 dependencies = [
     { name = "battery-data-steward" },
@@ -133,7 +133,7 @@ eis = [
 
 [package.metadata]
 requires-dist = [
-    { name = "battery-data-steward", specifier = ">=0.4.0,<0.5" },
+    { name = "battery-data-steward", specifier = ">=0.5.0,<0.6" },
     { name = "batterydf", marker = "extra == 'bdf'", specifier = "==0.1.0" },
     { name = "eisfit", marker = "extra == 'eis'", specifier = "==0.2.0" },
     { name = "impedance", marker = "extra == 'eis'", specifier = "==1.7.1" },
