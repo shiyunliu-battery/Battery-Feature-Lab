@@ -104,7 +104,11 @@ cells for metadata and comparisons, or callers must use `spectrum_uid`.
   and imaginary impedance against log10 frequency, with no extrapolation.
 - Lin-KK records provider version, settings, normalized residuals and the
   configured residual-limit outcome. This is a consistency test, not proof of
-  linearity, stationarity or a particular circuit interpretation. Metrics
+  linearity, stationarity or a particular circuit interpretation. By default
+  Lin-KK includes a series capacitance (`add_cap=True`), because battery spectra
+  usually end in a capacitive or diffusion tail with no low-frequency
+  real-axis intercept; without it the lowest frequencies are flagged. Declare
+  `kk_options={"add_cap": False}` for spectra that do reach that intercept. Metrics
   locate the result: `frequency_of_maximum_residual` (Hz),
   `points_above_residual_limit` and `fraction_points_above_residual_limit`.
   A largest residual at one frequency does not show that the remaining points
@@ -155,13 +159,27 @@ result = bfl.analyze_eis(
 ```
 
 `repeat` and `ageing` require matched recorded conditions. `ageing` additionally
-requires increasing recorded cycle, elapsed-time or sequence order. `soc` or
-`temperature` permit only the named axis to differ; remaining conditions must
-match. Unknown conditions produce `conditional`; conflicting conditions or
-ambiguous frequency overlap produce `incompatible`. Observed impedance
-differences are emitted only after the condition gate passes, within both
-spectra's frequency coverage. Cross-cell comparisons are not admitted by this
-initial same-cell policy.
+requires increasing recorded cycle, elapsed-time or sequence order. `soc`,
+`temperature` and `specimen` permit only the named axis (SOC, temperature or
+`cell_id`) to differ; remaining conditions must match. `specimen` compares two
+cells measured under the same conditions; its differences combine cell-to-cell
+variation and any unrecorded history and are not attributed to one cause. Other
+kinds require the same `cell_id`. Unknown conditions produce `conditional`;
+conflicting conditions or ambiguous frequency overlap produce `incompatible`.
+Observed impedance differences are emitted only after the condition gate passes,
+within both spectra's frequency coverage.
+
+Numeric conditions match within a tolerance. Measured temperature and SOC
+default to 0.5 °C and 0.01; protocol settings such as rest time, excitation
+amplitude, DC levels and indices default to exact equality. Declared
+`comparison_tolerances` override the defaults, and each comparison records the
+effective tolerances and whether each was a default or declared.
+
+`dc_current_a` (source column `DC_Current_A`) records the DC current during the
+measurement, so steady-state and operando spectra are not compared as the same
+measurement. When either spectrum records it, it is gated like the other
+conditions. When neither does, it is listed in `unassessed_conditions` and does
+not change the comparison status.
 
 ECM parameter differences also require two applicable fits and remain
 conditional on unassessed parameter stability and physical arc identity.

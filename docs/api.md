@@ -63,7 +63,7 @@ six-file write contract.
 | `relaxation_checkpoints_s` | `tuple[float, ...]` | Positive, unique rest-response checkpoints. |
 | `voltage_column` | `str | None` | Exact provider-output column selected as analysis voltage. Does not alter normalized data. |
 | `temperature_column` | `str | None` | Exact provider-output column selected as analysis temperature. Does not alter normalized data. |
-| `analysis_policy` | `Mapping[str, float] | None` | Named overrides for the versioned `bfl.analysis-policy/0.1` defaults. |
+| `analysis_policy` | `Mapping[str, float] | None` | Named overrides for the versioned `bfl.analysis-policy/0.2` defaults. |
 
 Non-finite numbers, invalid ranges, empty channel names, unknown adapters, and unknown policy keys fail
 before analysis. Effective configuration is stored in `analysis_evidence.json` and contributes to the
@@ -242,6 +242,10 @@ Operation mode vocabulary is closed: `constant_current_like`, `constant_voltage_
   or SOH.
 - Relaxation is finite terminal-voltage recovery, not equilibrium OCV.
 - Capacity-aligned coordinates are not SOC unless explicitly grounded.
-- Evolution requires source/joined cycle identity, structural completeness, and comparable operation.
+- Evolution requires source/joined cycle identity, structural completeness, and comparable operation:
+  the same phase signature and a median discharge current within
+  `evolution_discharge_current_relative_tolerance` (default 5 %), so discharges at different
+  rates are never treated as repeats. A discharge-temperature spread above
+  `evolution_temperature_difference_max_deg_c` (default 2 °C) is flagged.
 - The API does not return a named protocol, chemistry inference, safety diagnosis, ageing conclusion,
   or natural-language report.

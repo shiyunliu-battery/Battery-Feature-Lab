@@ -112,6 +112,7 @@ def _compact_record(record: dict[str, Any]) -> dict[str, Any]:
             "comparison_kind",
             "missing_conditions",
             "mismatched_conditions",
+            "unassessed_conditions",
             "common_frequency_window_hz",
             "supporting_record_ids",
             "analysis_context",

@@ -998,6 +998,7 @@ def _cycle_record(
         "charge_energy_wh": charge_energy,
         "discharge_energy_wh": discharge_energy,
         "operation_signature": _operation_signature(current, config.rest_current_threshold_a),
+        **_discharge_conditions(frame, current, config.rest_current_threshold_a),
         "capacity_coordinate_min_ah": (
             float(np.nanmin(py_frame["Capacity [Ah]"].to_numpy())) if py_frame.height else None
         ),
@@ -1043,6 +1044,31 @@ def _phase_energy(
     if interval.sampling_interval_outlier_count:
         flags.append("zoh_energy_includes_sampling_interval_outlier")
     return value, "zoh_previous_v1", flags
+
+
+def _discharge_conditions(
+    frame: pl.DataFrame, current: np.ndarray, threshold: float
+) -> dict[str, float | None]:
+    """Median discharge current magnitude and discharge temperature of one cycle.
+
+    The phase signature alone does not distinguish a C/2 from a 1C discharge, so capacity
+    evolution also compares these two conditions before treating cycles as repeats.
+    """
+
+    mask = current < -threshold
+    finite_current = np.abs(current[mask & np.isfinite(current)])
+    discharge_current = float(np.median(finite_current)) if finite_current.size else None
+    discharge_temperature = None
+    column = temperature_column(frame)
+    if column is not None and np.any(mask):
+        values = frame[column].cast(pl.Float64, strict=False).to_numpy()[mask]
+        values = values[np.isfinite(values)]
+        if values.size:
+            discharge_temperature = float(np.median(values))
+    return {
+        "discharge_current_a": discharge_current,
+        "discharge_temperature_deg_c": discharge_temperature,
+    }
 
 
 def _operation_signature(current: np.ndarray, threshold: float) -> str:
