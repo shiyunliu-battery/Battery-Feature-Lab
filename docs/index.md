@@ -23,7 +23,7 @@ series) or [`examples/BFL_Zhang_2020_EIS_example.ipynb`](../examples/BFL_Zhang_2
 | Compact summary | `bfl.summary/0.1` |
 | Metadata | `bfl.metadata/0.1` |
 | Validation | `bfl.validation/0.1` |
-| Analysis policy | `bfl.analysis-policy/0.1` |
+| Analysis policy | `bfl.analysis-policy/0.2` |
 | EIS intake report | `bfl.eis-intake/0.1` |
 | EIS detailed evidence | `bfl.eis-analysis/0.1` |
 | EIS compact summary | `bfl.eis-summary/0.2` |

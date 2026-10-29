@@ -13,7 +13,7 @@ SCHEMA_VERSION = "bfl.analysis/0.1"
 SUMMARY_SCHEMA_VERSION = "bfl.summary/0.1"
 METADATA_SCHEMA_VERSION = "bfl.metadata/0.1"
 VALIDATION_SCHEMA_VERSION = "bfl.validation/0.1"
-ANALYSIS_POLICY_VERSION = "bfl.analysis-policy/0.1"
+ANALYSIS_POLICY_VERSION = "bfl.analysis-policy/0.2"
 DEFAULT_RELAXATION_CHECKPOINTS_S = (10.0, 30.0, 60.0, 300.0, 600.0, 1800.0)
 
 
@@ -47,6 +47,8 @@ DEFAULT_ANALYSIS_POLICY: Mapping[str, float] = MappingProxyType({
     "current_step_high_confidence_cv_max": 0.02,
     "current_step_summary_min_count": 3.0,
     "relaxation_summary_min_count": 3.0,
+    "evolution_discharge_current_relative_tolerance": 0.05,
+    "evolution_temperature_difference_max_deg_c": 2.0,
     "profile_min_samples": 50.0,
     "profile_min_duration_s": 600.0,
     "profile_finite_coverage_min": 0.99,
@@ -139,6 +141,7 @@ class AnalysisConfig:
             "current_step_plateau_cv_max",
             "current_step_plateau_match_relative_tolerance",
             "current_step_high_confidence_cv_max",
+            "evolution_discharge_current_relative_tolerance",
             "profile_finite_coverage_min",
             "profile_direction_consistency_min",
             "profile_capacity_balance_min",

@@ -14,6 +14,31 @@
   labels and `analysis_results.json` are unchanged and all six artifacts are byte-identical across
   runs and processes.
 - The committed example outputs were generated before this fix and may contain affected counts.
+- **Changed default:** Lin-KK now includes a series capacitance (`add_cap=True`). Battery spectra
+  usually end in a capacitive or diffusion tail with no low-frequency real-axis intercept, and
+  without it the lowest frequencies were flagged as inconsistent: 171 of the 261 Zhang et al.
+  (2020) 25C01 state-V sweeps at 0.02 Hz with the old default, none with the new one. Declare
+  `kk_options={"add_cap": False}` to restore the previous behaviour; a non-boolean value is
+  rejected.
+- EIS comparisons gain a `dc_current_a` condition (source column `DC_Current_A`). When either
+  spectrum records it, it is gated like the other conditions, so steady-state and operando spectra
+  are not compared as the same measurement. When neither does, it is listed in the new
+  `unassessed_conditions` attribute and does not change the comparison status.
+- **Changed default:** measured temperature and SOC now match within 0.5 °C and 0.01 instead of
+  exactly; protocol settings stay exact. Declared `comparison_tolerances` still override, and
+  each comparison records its effective `tolerances` and `tolerance_sources`.
+- New `comparison_kind="specimen"` compares two cells measured under the same conditions, with
+  `cell_id` as the only permitted difference and an interpretation limit on cell-to-cell
+  variation. Other kinds still require the same cell.
+- Fixed: capacity evolution treated discharges at different rates as repeat measurements because
+  its operation signature records only the charge/discharge/rest sequence. Cycle summaries now
+  carry the median discharge current and discharge temperature; comparable cycles must also share
+  a discharge-current class within `evolution_discharge_current_relative_tolerance` (default 5 %).
+  A discharge-temperature spread above `evolution_temperature_difference_max_deg_c` (default
+  2 °C) is flagged as `comparable_cycle_temperature_difference_exceeds_policy`. On Chen et al.
+  (2020) cell 02 the C/2 and 1C discharges are no longer reported as repeats; the record is
+  `not_computable` with reason `no_two_cycles_share_operation_conditions`. The method is now
+  `conservative_cycle_level_capacity_evolution_v3` and the policy `bfl.analysis-policy/0.2`.
 
 ## 0.7.1 — 2026-10-15
 

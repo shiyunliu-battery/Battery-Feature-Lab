@@ -14,6 +14,7 @@ def test_theil_sen_provider_error_does_not_abort_evolution(monkeypatch) -> None:
             "complete": True,
             "discharge_capacity_ah": 1.0 - cycle * 0.001,
             "operation_signature": "C-R-D",
+            "discharge_current_a": 1.0,
             "source_interval": {
                 "start_row": cycle * 10,
                 "end_row": cycle * 10 + 9,

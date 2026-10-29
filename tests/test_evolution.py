@@ -20,6 +20,7 @@ def test_capacity_evolution_uses_reference_median_theil_sen_and_tau_b() -> None:
                 "complete": True,
                 "discharge_capacity_ah": 1.0 - 0.01 * cycle,
                 "operation_signature": "R-C-R-D-R",
+                "discharge_current_a": 1.0,
                 "source_interval": {"start_row": cycle * 10, "end_row": cycle * 10 + 9},
             }
         )
@@ -43,6 +44,7 @@ def test_inferred_cycle_ids_are_gated_out() -> None:
                 "complete": True,
                 "discharge_capacity_ah": 1.0,
                 "operation_signature": "C-D",
+                "discharge_current_a": 1.0,
                 "source_interval": {},
             }
         ],
@@ -62,6 +64,7 @@ def test_early_cycle_exclusion_precedes_completeness_filter() -> None:
             "complete": False,
             "discharge_capacity_ah": None,
             "operation_signature": "C-D",
+            "discharge_current_a": 1.0,
         },
         *[
             {
@@ -70,6 +73,7 @@ def test_early_cycle_exclusion_precedes_completeness_filter() -> None:
                 "complete": True,
                 "discharge_capacity_ah": 1.0,
                 "operation_signature": "C-D",
+                "discharge_current_a": 1.0,
                 "source_interval": None,
             }
             for cycle in range(2, 5)

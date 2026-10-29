@@ -40,27 +40,104 @@ def _cycle_sort_key(item: dict[str, Any]) -> tuple[int, float | str]:
     return (1, str(value))
 
 
+def _discharge_current_classes(
+    items: list[dict[str, Any]], relative_tolerance: float
+) -> list[int | None]:
+    """Group cycles whose median discharge currents agree within a relative tolerance.
+
+    Currents are sorted and each class spans [first, first * (1 + tolerance)], so the
+    assignment is deterministic and a C/2 discharge never joins a 1C class. A cycle without
+    a finite positive discharge current gets no class.
+    """
+
+    classes: list[int | None] = [None] * len(items)
+    known = sorted(
+        (float(item["discharge_current_a"]), index)
+        for index, item in enumerate(items)
+        if _finite_number(item.get("discharge_current_a")) and item["discharge_current_a"] > 0
+    )
+    current_class, anchor = -1, None
+    for value, index in known:
+        if anchor is None or value > anchor * (1 + relative_tolerance):
+            current_class, anchor = current_class + 1, value
+        classes[index] = current_class
+    return classes
+
+
 def _dominant_comparable_group(
     items: list[dict[str, Any]],
+    *,
+    current_relative_tolerance: float,
 ) -> tuple[Any | None, list[dict[str, Any]], str | None]:
-    """Return one unambiguous operation-signature group."""
+    """Return one unambiguous group of matching phase signature and discharge current."""
     signed = [item for item in items if item.get("operation_signature") is not None]
     if not signed:
         return None, [], "missing_operation_signature"
 
-    counts = Counter(item["operation_signature"] for item in signed)
-    largest_group = max(counts.values())
-    dominant_signatures = [
-        signature for signature, count in counts.items() if count == largest_group
+    classes = _discharge_current_classes(signed, current_relative_tolerance)
+    keyed = [
+        ((item["operation_signature"], current_class), item)
+        for item, current_class in zip(signed, classes, strict=True)
+        if current_class is not None
     ]
+    if not keyed:
+        return None, [], "missing_discharge_current"
 
-    if len(dominant_signatures) != 1:
+    counts = Counter(key for key, _ in keyed)
+    largest_group = max(counts.values())
+    dominant_keys = [key for key, count in counts.items() if count == largest_group]
+
+    if len(dominant_keys) != 1:
+        if largest_group == 1:
+            return None, [], "no_two_cycles_share_operation_conditions"
         return None, [], "ambiguous_dominant_operation_signature"
 
-    signature = dominant_signatures[0]
-    comparable = [item for item in signed if item["operation_signature"] == signature]
+    key = dominant_keys[0]
+    comparable = [item for item_key, item in keyed if item_key == key]
     comparable.sort(key=_cycle_sort_key)
-    return signature, comparable, None
+    return key[0], comparable, None
+
+
+def _comparable_conditions(
+    analyzed: list[dict[str, Any]], temperature_limit: float
+) -> tuple[dict[str, Any], list[str]]:
+    """Describe the discharge current and temperature spread of the comparable cycles."""
+
+    currents = np.asarray([item["discharge_current_a"] for item in analyzed], dtype=float)
+    temperatures = [item.get("discharge_temperature_deg_c") for item in analyzed]
+    metrics: dict[str, Any] = {}
+    flags: list[str] = []
+    if len(currents) >= MINIMUM_REPEAT_OBSERVATIONS:
+        median = float(np.median(currents))
+        metrics["comparable_discharge_current_median"] = metric(median, "A")
+        metrics["comparable_discharge_current_relative_range"] = metric(
+            float((np.max(currents) - np.min(currents)) / median), "1"
+        )
+    else:
+        reason = "fewer_than_two_comparable_cycle_level_capacity_observations"
+        metrics["comparable_discharge_current_median"] = metric(
+            None, "A", status="not_computable", reason=reason
+        )
+        metrics["comparable_discharge_current_relative_range"] = metric(
+            None, "1", status="not_computable", reason=reason
+        )
+    if len(analyzed) < MINIMUM_REPEAT_OBSERVATIONS:
+        metrics["comparable_discharge_temperature_range"] = metric(
+            None,
+            "degC",
+            status="not_computable",
+            reason="fewer_than_two_comparable_cycle_level_capacity_observations",
+        )
+    elif not all(_finite_number(value) for value in temperatures):
+        metrics["comparable_discharge_temperature_range"] = metric(
+            None, "degC", status="not_computable", reason="discharge_temperature_unavailable"
+        )
+    else:
+        spread = float(max(temperatures) - min(temperatures))
+        metrics["comparable_discharge_temperature_range"] = metric(spread, "degC")
+        if spread > temperature_limit:
+            flags.append("comparable_cycle_temperature_difference_exceeds_policy")
+    return metrics, flags
 
 
 def analyze_capacity_evolution(
@@ -129,8 +206,12 @@ def analyze_capacity_evolution(
     comparable: list[dict[str, Any]] = []
     comparability_reason = None
 
+    current_tolerance = config.policy("evolution_discharge_current_relative_tolerance")
+    temperature_limit = config.policy("evolution_temperature_difference_max_deg_c")
     if after_exclusion:
-        signature, comparable, comparability_reason = _dominant_comparable_group(after_exclusion)
+        signature, comparable, comparability_reason = _dominant_comparable_group(
+            after_exclusion, current_relative_tolerance=current_tolerance
+        )
 
     # Duplicate cycle IDs make ordering and independent repeat counts
     # ambiguous, so do not use them for comparative metrics.
@@ -380,6 +461,8 @@ def analyze_capacity_evolution(
             if reason is not None and reason.startswith("provider_error:")
         }
     )
+    condition_metrics, condition_flags = _comparable_conditions(analyzed, temperature_limit)
+    quality_flags = sorted({*provider_quality_flags, *condition_flags})
 
     record_applicable = len(analyzed) >= MINIMUM_REPEAT_OBSERVATIONS
 
@@ -475,12 +558,16 @@ def analyze_capacity_evolution(
                 len(analyzed),
                 "1",
             ),
+            **condition_metrics,
         },
         series={},
         provider="SciPy+BFL",
-        method_name="conservative_cycle_level_capacity_evolution_v2",
+        method_name="conservative_cycle_level_capacity_evolution_v3",
         provider_version=f"SciPy {scipy.__version__}; {PROVIDER_VERSION}",
         parameters={
+            "comparability_rule": "phase_signature_and_discharge_current_class",
+            "discharge_current_relative_tolerance": current_tolerance,
+            "temperature_difference_max_deg_c": temperature_limit,
             "reference_window_size": reference_window_size,
             "minimum_repeat_observations": MINIMUM_REPEAT_OBSERVATIONS,
             "minimum_reference_cycles": MINIMUM_REFERENCE_CYCLES,
@@ -491,14 +578,15 @@ def analyze_capacity_evolution(
         references=[THEIL_REFERENCE, KENDALL_REFERENCE],
         applicability_status=("applicable" if record_applicable else "not_computable"),
         applicability_reasons=([] if record_applicable else applicability_reasons),
-        quality_status="warning" if provider_quality_flags else "ok",
-        quality_flags=provider_quality_flags,
+        quality_status="warning" if quality_flags else "ok",
+        quality_flags=quality_flags,
         interpretation_limits=[
             "This record uses cycle summaries only and does not search the raw time series for complete charge/discharge phases.",
             "Comparable-capacity spread describes repeat measurement at the cycle-summary level and is not an ageing, capacity-fade, or state-of-health claim.",
             "Capacity retention is a relative reference-window comparison and is not, by itself, evidence of ageing or state of health.",
             "Configured early-cycle exclusion is an analysis setting and does not establish that an excluded cycle is a formation cycle.",
-            "Operation-signature matching is the comparability rule used by this method; it does not prove that all unrepresented operating conditions are identical.",
+            "Comparable cycles share the phase signature and a median discharge current within the configured relative tolerance; this does not prove that all unrepresented operating conditions are identical.",
+            "A discharge-temperature spread above the configured limit is flagged, not excluded; capacity differences within such a group may include a temperature effect.",
             "The Theil-Sen and Kendall statistics are descriptive. No statistical-significance or causal claim is made.",
             "Trend calculations use source or joined cycle_id values as the ordering axis; this function does not independently verify the physical meaning of that source identifier.",
         ],

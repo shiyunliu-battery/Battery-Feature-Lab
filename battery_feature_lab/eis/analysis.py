@@ -178,11 +178,16 @@ def analyze_spectrum(spectrum, source_ref, config: EISConfig, calls):
                     from impedance.validation import linKK
 
                     provider_version = version("impedance")
+                    # A series capacitance lets Lin-KK represent spectra that end in a
+                    # capacitive or diffusion tail with no low-frequency real-axis intercept,
+                    # which is the usual shape of battery spectra. Without it the lowest
+                    # frequencies are flagged as inconsistent (171 of 261 Zhang et al. 25C01
+                    # sweeps at 0.02 Hz, none with it). Declare add_cap=False to disable.
                     options = {
                         "c": 0.85,
                         "max_M": 50,
                         "fit_type": "complex",
-                        "add_cap": False,
+                        "add_cap": True,
                         **config.kk_options,
                     }
                     parameters.update(options)

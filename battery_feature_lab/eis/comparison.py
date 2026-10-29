@@ -7,11 +7,23 @@ import numpy as np
 from battery_feature_lab._version import PROVIDER_VERSION
 from battery_feature_lab.analysis.schema import make_record, metric
 from battery_feature_lab.eis.analysis import interpolate_impedance
-from battery_feature_lab.eis.schema import EISConfig
+from battery_feature_lab.eis.schema import DEFAULT_COMPARISON_TOLERANCES, EISConfig
+
+# The condition each comparison kind allows (and requires) to differ.
+COMPARISON_AXES = {"soc": "soc_fraction", "temperature": "temperature_deg_c", "specimen": "cell_id"}
+SPECIMEN_INTERPRETATION_LIMIT = (
+    "A between-specimen difference combines cell-to-cell variation and any unrecorded history; "
+    "it is not attributed to one cause."
+)
 
 
 def compare_spectra(spectra, records, refs, config: EISConfig):
     result = []
+    tolerances = {**DEFAULT_COMPARISON_TOLERANCES, **config.comparison_tolerances}
+    tolerance_sources = {
+        name: "declared" if name in config.comparison_tolerances else "default"
+        for name in tolerances
+    }
     for left_name, right_name in config.comparison_pairs:
         pair = []
         for name in (left_name, right_name):
@@ -35,9 +47,15 @@ def compare_spectra(spectra, records, refs, config: EISConfig):
             else "ac_amplitude_a"
         )
         fields.append(amplitude)
-        axis = {"soc": "soc_fraction", "temperature": "temperature_deg_c"}.get(
-            config.comparison_kind
-        )
+        # A DC current recorded for either spectrum is gated like any other condition, so
+        # steady-state and operando spectra are not compared as the same measurement. When
+        # neither spectrum records it, it is listed as unassessed rather than missing.
+        unassessed = []
+        if all(s["conditions"]["dc_current_a"]["value"] is None for s in pair):
+            unassessed.append("dc_current_a")
+        else:
+            fields.append("dc_current_a")
+        axis = COMPARISON_AXES.get(config.comparison_kind)
         if axis:
             fields.remove(axis)
         for field in fields:
@@ -45,7 +63,7 @@ def compare_spectra(spectra, records, refs, config: EISConfig):
             if None in values:
                 missing.append(field)
             elif isinstance(values[0], (int, float)) and isinstance(values[1], (int, float)):
-                if abs(values[0] - values[1]) > config.comparison_tolerances.get(field, 0.0):
+                if abs(values[0] - values[1]) > tolerances.get(field, 0.0):
                     mismatches.append(field)
             elif values[0] != values[1]:
                 mismatches.append(field)
@@ -149,6 +167,7 @@ def compare_spectra(spectra, records, refs, config: EISConfig):
                     "comparison_kind": config.comparison_kind,
                     "missing_conditions": missing,
                     "mismatched_conditions": mismatches,
+                    "unassessed_conditions": unassessed,
                     "conditions": {s["spectrum_uid"]: s["conditions"] for s in pair},
                     "ecm_parameter_comparison_status": parameter_status,
                     "ecm_parameter_comparison_limit": "parameter_stability_and_physical_arc_identity_not_assessed",
@@ -164,7 +183,8 @@ def compare_spectra(spectra, records, refs, config: EISConfig):
                 method_name="condition_gated_spectral_comparison_v1",
                 provider_version=PROVIDER_VERSION,
                 parameters={
-                    "tolerances": config.comparison_tolerances,
+                    "tolerances": tolerances,
+                    "tolerance_sources": tolerance_sources,
                     "interpolation": "linear_real_imag_in_log10_frequency",
                 },
                 applicability_status={
@@ -179,6 +199,11 @@ def compare_spectra(spectra, records, refs, config: EISConfig):
                     "Differences describe measurements under the recorded comparison conditions.",
                     "A comparison does not establish ageing causality or a degradation mechanism.",
                     "ECM arc identity and parameter stability are not established by canonical numbering.",
+                    *(
+                        [SPECIMEN_INTERPRETATION_LIMIT]
+                        if config.comparison_kind == "specimen"
+                        else []
+                    ),
                 ],
             )
         )

@@ -47,6 +47,7 @@ CONDITION_COLUMNS = {
     "ac_amplitude_v": ("AC_Amplitude_V",),
     "ac_amplitude_a": ("AC_Amplitude_A",),
     "dc_voltage_v": ("DC_Voltage_V",),
+    "dc_current_a": ("DC_Current_A",),
     "instrument": ("Instrument",),
     "protocol_id": ("Protocol_ID",),
     "cycle_index": ("Cycle_Index",),

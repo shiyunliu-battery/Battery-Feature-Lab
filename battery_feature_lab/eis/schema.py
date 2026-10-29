@@ -39,6 +39,7 @@ CONDITION_UNITS = {
     "ac_amplitude_v": "V",
     "ac_amplitude_a": "A",
     "dc_voltage_v": "V",
+    "dc_current_a": "A",
     "cycle_index": "1",
     "sequence_index": "1",
     "elapsed_time_s": "s",
@@ -46,6 +47,11 @@ CONDITION_UNITS = {
     "instrument": None,
     "protocol_id": None,
 }
+# Default absolute tolerances for measured state conditions in comparison gates. Exact equality
+# is not meaningful for a measured temperature or SOC; protocol settings (rest, amplitude,
+# DC levels, identifiers) stay exact unless a tolerance is declared.
+DEFAULT_COMPARISON_TOLERANCES = {"temperature_deg_c": 0.5, "soc_fraction": 0.01}
+COMPARISON_KINDS = frozenset({"repeat", "ageing", "soc", "temperature", "specimen"})
 
 
 @dataclass(frozen=True)
@@ -75,7 +81,7 @@ class EISConfig:
             raise ValueError("phase_unit must be deg, rad or None")
         if set(self.columns) - {"frequency", "real", "imaginary", "magnitude", "phase"}:
             raise ValueError("Unknown EIS column mapping key")
-        if self.comparison_kind not in {"repeat", "ageing", "soc", "temperature"}:
+        if self.comparison_kind not in COMPARISON_KINDS:
             raise ValueError("Unknown comparison_kind")
         if isinstance(self.minimum_provider_points, bool) or self.minimum_provider_points < 5:
             raise ValueError("minimum_provider_points must be an integer of at least five")
@@ -97,6 +103,8 @@ class EISConfig:
             raise ValueError("Unknown Lin-KK option")
         if self.kk_options.get("fit_type", "complex") not in {"real", "imag", "complex"}:
             raise ValueError("Unknown Lin-KK fit_type")
+        if not isinstance(self.kk_options.get("add_cap", True), bool):
+            raise TypeError("Lin-KK add_cap must be true or false")
         maximum = self.kk_options.get("max_M", 50)
         if not isinstance(maximum, int) or isinstance(maximum, bool) or maximum < 3:
             raise ValueError("Lin-KK max_M must be an integer of at least three")
