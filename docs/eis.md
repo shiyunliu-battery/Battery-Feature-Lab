@@ -230,8 +230,8 @@ Validation checks finite JSON, schemas, reference identity, artifact digests
 and complete retained/excluded row accounting. Serialized provenance contains
 no host-local paths. Output directories must be empty.
 
-These files are the handoff for a downstream Battery Context adapter. This
-change does not implement the Battery Context consumer or DRT analysis.
+These files are the handoff for downstream tools. BFL does not implement DRT
+analysis.
 
 The validation file records the installed provider versions and a digest of
 the EIS implementation sources, so development checkouts remain distinguishable
