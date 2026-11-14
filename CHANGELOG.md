@@ -23,8 +23,16 @@
   accumulator for the segment's phase is preferred over the undirected source column; the columns
   used are in `attributes.observation_columns`. Missing channels give `not_computable` metrics.
 - New numerical helper `integrate_trapezoid`, used only for the accumulator reconciliation.
+- New record type `response.capacity_voltage_curve`, one per charge or discharge phase segment. It holds
+  voltage against the capacity moved since the segment's first record (trapezoid rule), thinned by a
+  vertical-deviation Ramer–Douglas–Peucker pass to within `curve_voltage_tolerance_v` (default 0.5 mV) of the
+  samples' linear interpolation everywhere. The record states the bound that holds, the largest deviation
+  found and the point count. Above `curve_max_points` (default 1000) points the tolerance is doubled until
+  the count fits, and the record is flagged. Curves let two segments, specimens or files be compared without
+  their time series.
 - **Changed default:** analysis policy `bfl.analysis-policy/0.3` adds `relaxation_end_window_s`,
-  `relaxation_end_window_min_samples` and `clock_divergence_min_s`; existing keys are unchanged.
+  `relaxation_end_window_min_samples`, `clock_divergence_min_s`, `curve_voltage_tolerance_v` and
+  `curve_max_points`; existing keys are unchanged.
   Every record's `analysis_policy_version` parameter changes accordingly.
 - On the Chen et al. (2020) LG M50 files (Zenodo 4032561) the rests after the four validation
   discharges of each cell reproduce the reference analysis's relaxation table (12 rows): identical

@@ -264,6 +264,33 @@ order in the interval and ZOH's first order. On the Chen et al. (2020) LG M50 fi
 1.5C discharge logged every 16 s exceeds the tester's energy by about 0.14 %; the trapezoid agrees
 with it within 1 mWh.
 
+### Capacity–voltage curves
+
+Each charge or discharge phase segment also gets a `response.capacity_voltage_curve` record (method
+`trapezoid_capacity_voltage_polyline_v1`) linked to it by `attributes.phase_segment_record_id`. Its
+`series` holds `capacity_ah` (capacity moved since the segment's first record, trapezoid rule on the
+current magnitude over test time; one sample per capacity value, the last) and `voltage_v`.
+
+The samples are thinned by a vertical-deviation Ramer–Douglas–Peucker pass. A sample is kept only where
+dropping it would move the linear interpolation by more than `curve_voltage_tolerance_v` (policy, default
+0.5 mV). Both polylines break only at samples, so the bound checked at every sample holds everywhere. Two
+curves can then be compared on any capacity grid with an error of at most the sum of their tolerances.
+
+| Metric | Unit | Meaning |
+|---|---|---|
+| `capacity` | Ah | Total capacity of the segment; equals the phase segment's `trapezoid_capacity`. |
+| `point_count`, `distinct_capacity_samples` | 1 | Points kept, and samples with distinct capacity. |
+| `voltage_tolerance` | V | The bound that holds. It is the policy value unless more than `curve_max_points` (default 1000) points would be kept; then it is doubled until they are not, and the record carries the flag `curve_tolerance_relaxed_to_point_limit`. |
+| `max_interpolation_error` | V | The largest deviation found; at most `voltage_tolerance`. |
+
+A segment with fewer than two distinct capacity values is `not_computable`. Capacity is not a state of
+charge, and the curve adds nothing between samples.
+
+On the Chen et al. (2020) LG M50 files, 0.5 mV keeps 65–90 points of the 146–1214 distinct samples of each full discharge, and 17–19 of about 60 for the initial partial discharge. Cell-to-cell
+voltage RMSE computed from the stored curves differs from the RMSE computed from the raw samples by at most
+0.08 mV, and the maximum voltage difference by at most 0.32 mV. A uniform 1001-point capacity grid misses
+the end-of-discharge knee by up to 11 mV.
+
 ### Rest records
 
 Each `response.rest_and_thermal` record (method `rest_filter_with_interval_descriptors_v2`) gives,
