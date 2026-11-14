@@ -142,6 +142,12 @@ def analyze_rest_and_thermal(
 
     records: list[dict[str, Any]] = []
     temp_column = temperature_column(selected)
+    wall_column = _wall_clock_column(selected)
+    clock_threshold, clock_resolution = _clock_divergence_threshold(
+        selected, wall_column, config.policy("clock_divergence_min_s")
+    )
+    end_window_s = config.policy("relaxation_end_window_s")
+    end_window_min_samples = int(config.policy("relaxation_end_window_min_samples"))
     for segment in phases:
         if segment["phase"] != "rest":
             continue
@@ -222,8 +228,40 @@ def analyze_rest_and_thermal(
             )
             previous_current = previous_sub["current_a"].cast(pl.Float64).to_numpy()
             finite_previous_current = previous_current[np.isfinite(previous_current)]
+            previous_voltage = previous_sub["voltage_v"].cast(pl.Float64).to_numpy()
+            finite_previous_voltage = previous_voltage[np.isfinite(previous_voltage)]
         else:
             finite_previous_current = np.asarray([], dtype=float)
+            finite_previous_voltage = np.asarray([], dtype=float)
+        metrics["preceding_load_end_voltage"] = metric(
+            json_number(finite_previous_voltage[-1]) if len(finite_previous_voltage) else None,
+            "V",
+            reason=None if len(finite_previous_voltage) else "no_preceding_charge_or_discharge_voltage",
+        )
+        drift, drift_samples, drift_span = _end_drift(
+            finite_time, finite_values, window_s=end_window_s, min_samples=end_window_min_samples
+        )
+        metrics["end_drift_rate"] = metric(
+            drift,
+            "V/h",
+            status="ok" if drift is not None else "not_computable",
+            reason=None if drift is not None else "fewer_than_minimum_samples_in_end_window",
+        )
+        metrics["end_window_sample_count"] = metric(drift_samples, "1")
+        metrics["end_window_span"] = metric(drift_span, "s")
+        uncounted, pauses = _uncounted_wall_time(sub, wall_column, threshold_s=clock_threshold)
+        metrics["uncounted_wall_time"] = metric(
+            uncounted,
+            "s",
+            status="ok" if uncounted is not None else "not_computable",
+            reason=None if uncounted is not None else "no_wall_clock_channel",
+        )
+        metrics["uncounted_wall_time_interval_count"] = metric(
+            pauses if uncounted is not None else None,
+            "1",
+            status="ok" if uncounted is not None else "not_computable",
+            reason=None if uncounted is not None else "no_wall_clock_channel",
+        )
         metrics["preceding_load_median_current"] = metric(
             json_number(np.median(finite_previous_current))
             if len(finite_previous_current)
@@ -319,6 +357,8 @@ def analyze_rest_and_thermal(
             flags.append("non_positive_rest_time_intervals")
         if intervals.sampling_interval_outlier_count:
             flags.append("sampling_interval_outlier")
+        if uncounted:
+            flags.append("test_clock_pause_within_interval")
         if temp_column is None:
             for name in (
                 "temperature_baseline",
@@ -383,10 +423,11 @@ def analyze_rest_and_thermal(
                         else None
                     ),
                     "preceding_mode": (previous_segment.get("mode") if previous_segment else None),
+                    "wall_clock_column": wall_column,
                 },
                 metrics=metrics,
                 provider="PyProBE+BFL",
-                method_name="rest_filter_with_interval_descriptors_v1",
+                method_name="rest_filter_with_interval_descriptors_v2",
                 provider_version=f"PyProBE {pyprobe.__version__}; {PROVIDER_VERSION}",
                 parameters={
                     "analysis_policy_version": ANALYSIS_POLICY_VERSION,
@@ -398,6 +439,17 @@ def analyze_rest_and_thermal(
                         "last_finite_sample_time_minus_first_finite_sample_time"
                     ),
                     "sampling_interval_outlier_factor": (config.sampling_interval_outlier_factor),
+                    "end_drift_method": (
+                        "least_squares_slope_of_voltage_on_test_time_over_final_window_"
+                        "last_sample_per_duplicate_time"
+                    ),
+                    "end_window_s": end_window_s,
+                    "end_window_min_samples": end_window_min_samples,
+                    "uncounted_wall_time_method": (
+                        "sum_of_wall_minus_test_time_steps_above_threshold_within_rest"
+                    ),
+                    "clock_divergence_threshold_s": clock_threshold,
+                    "wall_clock_resolution_s": clock_resolution,
                 },
                 references=[PYPROBE_REFERENCE],
                 quality_status="warning" if flags else "ok",
@@ -409,6 +461,14 @@ def analyze_rest_and_thermal(
                 interpretation_limits=[
                     "Voltage change is a terminal response, not equilibrium voltage.",
                     "Temperature co-occurrence does not establish causality.",
+                    (
+                        "End drift is the voltage slope at the end of the observed rest; a non-zero "
+                        "value means the rest ended before equilibrium, not how far from it."
+                    ),
+                    (
+                        "Durations and checkpoints use the test clock; time the test clock did not "
+                        "count (uncounted_wall_time) is not part of them."
+                    ),
                 ],
             )
         )
@@ -426,6 +486,70 @@ def analyze_rest_and_thermal(
             )
         )
     return records
+
+
+def _wall_clock_column(frame: pl.DataFrame) -> str | None:
+    """The wall-clock column of a standardized frame, if one was handed over."""
+
+    for name in ("unix_time_s", "Unix Time / s"):
+        if name in frame.columns:
+            return name
+    return None
+
+
+def _clock_divergence_threshold(
+    frame: pl.DataFrame, wall_column: str | None, minimum_s: float
+) -> tuple[float, float | None]:
+    """Threshold for wall/test clock divergence: at least twice the wall clock's resolution."""
+
+    if wall_column is None:
+        return float(minimum_s), None
+    wall = frame[wall_column].cast(pl.Float64, strict=False).to_numpy()
+    wall = wall[np.isfinite(wall)]
+    steps = np.diff(wall)
+    positive = steps[steps > 0]
+    resolution = float(positive.min()) if positive.size else None
+    threshold = max(float(minimum_s), 2.0 * resolution) if resolution is not None else float(minimum_s)
+    return threshold, resolution
+
+
+def _end_drift(
+    time: np.ndarray, voltage: np.ndarray, *, window_s: float, min_samples: int
+) -> tuple[float | None, int, float]:
+    """Least-squares voltage slope (V/h) over the final window of a rest, on the test clock."""
+
+    if len(time) == 0:
+        return None, 0, 0.0
+    # one sample per time stamp: the last recorded value at a duplicated time
+    order = np.argsort(time, kind="stable")
+    t, v = time[order], voltage[order]
+    keep = np.r_[t[1:] != t[:-1], True]
+    t, v = t[keep], v[keep]
+    window = t >= t[-1] - window_s
+    tw, vw = t[window], v[window]
+    span = float(tw[-1] - tw[0]) if len(tw) else 0.0
+    if len(tw) < min_samples or span <= 0:
+        return None, len(tw), span
+    slope = float(np.polyfit((tw - tw[0]) / 3600.0, vw, 1)[0])
+    return json_number(slope), len(tw), span
+
+
+def _uncounted_wall_time(
+    sub: pl.DataFrame, wall_column: str | None, *, threshold_s: float
+) -> tuple[float | None, int]:
+    """Wall-clock time inside an interval that the test clock did not count."""
+
+    if wall_column is None:
+        return None, 0
+    wall = sub[wall_column].cast(pl.Float64, strict=False).to_numpy()
+    test = sub["test_time_s"].cast(pl.Float64, strict=False).to_numpy()
+    finite = np.isfinite(wall) & np.isfinite(test)
+    if int(finite.sum()) < 2:
+        return 0.0, 0
+    divergence = np.diff(wall[finite]) - np.diff(test[finite])
+    steps = np.diff(test[finite])
+    pauses = (divergence > threshold_s) & (steps >= 0)
+    return json_number(float(divergence[pauses].sum())) or 0.0, int(pauses.sum())
 
 
 def analyze_pulses(

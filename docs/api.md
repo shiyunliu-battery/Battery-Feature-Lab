@@ -63,7 +63,7 @@ six-file write contract.
 | `relaxation_checkpoints_s` | `tuple[float, ...]` | Positive, unique rest-response checkpoints. |
 | `voltage_column` | `str | None` | Exact provider-output column selected as analysis voltage. Does not alter normalized data. |
 | `temperature_column` | `str | None` | Exact provider-output column selected as analysis temperature. Does not alter normalized data. |
-| `analysis_policy` | `Mapping[str, float] | None` | Named overrides for the versioned `bfl.analysis-policy/0.2` defaults. |
+| `analysis_policy` | `Mapping[str, float] | None` | Named overrides for the versioned `bfl.analysis-policy/0.3` defaults. |
 
 Non-finite numbers, invalid ranges, empty channel names, unknown adapters, and unknown policy keys fail
 before analysis. Effective configuration is stored in `analysis_evidence.json` and contributes to the
@@ -235,6 +235,23 @@ evolution.capacity
 
 Operation mode vocabulary is closed: `constant_current_like`, `constant_voltage_like`, `pulse_like`,
 `dynamic_current`, and `unmatched`.
+
+### Rest records
+
+Each `response.rest_and_thermal` record (method `rest_filter_with_interval_descriptors_v2`) gives,
+besides the checkpoint voltages and the thermal descriptors:
+
+| Metric | Unit | Meaning |
+|---|---|---|
+| `preceding_load_end_voltage` | V | Last finite voltage of the charge or discharge segment immediately before the rest. |
+| `end_drift_rate` | V/h | Least-squares slope of voltage on test time over the final `relaxation_end_window_s` (policy, default 600 s) of the rest, one sample per time stamp (the last); `not_computable` below `relaxation_end_window_min_samples` (default 3). |
+| `end_window_sample_count`, `end_window_span` | 1, s | Samples and time span used for the end drift. |
+| `uncounted_wall_time` | s | Wall-clock time inside the rest that the test clock did not count: the sum of consecutive-sample differences between wall-clock and test-clock steps above the larger of `clock_divergence_min_s` (policy, default 120 s) and twice the wall clock's resolution. `not_computable` without a wall-clock column (`unix_time_s` or `Unix Time / s`). A positive value adds the quality flag `test_clock_pause_within_interval`. |
+| `uncounted_wall_time_interval_count` | 1 | Number of such consecutive-sample intervals. |
+
+Durations and checkpoints remain on the test clock, so a rest that contains a pause is longer in
+wall-clock time than its `duration`. An end drift that is not zero means the rest ended before
+equilibrium; it does not say how far from equilibrium.
 
 ## Scientific limits exposed by the API
 

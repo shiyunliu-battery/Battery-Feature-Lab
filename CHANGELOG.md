@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased
+
+- `response.rest_and_thermal` records (method now `rest_filter_with_interval_descriptors_v2`) gain:
+  - `preceding_load_end_voltage` (V): the last voltage of the charge or discharge before the rest;
+  - `end_drift_rate` (V/h), with `end_window_sample_count` and `end_window_span`: the least-squares
+    voltage slope over the final `relaxation_end_window_s` (default 600 s) of the rest, one sample
+    per time stamp, `not_computable` below `relaxation_end_window_min_samples` (default 3);
+  - `uncounted_wall_time` (s) and `uncounted_wall_time_interval_count`: wall-clock time inside the
+    rest that the test clock did not count, when a wall-clock column is handed over, above the larger
+    of `clock_divergence_min_s` (default 120 s) and twice the wall clock's resolution; a positive
+    value adds the quality flag `test_clock_pause_within_interval` (and so to the
+    `response.relaxation_signature` flags). Without a wall clock the metric is `not_computable`.
+- **Changed default:** analysis policy `bfl.analysis-policy/0.3` adds `relaxation_end_window_s`,
+  `relaxation_end_window_min_samples` and `clock_divergence_min_s`; existing keys are unchanged.
+  Every record's `analysis_policy_version` parameter changes accordingly.
+- On the Chen et al. (2020) LG M50 files (Zenodo 4032561) the rests after the four validation
+  discharges of each cell reproduce the reference analysis's relaxation table (12 rows): identical
+  end-of-discharge, first-rest and end-of-rest voltages, end drift within 1e-11 mV/h, and the 45 min
+  suspension inside the rest after the C/10 discharge on all three cells.
+
 ## 0.8.0 — 2026-10-29
 
 This release changes default analysis behaviour (Lin-KK, EIS comparison tolerances and
