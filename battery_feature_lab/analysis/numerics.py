@@ -174,6 +174,31 @@ def integrate_previous(
     return float(total * scale), intervals
 
 
+def integrate_trapezoid(time_s: Any, values: Any, *, scale: float = 1.0) -> float | None:
+    """Trapezoidal integral over intervals whose two samples are finite and ordered in time.
+
+    Used where a sampled signal is compared with an accumulator the source integrated far more
+    often than it logged: for a smooth signal between two logged samples, the trapezoid's error
+    is second order in the interval, previous-sample ZOH's first order. Intervals with a missing
+    sample or a non-positive duration are left out, never filled. ``None`` when none is valid.
+    """
+
+    time = np.asarray(time_s, dtype=float)
+    signal = np.asarray(values, dtype=float)
+    if time.ndim != 1 or signal.ndim != 1 or len(time) != len(signal):
+        raise ValueError("time and values must be one-dimensional arrays of equal length")
+    if len(time) < 2:
+        return None
+    durations = np.diff(time)
+    valid = (
+        np.isfinite(durations) & (durations > 0) & np.isfinite(signal[:-1]) & np.isfinite(signal[1:])
+    )
+    if not np.any(valid):
+        return None
+    areas = 0.5 * (signal[:-1] + signal[1:]) * durations
+    return float(np.sum(areas[valid]) * scale)
+
+
 def reported_delta(
     values: Any, *, monotonic_tolerance: float = 1e-10
 ) -> tuple[float | None, list[str]]:

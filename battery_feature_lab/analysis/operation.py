@@ -13,8 +13,10 @@ from battery_feature_lab._version import PROVIDER_VERSION
 from battery_feature_lab.analysis.adapters import pyprobe_experiment, temperature_column
 from battery_feature_lab.analysis.numerics import (
     integrate_previous,
+    integrate_trapezoid,
     json_number,
     previous_intervals,
+    reported_delta,
     weighted_quantile,
     weighted_summary,
 )
@@ -80,6 +82,8 @@ def analyze_operation(
     )
     for segment in phases:
         flags = list(segment["flags"])
+        observation_columns = _observation_columns(selected, segment["phase"])
+        observations = _segment_observations(selected, segment, observation_columns, config)
         phase_filter_count = phase_filter_counts.get(segment["phase"])
         if segment["phase"] in {"charge", "discharge", "rest"} and phase_filter_count is None:
             flags.append("pyprobe_phase_filter_unavailable_for_qa")
@@ -99,15 +103,29 @@ def analyze_operation(
                     "phase_label_basis": segment["phase_label_basis"],
                     "pyprobe_window_phase_filter_rows": phase_filter_count,
                     "pyprobe_phase_filter_role": "independent_window_level_QA_only",
+                    "observation_columns": observation_columns,
                 },
                 metrics={
                     "duration": metric(segment["duration_s"], "s"),
                     "sample_count": metric(segment["sample_count"], "1"),
+                    **observations,
                 },
                 provider="BFL",
-                method_name="source_step_and_current_phase_segmentation_v1",
+                method_name="source_step_and_current_phase_segmentation_v2",
                 provider_version=PROVIDER_VERSION,
-                parameters={"rest_current_threshold_a": config.rest_current_threshold_a},
+                parameters={
+                    "rest_current_threshold_a": config.rest_current_threshold_a,
+                    "observation_method": (
+                        "first_last_finite_samples_and_finite_sample_statistics;"
+                        " zoh_capacity_and_energy_previous_sample_hold_over_support_to_next_phase_boundary;"
+                        " trapezoid_capacity_and_energy_between_first_and_last_sample;"
+                        " reported_accumulators_first_last_finite_sample_in_segment;"
+                        " reported_change_requires_non_decreasing_values;"
+                        " reconciliation_trapezoid_between_first_and_last_reported_samples_minus_reported_change"
+                    ),
+                    "reported_monotonic_tolerance": _REPORTED_MONOTONIC_TOLERANCE,
+                    "sampling_interval_outlier_factor": config.sampling_interval_outlier_factor,
+                },
                 references=[
                     "https://github.com/shiyunliu-battery/Battery-Data-Steward/blob/main/docs/step-cycle-semantics.md",
                     "https://github.com/battery-data-alliance/battery-data-format",
@@ -190,6 +208,178 @@ def analyze_operation(
     )
     records.append(_exposure_record(selected, config, cell_id, cycle_id))
     return records, phases
+
+
+# Source accumulators, most specific first: a directional column for the segment's phase, then
+# the undirected column the source wrote (kept by BDS as source_* or raw:source_*).
+_REPORTED_COLUMNS = {
+    "capacity": {
+        "charge": ("charge_capacity_ah",),
+        "discharge": ("discharge_capacity_ah",),
+        "any": ("source_capacity_ah", "raw:source_capacity_ah"),
+    },
+    "energy": {
+        "charge": ("charge_energy_wh",),
+        "discharge": ("discharge_energy_wh",),
+        "any": ("source_energy_wh", "raw:source_energy_wh"),
+    },
+}
+_REPORTED_MONOTONIC_TOLERANCE = 1e-10
+
+
+def _observation_columns(frame: pl.DataFrame, phase: str) -> dict[str, str | None]:
+    """Columns one segment's observations read; absent channels stay absent."""
+
+    def first(*names: str) -> str | None:
+        return next((name for name in names if name in frame.columns), None)
+
+    def reported(kind: str) -> str | None:
+        candidates = _REPORTED_COLUMNS[kind]
+        return first(*candidates.get(phase, ()), *candidates["any"])
+
+    analysis_temperature = temperature_column(frame)
+    ambient = first("ambient_temperature_deg_c")
+    return {
+        "voltage": first("voltage_v"),
+        "current": first("current_a"),
+        "temperature": analysis_temperature,
+        "ambient_temperature": ambient if ambient != analysis_temperature else None,
+        "reported_capacity": reported("capacity"),
+        "reported_energy": reported("energy"),
+    }
+
+
+def _finite(values: np.ndarray) -> np.ndarray:
+    return values[np.isfinite(values)]
+
+
+def _segment_observations(
+    frame: pl.DataFrame,
+    segment: dict[str, Any],
+    columns: dict[str, str | None],
+    config: AnalysisConfig,
+) -> dict[str, dict[str, Any]]:
+    """Terminal values, statistics and ZOH integrals of one phase segment.
+
+    Values are read from the segment's own samples; integrals hold each sample until the next
+    sample time, the last until the segment's support boundary (the next phase's first sample).
+    A missing channel gives ``not_computable`` metrics, never an estimate.
+    """
+
+    sub = frame.slice(segment["start"], segment["end"] - segment["start"])
+    time = sub["test_time_s"].cast(pl.Float64, strict=False).to_numpy()
+    support_end = segment["source_interval"].get("end_time_s")
+    support_time = np.r_[time, float(support_end) if support_end is not None else np.nan]
+
+    def series(name: str | None) -> np.ndarray | None:
+        if name is None:
+            return None
+        return sub[name].cast(pl.Float64, strict=False).to_numpy()
+
+    def terminal_and_range(values: np.ndarray | None, unit: str, quantity: str) -> dict[str, dict[str, Any]]:
+        finite = _finite(values) if values is not None else np.asarray([], dtype=float)
+        reason = None if finite.size else ("channel_absent" if values is None else "no_finite_samples")
+
+        def value(function: Any) -> Any:
+            return json_number(function(finite)) if finite.size else None
+
+        return {
+            f"start_{quantity}": metric(value(lambda x: x[0]), unit, reason=reason),
+            f"end_{quantity}": metric(value(lambda x: x[-1]), unit, reason=reason),
+            f"{quantity}_min": metric(value(np.min), unit, reason=reason),
+            f"{quantity}_max": metric(value(np.max), unit, reason=reason),
+        }
+
+    voltage = series(columns["voltage"])
+    current = series(columns["current"])
+    out: dict[str, dict[str, Any]] = {}
+    out.update(terminal_and_range(voltage, "V", "voltage"))
+    absolute = np.abs(current) if current is not None else None
+    finite_current = _finite(absolute) if absolute is not None else np.asarray([], dtype=float)
+    reason = None if finite_current.size else ("channel_absent" if current is None else "no_finite_samples")
+    for name, function in (("median", np.median), ("min", np.min), ("max", np.max)):
+        out[f"absolute_current_{name}"] = metric(
+            json_number(function(finite_current)) if finite_current.size else None, "A", reason=reason
+        )
+    power = absolute * np.abs(voltage) if absolute is not None and voltage is not None else None
+    for kind, values, unit in (("capacity", absolute, "Ah"), ("energy", power, "Wh")):
+        if values is None:
+            out[f"zoh_{kind}"] = metric(None, unit, reason="channel_absent")
+            out[f"trapezoid_{kind}"] = metric(None, unit, reason="channel_absent")
+        else:
+            total, _ = integrate_previous(
+                support_time, np.r_[values, np.nan], scale=1.0 / 3600.0,
+                sampling_interval_outlier_factor=config.sampling_interval_outlier_factor,
+            )
+            out[f"zoh_{kind}"] = metric(json_number(total) if total is not None else None, unit,
+                                        reason=None if total is not None else "no_valid_interval")
+            trapezoid = integrate_trapezoid(time, values, scale=1.0 / 3600.0)
+            out[f"trapezoid_{kind}"] = metric(
+                json_number(trapezoid) if trapezoid is not None else None, unit,
+                reason=None if trapezoid is not None else "no_valid_interval",
+            )
+        out.update(_reported_observations(kind, unit, time, series(columns[f"reported_{kind}"]), values))
+    for quantity, column in (("temperature", columns["temperature"]),
+                             ("ambient_temperature", columns["ambient_temperature"])):
+        values = series(column)
+        out.update(terminal_and_range(values, "degC", quantity))
+        finite = _finite(values) if values is not None else np.asarray([], dtype=float)
+        out[f"{quantity}_mean"] = metric(
+            json_number(np.mean(finite)) if finite.size else None, "degC",
+            reason=None if finite.size else ("channel_absent" if values is None else "no_finite_samples"),
+        )
+    return out
+
+
+def _reported_observations(
+    kind: str,
+    unit: str,
+    time: np.ndarray,
+    reported: np.ndarray | None,
+    integrand: np.ndarray | None,
+) -> dict[str, dict[str, Any]]:
+    """The source accumulator at the segment's first and last finite samples, and a reconciliation.
+
+    ``reported_<kind>_change`` is the last minus the first finite value, computed only when the
+    values do not decrease inside the segment (no reset or rollover inside it), so it does not
+    depend on where the source resets its accumulator. ``trapezoid_<kind>_minus_reported_change``
+    integrates the logged samples between the same two samples with the trapezoid rule and
+    subtracts the reported change; it is positive when the integral exceeds the source's value.
+    The trapezoid is used because the source integrates far more often than it logs, so the
+    difference reflects the accumulator rather than the logging interval (previous-sample ZOH
+    over a falling discharge voltage logged every 16 s exceeds the source's energy by about 0.1 %).
+    """
+
+    absent = "channel_absent" if reported is None else "no_finite_samples"
+    names = (f"reported_{kind}_start", f"reported_{kind}_end", f"reported_{kind}_change",
+             f"trapezoid_{kind}_minus_reported_change")
+    if reported is None or not np.any(np.isfinite(reported)):
+        return {name: metric(None, unit, reason=absent) for name in names}
+    finite_rows = np.flatnonzero(np.isfinite(reported))
+    first_row, last_row = int(finite_rows[0]), int(finite_rows[-1])
+    out = {
+        names[0]: metric(json_number(reported[first_row]), unit),
+        names[1]: metric(json_number(reported[last_row]), unit),
+    }
+    change, flags = reported_delta(reported, monotonic_tolerance=_REPORTED_MONOTONIC_TOLERANCE)
+    if change is None:
+        reason = flags[0] if flags else "reported_change_not_computable"
+        out[names[2]] = metric(None, unit, reason=reason)
+        out[names[3]] = metric(None, unit, reason=reason)
+        return out
+    out[names[2]] = metric(json_number(change), unit)
+    if integrand is None:
+        out[names[3]] = metric(None, unit, reason="channel_absent")
+        return out
+    integral = integrate_trapezoid(
+        time[first_row:last_row + 1], integrand[first_row:last_row + 1], scale=1.0 / 3600.0
+    )
+    out[names[3]] = (
+        metric(json_number(integral - change), unit)
+        if integral is not None
+        else metric(None, unit, reason="no_valid_interval")
+    )
+    return out
 
 
 def _select_cycle(frame: pl.DataFrame, cycle_id: int | None) -> pl.DataFrame:
