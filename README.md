@@ -142,6 +142,7 @@ BFL does not require every dataset to contain every battery channel.
 | + voltage | power and energy, current-step response, paired capacity profiles, eligible pulse/ICA/DVA and cycle analyses |
 | + temperature | thermal envelope, rest temperature response, temperature comparability gates |
 | + wall clock | wall-clock time that the test clock did not count inside each rest (for example, a suspended test) |
+| + source accumulators | per-segment reconciliation of the integrated current and power with the cycler's own capacity and energy counters |
 | + trustworthy cycle identity | structurally gated cycle summaries and comparable-capacity evolution |
 | + nominal/reference capacity | C-rate and grounded SOC-dependent provider paths where other gates also pass |
 

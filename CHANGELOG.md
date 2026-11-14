@@ -12,13 +12,32 @@
     of `clock_divergence_min_s` (default 120 s) and twice the wall clock's resolution; a positive
     value adds the quality flag `test_clock_pause_within_interval` (and so to the
     `response.relaxation_signature` flags). Without a wall clock the metric is `not_computable`.
+- `operation.phase_segment` records (method now `source_step_and_current_phase_segmentation_v2`) carry
+  per-segment observations: first/last/min/max voltage; median/min/max current magnitude; capacity
+  and energy by previous-sample ZOH over the segment's support (`zoh_capacity`, `zoh_energy`) and by
+  the trapezoid rule between its first and last samples (`trapezoid_capacity`, `trapezoid_energy`);
+  the source's accumulator at the first and last finite samples and its change, when it does not
+  decrease inside the segment; the trapezoid integral minus that change
+  (`trapezoid_capacity_minus_reported_change`, `trapezoid_energy_minus_reported_change`); and
+  first/last/min/max/mean of the analysis and ambient temperature channels. A directional
+  accumulator for the segment's phase is preferred over the undirected source column; the columns
+  used are in `attributes.observation_columns`. Missing channels give `not_computable` metrics.
+- New numerical helper `integrate_trapezoid`, used only for the accumulator reconciliation.
 - **Changed default:** analysis policy `bfl.analysis-policy/0.3` adds `relaxation_end_window_s`,
   `relaxation_end_window_min_samples` and `clock_divergence_min_s`; existing keys are unchanged.
   Every record's `analysis_policy_version` parameter changes accordingly.
 - On the Chen et al. (2020) LG M50 files (Zenodo 4032561) the rests after the four validation
   discharges of each cell reproduce the reference analysis's relaxation table (12 rows): identical
   end-of-discharge, first-rest and end-of-rest voltages, end drift within 1e-11 mV/h, and the 45 min
-  suspension inside the rest after the C/10 discharge on all three cells.
+  suspension inside the rest after the C/10 discharge on all three cells. The 23 protocol steps of
+  each file map one to one onto phase segments (one more segment holds the single terminal record),
+  with the same records, sample counts, currents and voltages as the reference step table;
+  `trapezoid_capacity` and `trapezoid_energy` of the 15 discharges equal its values to 1e-14, and
+  the reconciliation with the tester's accumulators is within 0.1 mAh and 0.7 mWh.
+- The uncounted wall time relies on the wall clock BDS hands over. BDS exports before
+  Battery-Data-Steward#18 wrote day-first dates (`06/02/2019 23:58`) as text that BDS then read back
+  month-first, so a rest spanning midnight showed a month of uncounted time; stage the input with a
+  BDS that includes that fix.
 
 ## 0.8.0 — 2026-10-29
 

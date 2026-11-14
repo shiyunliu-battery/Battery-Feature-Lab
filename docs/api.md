@@ -236,6 +236,34 @@ evolution.capacity
 Operation mode vocabulary is closed: `constant_current_like`, `constant_voltage_like`, `pulse_like`,
 `dynamic_current`, and `unmatched`.
 
+### Phase segment records
+
+Each `operation.phase_segment` record (method `source_step_and_current_phase_segmentation_v2`)
+covers one source step or one run of a phase. Besides `duration` and `sample_count` it gives, from
+the segment's own samples:
+
+| Metric | Unit | Meaning |
+|---|---|---|
+| `start_voltage`, `end_voltage`, `voltage_min`, `voltage_max` | V | First and last finite voltage and the range. |
+| `absolute_current_median`, `absolute_current_min`, `absolute_current_max` | A | Statistics of the current magnitude. |
+| `zoh_capacity`, `zoh_energy` | Ah, Wh | Current magnitude and power magnitude by previous-sample ZOH over the segment's support: the last sample is held until the next segment's first sample, as `duration` is measured. |
+| `trapezoid_capacity`, `trapezoid_energy` | Ah, Wh | The same integrands by the trapezoid rule between the first and last samples of the segment. |
+| `reported_capacity_start`, `reported_capacity_end`, `reported_energy_start`, `reported_energy_end` | Ah, Wh | The source's own accumulator at the first and last finite samples: a directional column for the segment's phase when present (`charge_capacity_ah`, `discharge_capacity_ah`, ...), otherwise the undirected column the source wrote (`source_capacity_ah`, `source_energy_wh`). The column used is in `attributes.observation_columns`. |
+| `reported_capacity_change`, `reported_energy_change` | Ah, Wh | Last minus first finite value, only when the values do not decrease inside the segment; otherwise `not_computable` (`reported_column_not_monotonic`). It does not depend on where the source resets its accumulator. |
+| `trapezoid_capacity_minus_reported_change`, `trapezoid_energy_minus_reported_change` | Ah, Wh | Trapezoid integral between the same two samples minus the reported change; positive when the integral exceeds the source's value. |
+| `start_temperature`, `end_temperature`, `temperature_min`, `temperature_max`, `temperature_mean` | degC | The analysis temperature channel. |
+| `start_ambient_temperature`, ..., `ambient_temperature_mean` | degC | The ambient channel, when it differs from the analysis channel. |
+
+A missing channel gives `not_computable` (`channel_absent` or `no_finite_samples`), never an
+estimate. Temperature statistics use every finite sample; screening for acquisition artefacts is
+left to the intake (BDS reports abrupt temperature excursions with their record intervals).
+
+The reconciliation uses the trapezoid rule because the source integrates far more often than it
+logs: between two logged samples of a smooth single-phase signal the trapezoid's error is second
+order in the interval and ZOH's first order. On the Chen et al. (2020) LG M50 files, ZOH energy of a
+1.5C discharge logged every 16 s exceeds the tester's energy by about 0.14 %; the trapezoid agrees
+with it within 1 mWh.
+
 ### Rest records
 
 Each `response.rest_and_thermal` record (method `rest_filter_with_interval_descriptors_v2`) gives,
