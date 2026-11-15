@@ -31,6 +31,7 @@ from battery_feature_lab.analysis.characterization import (
     analyze_directional_energy,
     analyze_relaxation_summary,
 )
+from battery_feature_lab.analysis.curves import analyze_capacity_voltage_curves
 from battery_feature_lab.analysis.evolution import analyze_capacity_evolution
 from battery_feature_lab.analysis.metadata import compile_metadata
 from battery_feature_lab.analysis.operation import analyze_operation
@@ -281,6 +282,15 @@ def compile_analysis(input_path: Path, config: AnalysisConfig) -> AnalysisResult
                 cycle_id_source=cycle_id_source,
             )
         )
+        records.extend(
+            analyze_capacity_voltage_curves(
+                frame,
+                short_window_phases,
+                config=config,
+                cell_id=cell_id,
+                cycle_id=short_window_cycle,
+            )
+        )
         current_step_times = tuple(sorted({2.0, *config.pulse_resistance_times_s}))
         current_step_records = analyze_current_steps(
             frame,
@@ -339,6 +349,11 @@ def compile_analysis(input_path: Path, config: AnalysisConfig) -> AnalysisResult
                 "response.capacity_aligned_profile",
                 "BFL",
                 "capacity_aligned_previous_zoh_linear_v1",
+            ),
+            (
+                "response.capacity_voltage_curve",
+                "BFL",
+                "trapezoid_capacity_voltage_polyline_v1",
             ),
             ("response.current_step", "BFL", "apparent_current_step_response_v1"),
             ("response.current_step_summary", "BFL", "current_step_population_summary_v1"),
@@ -422,6 +437,7 @@ def compile_analysis(input_path: Path, config: AnalysisConfig) -> AnalysisResult
         "response.rest_and_thermal",
         "response.relaxation_signature",
         "response.capacity_aligned_profile",
+        "response.capacity_voltage_curve",
         "response.ica_curve",
         "response.dva_curve",
     }

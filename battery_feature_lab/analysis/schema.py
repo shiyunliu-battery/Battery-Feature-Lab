@@ -50,6 +50,8 @@ DEFAULT_ANALYSIS_POLICY: Mapping[str, float] = MappingProxyType({
     "relaxation_end_window_s": 600.0,
     "relaxation_end_window_min_samples": 3.0,
     "clock_divergence_min_s": 120.0,
+    "curve_voltage_tolerance_v": 0.0005,
+    "curve_max_points": 1000.0,
     "evolution_discharge_current_relative_tolerance": 0.05,
     "evolution_temperature_difference_max_deg_c": 2.0,
     "profile_min_samples": 50.0,
@@ -130,6 +132,7 @@ class AnalysisConfig:
             "current_step_summary_min_count",
             "relaxation_summary_min_count",
             "relaxation_end_window_min_samples",
+            "curve_max_points",
             "metadata_quantization_min_samples",
         ):
             if not policy[integer_name].is_integer():
@@ -172,6 +175,8 @@ class AnalysisConfig:
             )
         if policy["profile_grid_points"] < 3:
             raise ValueError("analysis_policy profile_grid_points must be at least three")
+        if policy["curve_max_points"] < 2:
+            raise ValueError("analysis_policy curve_max_points must be at least two")
         object.__setattr__(self, "analysis_policy", policy)
         if self.input_adapter not in {"auto", "bds", "bdf"}:
             raise ValueError("input_adapter must be one of: auto, bds, bdf")

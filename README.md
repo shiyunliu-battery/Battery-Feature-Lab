@@ -139,7 +139,7 @@ BFL does not require every dataset to contain every battery channel.
 | Available measurements | Analysis that can be added |
 |---|---|
 | time + current | phase, current-shape mode, duration-weighted current exposure, Ah throughput, current-squared exposure |
-| + voltage | power and energy, current-step response, paired capacity profiles, eligible pulse/ICA/DVA and cycle analyses |
+| + voltage | power and energy, current-step response, paired capacity profiles, per-segment capacity–voltage curves with a stated error bound, eligible pulse/ICA/DVA and cycle analyses |
 | + temperature | thermal envelope, rest temperature response, temperature comparability gates |
 | + wall clock | wall-clock time that the test clock did not count inside each rest (for example, a suspended test) |
 | + source accumulators | per-segment reconciliation of the integrated current and power with the cycler's own capacity and energy counters |
