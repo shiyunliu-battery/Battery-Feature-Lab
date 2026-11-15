@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.9.0 — 2026-11-15
+
+- Require `battery-data-steward>=0.6.0,<0.7`, which includes the unambiguous date
+  export needed to preserve wall-clock timestamps when staged data are read back.
 
 - `response.rest_and_thermal` records (method now `rest_filter_with_interval_descriptors_v2`) gain:
   - `preceding_load_end_voltage` (V): the last voltage of the charge or discharge before the rest;
