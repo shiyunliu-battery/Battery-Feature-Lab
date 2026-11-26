@@ -151,6 +151,52 @@ def test_negative_imaginary_column_is_converted_once(tmp_path):
     assert pl.read_parquet(result.normalized_data_path)["Zim_exp_Ohm"].to_list() == [-0.3, -0.2]
 
 
+def test_imaginary_column_beside_its_negation_is_one_quantity(tmp_path):
+    # BDS EIS tables carry Zim_exp_Ohm and -Zim_exp_Ohm; that pair is not an ambiguity.
+    path = tmp_path / "bds.csv"
+    pl.DataFrame(
+        {
+            "Frequency_Hz": [1.0, 10.0],
+            "Zre_exp_Ohm": [1.0, 1.0],
+            "Zim_exp_Ohm": [-0.2, -0.3],
+            "-Zim_exp_Ohm": [0.2, 0.3],
+        }
+    ).write_csv(path)
+    result = observed(tmp_path, path, single_spectrum=True)
+    assert pl.read_parquet(result.normalized_data_path)["Zim_exp_Ohm"].to_list() == [-0.3, -0.2]
+    report = json.loads(Path(result.input_report_path).read_text())
+    assert report["columns"]["imaginary"] == "Zim_exp_Ohm"
+    assert report["imaginary_sign_flipped"] is False
+
+
+def test_disagreeing_imaginary_column_pair_is_refused(tmp_path):
+    path = tmp_path / "conflict.csv"
+    pl.DataFrame(
+        {
+            "Frequency_Hz": [1.0, 10.0],
+            "Zre_exp_Ohm": [1.0, 1.0],
+            "Im(Z)/Ohm": [-0.2, -0.3],
+            "-Im(Z)/Ohm": [0.2, 0.4],
+        }
+    ).write_csv(path)
+    with pytest.raises(ValueError, match="disagree after the sign change"):
+        observed(tmp_path, path, single_spectrum=True)
+
+
+def test_unrelated_imaginary_columns_remain_ambiguous(tmp_path):
+    path = tmp_path / "two.csv"
+    pl.DataFrame(
+        {
+            "Frequency_Hz": [1.0, 10.0],
+            "Zre_exp_Ohm": [1.0, 1.0],
+            "Zim_exp_Ohm": [-0.2, -0.3],
+            "Imag_Ohm": [-0.2, -0.3],
+        }
+    ).write_csv(path)
+    with pytest.raises(ValueError, match="Ambiguous EIS columns"):
+        observed(tmp_path, path, single_spectrum=True)
+
+
 def test_multiple_spectra_are_not_fitted_as_one(tmp_path):
     path = source(tmp_path, Spectrum_ID=["a"] * 16 + ["b"] * 16, Cell_ID=["cell"] * 32)
     result = observed(tmp_path, path)

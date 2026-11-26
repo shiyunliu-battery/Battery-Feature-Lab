@@ -67,6 +67,37 @@ def pick(columns: list[str], aliases: tuple[str, ...]) -> str | None:
     return matches[0] if matches else None
 
 
+def pick_imaginary(raw: pl.DataFrame, aliases: tuple[str, ...]) -> str | None:
+    """Pick the imaginary-part column, accepting a column recorded beside its negation.
+
+    BDS EIS tables carry both ``Zim_exp_Ohm`` and ``-Zim_exp_Ohm``, and instruments can export
+    ``Im(Z)`` beside ``-Im(Z)``. Such a pair is one quantity rather than an ambiguity when every
+    row agrees after the sign change; the unsigned column is then used. A disagreeing pair, or
+    any other multiple match, still requires an explicit mapping.
+    """
+    names = {_slug(a) for a in aliases}
+    matches = [c for c in raw.columns if _slug(c) in names]
+    negated = [c for c in matches if c.strip().startswith("-")]
+    plain = [c for c in matches if not c.strip().startswith("-")]
+    if not (
+        len(plain) == 1
+        and len(negated) == 1
+        and _slug(negated[0].strip()[1:]) == _slug(plain[0])
+    ):
+        return pick(raw.columns, aliases)
+    values = np.array([_number(x) for x in raw[plain[0]]])
+    negated_values = np.array([_number(x) for x in raw[negated[0]]])
+    finite = np.isfinite(values)
+    if not np.array_equal(finite, np.isfinite(negated_values)) or not np.allclose(
+        values[finite], -negated_values[finite], rtol=1e-9, atol=1e-12
+    ):
+        raise ValueError(
+            f"EIS columns {plain[0]!r} and {negated[0]!r} disagree after the sign change; "
+            "supply an explicit mapping"
+        )
+    return plain[0]
+
+
 def _number(value: Any) -> float:
     try:
         return float(str(value).strip().replace(",", "."))
@@ -159,7 +190,8 @@ def read_spectra(source, config: EISConfig):
     if config.single_spectrum and len(groups) != 1:
         raise ValueError("single_spectrum declaration conflicts with multiple source spectra")
     column_map = {
-        name: config.columns.get(name) or pick(raw.columns, aliases)
+        name: config.columns.get(name)
+        or (pick_imaginary(raw, aliases) if name == "imaginary" else pick(raw.columns, aliases))
         for name, aliases in ALIASES.items()
     }
     if any(c not in raw.columns for c in config.columns.values()):

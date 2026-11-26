@@ -7,6 +7,12 @@
   old package, so BFL 0.9.0 could not run with it. The retired `battery-data-standard`
   distribution is no longer supported: BFL refuses to run while it is installed, and CI
   drops the legacy-provider job. Use a fresh environment when upgrading.
+- Fix: `analyze_eis` no longer rejects EIS tables written by Battery Data Steward. BDS
+  0.6 and 0.7 write `Zim_exp_Ohm` together with `-Zim_exp_Ohm`, which intake treated as
+  "Ambiguous EIS columns". An imaginary column beside its negation is now accepted when
+  every row agrees after the sign change, and the unsigned column is used (recorded in
+  `eis_conversion_report.json` under `columns.imaginary`). A disagreeing pair, or any
+  other multiple match, still requires an explicit mapping.
 
 ## 0.9.0 — 2026-11-15
 
