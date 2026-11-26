@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.10.0 — 2026-11-26
 
 - **Breaking:** require `battery-data-steward>=0.7.0,<0.8` and import its renamed package
   `battery_data_steward` (previously `battery_data_standard`). BDS 0.7.0 no longer ships the
