@@ -1,19 +1,28 @@
-"""Distribution rename must preserve accurate provenance and reject shared-file installs."""
+"""BFL uses Battery Data Steward and refuses the retired battery-data-standard distribution."""
 
 import pytest
 
 from battery_feature_lab import bds_provider
 
 
-@pytest.mark.parametrize("name", ["battery-data-standard", "battery-data-steward"])
-def test_single_distribution_identity(monkeypatch, name):
+def _only(*names):
     def installed(package):
-        if package == name:
+        if package in names:
             return "test-version"
         raise bds_provider.PackageNotFoundError(package)
 
-    monkeypatch.setattr(bds_provider, "version", installed)
-    assert bds_provider.bds_distribution() == (name, "test-version")
+    return installed
+
+
+def test_steward_identity_is_reported(monkeypatch):
+    monkeypatch.setattr(bds_provider, "version", _only("battery-data-steward"))
+    assert bds_provider.bds_distribution() == ("battery-data-steward", "test-version")
+
+
+def test_retired_distribution_alone_is_refused(monkeypatch):
+    monkeypatch.setattr(bds_provider, "version", _only("battery-data-standard"))
+    with pytest.raises(RuntimeError, match="former name of battery-data-steward"):
+        bds_provider.bds_distribution()
 
 
 def test_overlapping_distributions_fail_with_recovery_instructions(monkeypatch):
@@ -23,9 +32,6 @@ def test_overlapping_distributions_fail_with_recovery_instructions(monkeypatch):
 
 
 def test_missing_distribution_is_not_misattributed(monkeypatch):
-    def missing(package):
-        raise bds_provider.PackageNotFoundError(package)
-
-    monkeypatch.setattr(bds_provider, "version", missing)
+    monkeypatch.setattr(bds_provider, "version", _only())
     with pytest.raises(bds_provider.PackageNotFoundError):
         bds_provider.bds_distribution()

@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- **Breaking:** require `battery-data-steward>=0.7.0,<0.8` and import its renamed package
+  `battery_data_steward` (previously `battery_data_standard`). BDS 0.7.0 no longer ships the
+  old package, so BFL 0.9.0 could not run with it. The retired `battery-data-standard`
+  distribution is no longer supported: BFL refuses to run while it is installed, and CI
+  drops the legacy-provider job. Use a fresh environment when upgrading.
+
 ## 0.9.0 — 2026-11-15
 
 - Require `battery-data-steward>=0.6.0,<0.7`, which includes the unambiguous date

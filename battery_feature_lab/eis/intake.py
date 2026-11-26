@@ -9,8 +9,8 @@ from typing import Any
 
 import numpy as np
 import polars as pl
-from battery_data_standard.eis import normalize_eis_frame, validate_eis
-from battery_data_standard.io import read_table_with_metadata
+from battery_data_steward.eis import normalize_eis_frame, validate_eis
+from battery_data_steward.io import read_table_with_metadata
 
 from battery_feature_lab.analysis.writer import canonical_sha256
 from battery_feature_lab.bds_provider import bds_distribution

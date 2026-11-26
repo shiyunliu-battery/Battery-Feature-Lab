@@ -57,3 +57,19 @@ Before publishing the next BFL release, require the provider-matrix CI to pass
 and install its built wheel in a clean environment. Confirm only Steward is
 installed and `pip check` succeeds. A future BDS minor release outside `<0.5`
 requires a separate compatibility decision. No data-format migration is needed.
+
+## Battery Data Steward 0.7 package rename
+
+Checked on 26 November 2026. BDS 0.7.0 renamed its Python package from
+`battery_data_standard` to `battery_data_steward` and stopped shipping the old one,
+so BFL 0.9.0 (pinned to `<0.7`) could not run with it. BFL now requires
+`battery-data-steward>=0.7.0,<0.8` and imports `battery_data_steward.eis` and
+`battery_data_steward.io`. This supersedes the `battery_data_standard.eis/io` bullet
+above; `import bds` is unchanged.
+
+The retired `battery-data-standard` distribution is no longer an API-compatible
+provider, and CI no longer runs the legacy-provider job. BFL refuses to run while it is
+installed, because it shares the `bds` module with Steward. `uv lock` changed only
+`battery-data-steward` (0.6.0 to 0.7.0). The full suite passed on Python 3.11 and 3.12
+with the EIS extras, including the installed-provider test that hands a BDS-written EIS
+table to `analyze_eis`.

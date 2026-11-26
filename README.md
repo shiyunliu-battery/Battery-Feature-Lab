@@ -39,22 +39,22 @@ to the other after a provider error.
 
 ## BDS distribution migration
 
-The source dependency now uses `battery-data-steward>=0.6.0,<0.7`; `uv.lock`
-records the artifact hash of the resolved wheel. BFL 0.9.0 requires BDS 0.6.x for
-unambiguous date export and reliable wall-clock round trips. BFL 0.7.1 was the first
-release to require the renamed distribution (0.4.x); BFL 0.8.0 required 0.5.x,
-which keeps every EIS source column during normalization. Earlier BFL releases use
-`battery-data-standard`.
+The source dependency now uses `battery-data-steward>=0.7.0,<0.8`; `uv.lock`
+records the artifact hash of the resolved wheel. BDS 0.7.0 renamed its Python package
+from `battery_data_standard` to `battery_data_steward` and no longer ships the old one;
+BFL imports the new package. Earlier BFL releases pinned BDS 0.6.x (BFL 0.9.0), 0.5.x
+(0.8.0) and 0.4.x (0.7.1, the first to use the renamed distribution); releases before
+0.7.1 used the retired `battery-data-standard` distribution.
 
-Use a **fresh virtual environment** when upgrading from BFL releases that depend
-on `battery-data-standard`. Do not install the old and new BDS distributions together:
-they own the same `bds` and `battery_data_standard` modules. If both are present,
-recreate the environment; uninstalling only one can remove shared files.
-BFL rejects this ambiguous installation before processing input.
+Use a **fresh virtual environment** when upgrading from a BFL release that depends on
+`battery-data-standard`. That retired distribution and `battery-data-steward` both
+install the `bds` module, so BFL refuses to run while `battery-data-standard` is
+installed. Recreate the environment; uninstalling only one can remove shared files.
 
-The Python imports, `--input-adapter bds`, conversion report filenames, and data
-format identifiers remain compatible. New reports identify the installed distribution
-and version. Historical example outputs retain their original provider identity.
+`import bds`, `--input-adapter bds` and the conversion report filenames are unchanged.
+Reports record the installed distribution and version, and the `export_format`
+identifier BDS writes (`battery-data-steward-export-v1` from BDS 0.7.0). Historical
+example outputs retain their original provider identity.
 See [migration validation](docs/bds-migration.md) for the compatibility evidence.
 
 ## Quick start
