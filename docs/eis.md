@@ -65,7 +65,11 @@ Column mappings declare frequency in Hz and impedance in Ohm. Known
 non-canonical unit headers are refused. Magnitude/phase data require a degree
 or radian declaration in the header or `phase_unit`; phase values are never
 used to guess the unit. Negative-imaginary headers are converted once and the
-sign operation is recorded. No interpolation, averaging or fabricated cycle
+sign operation is recorded. A table that holds an imaginary column beside its
+negation (for example BDS's `Zim_exp_Ohm` and `-Zim_exp_Ohm`, or `Im(Z)/Ohm` and
+`-Im(Z)/Ohm`) uses the unsigned column when every row agrees after the sign
+change; a disagreeing pair, or any other multiple match, still requires an
+explicit column mapping. No interpolation, averaging or fabricated cycle
 identity is used during intake. Advanced source layouts should first be
 exported to a supported table with explicit quantities and units.
 

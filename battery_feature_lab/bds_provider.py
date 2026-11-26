@@ -1,22 +1,29 @@
-"""Resolve BDS distribution identity without changing its compatible import API."""
+"""Resolve the Battery Data Steward distribution behind the ``bds`` import."""
 
 from importlib.metadata import PackageNotFoundError, version
 
+STEWARD = "battery-data-steward"
+RETIRED = "battery-data-standard"
+
 
 def bds_distribution() -> tuple[str, str]:
-    """Require exactly one owner of the shared bds/battery_data_standard modules."""
-    installed = []
-    for name in ("battery-data-steward", "battery-data-standard"):
-        try:
-            installed.append((name, version(name)))
-        except PackageNotFoundError:
-            pass
-    if len(installed) > 1:
+    """Return the installed Battery Data Steward name and version.
+
+    ``battery-data-standard`` is the retired name of Battery Data Steward. Both
+    distributions install the ``bds`` module, so an environment that still contains
+    the retired one is refused even when Steward is also present.
+    """
+    try:
+        retired = version(RETIRED)
+    except PackageNotFoundError:
+        retired = None
+    if retired is not None:
         raise RuntimeError(
-            "Both battery-data-steward and battery-data-standard are installed and share "
-            "Python modules. Create a clean environment with exactly one BDS distribution; "
-            "uninstalling only one can remove files needed by the other."
+            f"{RETIRED} {retired} is installed. It is the former name of {STEWARD} and "
+            "shares the 'bds' module with it. Create a clean environment with only "
+            f"{STEWARD}>=0.7; uninstalling only one can remove files needed by the other."
         )
-    if not installed:
-        raise PackageNotFoundError("Install one supported BDS distribution")
-    return installed[0]
+    try:
+        return STEWARD, version(STEWARD)
+    except PackageNotFoundError as exc:
+        raise PackageNotFoundError(f"Install {STEWARD}>=0.7") from exc

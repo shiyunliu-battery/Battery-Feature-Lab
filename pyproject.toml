@@ -21,7 +21,7 @@ classifiers = [
   "Topic :: Scientific/Engineering",
 ]
 dependencies = [
-  "battery-data-steward>=0.6.0,<0.7",
+  "battery-data-steward>=0.7.0,<0.8",
   "jsonschema>=4.26",
   "numpy>=1.26.4",
   "polars>=1.18,<2",
