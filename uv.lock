@@ -86,7 +86,7 @@ wheels = [
 
 [[package]]
 name = "battery-data-steward"
-version = "0.7.1"
+version = "0.7.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "openpyxl" },
@@ -95,9 +95,9 @@ dependencies = [
     { name = "reportlab" },
     { name = "xlrd" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/fa/9e/1e66f63e71ee24aa24e0acb7275f5072237993c402ee3584ed7c5d5c235f/battery_data_steward-0.7.1.tar.gz", hash = "sha256:cc526e6af6e9a154206b76ccea0e143d667b12b150a46a76c97e8640a071c599", size = 159385, upload-time = "2026-11-26T23:44:03.203Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/49/46/97f14ceaf88f43f3d63acda23fb2388c736e6b7213c44e62eae0ae850a1b/battery_data_steward-0.7.2.tar.gz", hash = "sha256:af3f96f84261a086573b8c2ac851a23a8a353b54346ee598a87a2facb77c5478", size = 159498, upload-time = "2026-11-28T00:56:52.156Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/39/6c/4239e3dbc6d423619661971ff82e9020eb26e1915070410be3ff23f997f0/battery_data_steward-0.7.1-py3-none-any.whl", hash = "sha256:f84d469a26c8bc4626795ae81e1b3acfec0a227644a3bb6161d41512c6e50505", size = 139265, upload-time = "2026-11-26T23:44:02.037Z" },
+    { url = "https://files.pythonhosted.org/packages/a0/3d/7da228867e7de8806892708cbf504f907238feae7122ba0185c70c7d58b5/battery_data_steward-0.7.2-py3-none-any.whl", hash = "sha256:27662f988d13f900db4a238aad5c85b785abc1561ce73af43a6be98439598f9a", size = 139342, upload-time = "2026-11-28T00:56:50.602Z" },
 ]
 
 [[package]]
